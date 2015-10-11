@@ -1,23 +1,25 @@
-package pennshape.sunhan.cn.pennshape;
+package com.pennshape.app.activity;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.pennshape.app.R;
 
-public class PSMainActivity extends ActionBarActivity {
+
+public class PSLoginActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ps_activity_main);
+        setContentView(R.layout.ps_activity_login);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.ps_menu_main, menu);
+        getMenuInflater().inflate(R.menu.ps_menu_login, menu);
         return true;
     }
 

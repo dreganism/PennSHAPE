@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.0 rc3"
 
     defaultConfig {
-        applicationId "pennshape.sunhan.cn.pennshape"
+        applicationId "com.pennshape.app"
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 1
