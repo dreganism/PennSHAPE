@@ -21,7 +21,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="60dp"
-        android:id="@+id/button" />
+        android:id="@+id/button"
+        android:onClick="onClick"/>
 
     <EditText
         android:layout_width="@dimen/ps_user_edit_login_width"

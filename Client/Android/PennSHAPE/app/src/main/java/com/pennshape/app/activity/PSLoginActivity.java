@@ -1,9 +1,11 @@
 package com.pennshape.app.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.pennshape.app.R;
 
@@ -36,5 +38,12 @@ public class PSLoginActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onClick(View view) {
+        Intent intent;
+        intent = new Intent(this, PSMainActivity.class);
+        startActivity(intent);
+        this.finish();
     }
 }
