@@ -2,12 +2,17 @@ package com.pennshape.app.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.pennshape.app.R;
+import com.pennshape.app.model.PSDataStore;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class PSLoginActivity extends Activity {
@@ -41,6 +46,14 @@ public class PSLoginActivity extends Activity {
     }
 
     public void onClick(View view) {
+        //Using sample data
+        try {
+            AssetManager am = getApplicationContext().getAssets();
+            InputStream is = am.open("sample_g4w3.json");
+            PSDataStore.getInstance().reloadFromInputStream(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Intent intent;
         intent = new Intent(this, PSMainActivity.class);
         startActivity(intent);
