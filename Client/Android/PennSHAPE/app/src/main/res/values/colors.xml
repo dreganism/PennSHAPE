@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="ps_light_bg"    type="color">#D9CBBA</item>
+    <item name="ps_blue_sky"    type="color">#8FBFBA</item>
+    <item name="ps_blue_royal"  type="color">#0596BA</item>
+    <item name="ps_blue_deep"   type="color">#047396</item>
+    <item name="ps_blue_dark"   type="color">#364559</item>
+</resources>

@@ -22,4 +22,13 @@ public class PSDailyData {
         cal = Integer.parseInt((String)json.getString("cal"));
     }
 
+    public Integer getC1(){ return c1; }
+    public Integer getC2(){ return c2; }
+    public Integer getC3(){ return c3; }
+    public Integer getSteps(){ return steps; }
+    public Integer getCal(){ return cal; }
+    public float getFormula() {
+        return c1+c2+c3+steps/100f;
+    }
+
 }

@@ -11,8 +11,7 @@ public class PSUser {
     private String uid;
     private String email;
     private String phone;
-    private String firstName;
-    private String lastName;
+    private String displayName;
     private String age;
     private String height;
     private String weight;
@@ -21,8 +20,7 @@ public class PSUser {
         uid = (String)json.getString("uid");
         email = (String)json.getString("email");
         phone = (String)json.getString("phone");
-        firstName = (String)json.getString("first_name");
-        lastName = (String)json.getString("last_name");
+        displayName = (String)json.getString("displayname");
         age = (String)json.getString("age");
         height = (String)json.getString("height");
         weight = (String)json.getString("weight");
@@ -30,9 +28,24 @@ public class PSUser {
     }
 
     public String getID(){ return uid; }
-    public String getFirstName(){ return firstName; }
-    public String getLastName(){ return  lastName; }
+    public String getName(){ return displayName; }
     public Integer getHeight() { return  Integer.parseInt(height); }
     public Integer getWeight() { return Integer.parseInt(weight); }
     public String getPhoto() { return photo; }
+    public String getWeightDesc() {
+        Integer lb = Math.round(getWeight() * 2.2046f);
+        return ""+lb+" lb";
+    }
+    public String getHeightDesc() {
+        Integer ft = (int)Math.floor(getHeight() * 0.03);
+        Integer in = (int)Math.floor(getHeight() * 0.39)%12;
+        return ft+"'"+in+"''";
+    }
+    public String getBMIDesc() {
+        float bmi = getWeight()*10000.0f/(getHeight()*getHeight());
+        return String.format("%.2f", bmi);
+    }
+    public String getAgeDesc() {
+        return new String(age);
+    }
 }

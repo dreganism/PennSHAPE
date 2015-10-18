@@ -37,19 +37,15 @@ public class PSDataStore {
         }
     }
 
-    public void reloadFronJson(JSONObject json) {
-        try {
-            //load user id
-            userID = json.getString("user");
-            //load all users
-            loadAllUsers(json.getJSONArray("group"));
-            //load all data
-            loadAllData(json.getJSONObject("data"));
-            //load config
-            loadConfig(json.getJSONObject("config"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public void reloadFronJson(JSONObject json) throws JSONException{
+        //load user id
+        userID = json.getString("user");
+        //load all users
+        loadAllUsers(json.getJSONArray("group"));
+        //load all data
+        loadAllData(json.getJSONObject("data"));
+        //load config
+        loadConfig(json.getJSONObject("config"));
     }
 
     protected void loadAllUsers(JSONArray array) throws JSONException{
@@ -72,5 +68,21 @@ public class PSDataStore {
 
     protected void loadConfig(JSONObject json) throws JSONException{
         config = new PSConfig(json);
+    }
+
+    public PSUserDataCollection getUserDataCollection() {
+        return groupMembersData.get(userID);
+    }
+
+    public PSUserDataCollection getUserDataCollection(String uid) {
+        return groupMembersData.get(uid);
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public PSUser getUser() {
+        return groupMembers.get(userID);
     }
 }

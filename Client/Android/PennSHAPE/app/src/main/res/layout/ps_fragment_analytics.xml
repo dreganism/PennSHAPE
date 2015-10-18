@@ -1,8 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eaecee">
+    android:padding="12dp"
+    android:background="#eaecee"
+    tools:context="com.pennshape.app.fragment.PSAnalyticsFragmentTab">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ps_border"
+        android:padding="10dp">
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/image"
+            android:padding="10dp"
+            android:background="@color/ps_light_bg"
+            android:src="@drawable/img_face_black"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/name"
+            android:layout_toEndOf="@id/image"
+            android:layout_toRightOf="@id/image"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            style="@style/UserNameFont"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/weight_height_layout"
+            android:layout_toEndOf="@id/image"
+            android:layout_below="@id/name"
+            android:layout_toRightOf="@id/image"
+            android:paddingLeft="15dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/weight"
+                style="@style/UserProfileFont"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/height"
+                style="@style/UserProfileFont"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/image"
+            android:layout_below="@id/weight_height_layout"
+            android:layout_toRightOf="@id/image"
+            android:paddingLeft="15dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/age"
+                style="@style/UserProfileFont"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/bmi"
+                style="@style/UserProfileFont"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/date_picker_display"
+            android:text="Sep 01 2015   --   Sep 07 2015"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            style="@style/UserDateFont"/>
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:id="@+id/left_arrow"
+            android:layout_toLeftOf="@id/date_picker_display"
+            android:layout_centerVertical="@id/date_picker_display"
+            android:scaleType="center"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_arrow_left"/>
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:id="@+id/right_arrow"
+            android:layout_toRightOf="@id/date_picker_display"
+            android:layout_centerVertical="@id/date_picker_display"
+            android:scaleType="center"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_arrow_right" />
+
+    </RelativeLayout>
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/barChart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

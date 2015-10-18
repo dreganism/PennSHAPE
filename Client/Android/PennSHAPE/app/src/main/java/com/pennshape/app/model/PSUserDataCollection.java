@@ -18,7 +18,19 @@ public class PSUserDataCollection {
         this.dataCollection = new SparseArray<PSDailyData>();
         for (int i = 0; i < array.length(); i++) {
             PSDailyData dailyData = new PSDailyData(array.getJSONObject(i));
-            dataCollection.put(dailyData.date, dailyData);
+            dataCollection.put(timeInDays(dailyData.date), dailyData);
         }
+    }
+
+    public PSDailyData getDailyDataByTimeInSeconds(Integer timeInSecs) {
+        return dataCollection.get(timeInDays(timeInSecs));
+    }
+
+    public PSDailyData getDailyDataByTimeInDays(Integer timeInDays) {
+        return dataCollection.get(timeInDays);
+    }
+
+    public static Integer timeInDays(Integer date) {
+        return date / 86400;
     }
 }
