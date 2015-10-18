@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -50,17 +52,30 @@ public class PSAnalyticsFragmentTab extends Fragment {
         createProfileViews(v);
         createChart(v);
         refreshDateRangeDisplay(v);
-        createControls(v);
+        setupControls(v);
         return v;
     }
 
     private void resetDates(){
+        resetDates(true);
+    }
+
+    private void resetDates(boolean byWeek){
         Calendar now = Calendar.getInstance(Locale.US);
-        int dayOfWeek = (now.get(Calendar.DAY_OF_WEEK)+5)%7;
-        startDate = Calendar.getInstance(Locale.US);
-        startDate.add(Calendar.DATE, -dayOfWeek);
-        endDate = Calendar.getInstance(Locale.US);
-        endDate.add(Calendar.DATE, 6 - dayOfWeek);
+        if(byWeek) {
+            int dayOfWeek = (now.get(Calendar.DAY_OF_WEEK) + 5) % 7;
+            startDate = Calendar.getInstance(Locale.US);
+            startDate.add(Calendar.DATE, -dayOfWeek);
+            endDate = Calendar.getInstance(Locale.US);
+            endDate.add(Calendar.DATE, 6 - dayOfWeek);
+        }else {
+            int dayOfMonth = now.get(Calendar.DAY_OF_MONTH)-1;
+            int daysOfMonth = now.getActualMaximum(Calendar.DAY_OF_MONTH);
+            startDate = Calendar.getInstance(Locale.US);
+            startDate.add(Calendar.DATE, -dayOfMonth);
+            endDate = Calendar.getInstance(Locale.US);
+            endDate.add(Calendar.DATE, daysOfMonth - dayOfMonth -1);
+        }
     }
 
     private void createProfileViews(View v) {
@@ -77,15 +92,17 @@ public class PSAnalyticsFragmentTab extends Fragment {
         bwi.setText("BWI: " + user.getBMIDesc());
     }
 
-    private void createControls(View view){
+    private void setupControls(View view){
         ImageButton leftArrow = (ImageButton)view.findViewById(R.id.left_arrow);
         ImageButton rightArrow = (ImageButton)view.findViewById(R.id.right_arrow);
         leftArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startDate.add(Calendar.DATE, -7);
-                endDate.add(Calendar.DATE, -7);
-                refreshDateRangeDisplay(null);
+                if(isWeek())
+                    previousWeek();
+                else
+                    previousMonth();
+                refreshDateRangeDisplay(getView());
                 createChart(getView());
             }
         });
@@ -93,19 +110,35 @@ public class PSAnalyticsFragmentTab extends Fragment {
         rightArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startDate.add(Calendar.DATE, 7);
-                endDate.add(Calendar.DATE, 7);
-                refreshDateRangeDisplay(null);
+                if (isWeek())
+                    nextWeek();
+                else
+                    nextMonth();
+                refreshDateRangeDisplay(getView());
+                createChart(getView());
+            }
+        });
+
+        RadioGroup radioGroup = (RadioGroup)view.findViewById(R.id.radio_group);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.radio_week) {
+                    resetDates(true);
+                } else {
+                    resetDates(false);
+                }
+                refreshDateRangeDisplay(getView());
                 createChart(getView());
             }
         });
     }
 
     public void refreshDateRangeDisplay(View view) {
-        if(view == null)
-            view = getView();
         TextView rangeDisplay = (TextView)view.findViewById(R.id.date_picker_display);
-        rangeDisplay.setText(dateFormat.format(startDate.getTime())+" -- "+dateFormat.format(endDate.getTime()));
+        if(rangeDisplay!=null) {
+            rangeDisplay.setText(dateFormat.format(startDate.getTime()) + " -- " + dateFormat.format(endDate.getTime()));
+        }
     }
 
     private void createChart(View v) {
@@ -137,5 +170,39 @@ public class PSAnalyticsFragmentTab extends Fragment {
         chart.setTouchEnabled(false);
         chart.setDescription("");
         chart.invalidate(); // refresh
+    }
+
+    private boolean isWeek() {
+        RadioGroup radioGroup = (RadioGroup) getView().findViewById(R.id.radio_group);
+        if (radioGroup != null){
+            if(radioGroup.getCheckedRadioButtonId() == R.id.radio_week){
+                return true;
+            }else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void previousWeek(){
+        startDate.add(Calendar.DATE, -7);
+        endDate.add(Calendar.DATE, -7);
+    }
+
+    private void nextWeek(){
+        startDate.add(Calendar.DATE, 7);
+        endDate.add(Calendar.DATE, 7);
+    }
+
+    private void previousMonth() {
+        startDate.add(Calendar.MONTH, -1);
+        endDate.add(Calendar.MONTH, -1);
+        endDate.set(Calendar.DATE, endDate.getActualMaximum(Calendar.DAY_OF_MONTH));
+    }
+
+    private void nextMonth() {
+        startDate.add(Calendar.MONTH, 1);
+        endDate.add(Calendar.MONTH, 1);
+        endDate.set(Calendar.DATE, endDate.getActualMaximum(Calendar.DAY_OF_MONTH));
     }
 }

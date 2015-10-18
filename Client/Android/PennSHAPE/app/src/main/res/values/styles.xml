@@ -18,7 +18,7 @@
         <item name="android:typeface">serif</item>
     </style>
 
-    <style name="UserDateFont" parent="@android:style/TextAppearance.Small">
+    <style name="UserDateFont" parent="@android:style/TextAppearance.Medium">
         <item name="android:gravity">left</item>
         <item name="android:textColor">@color/ps_blue_deep</item>
         <item name="android:typeface">serif</item>

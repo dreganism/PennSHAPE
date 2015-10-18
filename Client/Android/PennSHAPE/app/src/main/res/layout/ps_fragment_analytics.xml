@@ -7,6 +7,7 @@
     android:padding="12dp"
     android:background="#eaecee"
     tools:context="com.pennshape.app.fragment.PSAnalyticsFragmentTab">
+    <!--USER PROFILE-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -78,15 +79,46 @@
         </LinearLayout>
     </RelativeLayout>
 
+    <!--RADIO CONTROL-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="5dp">
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radio_group"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+            <RadioButton android:id="@+id/radio_week"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/ps_blue_deep"
+                android:text="@string/ps_user_data_radio_week"
+                android:checked="true"/>
+            <!--SPACING-->
+            <View android:layout_width="60dp" android:layout_height="30dp"/>
+            <RadioButton android:id="@+id/radio_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/ps_blue_deep"
+                android:text="@string/ps_user_data_radio_month"/>
+
+        </RadioGroup>
+    </RelativeLayout>
+
+    <!--DATE RANGE PICK CONTROL-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
         <TextView
-            android:layout_width="220dp"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:id="@+id/date_picker_display"
-            android:text="Sep 01 2015   --   Sep 07 2015"
+            android:text="Oct.12.2015 -- Oct.12.2015"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:gravity="center"
@@ -109,9 +141,9 @@
             android:scaleType="center"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_arrow_right" />
-
     </RelativeLayout>
 
+    <!--CHART-->
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/barChart"
         android:layout_width="match_parent"
