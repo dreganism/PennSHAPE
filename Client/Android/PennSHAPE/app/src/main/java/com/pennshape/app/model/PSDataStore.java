@@ -39,7 +39,7 @@ public class PSDataStore {
 
     public void reloadFronJson(JSONObject json) throws JSONException{
         //load user id
-        userID = json.getString("user");
+        userID = json.getString("uid");
         //load all users
         loadAllUsers(json.getJSONArray("group"));
         //load all data
