@@ -13,4 +13,6 @@ public class PSUtil {
     public static boolean beforeCalender(Calendar a, Calendar b){
         return b.getTime().getTime()-a.getTime().getTime() > -1;
     }
+
+    public static String[] weekDays = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
 }

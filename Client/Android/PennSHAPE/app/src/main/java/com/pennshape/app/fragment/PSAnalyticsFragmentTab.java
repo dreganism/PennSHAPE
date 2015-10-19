@@ -38,7 +38,7 @@ import java.util.Locale;
 public class PSAnalyticsFragmentTab extends Fragment {
     protected Calendar startDate;
     protected Calendar endDate;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("MMM.dd.yyyy", Locale.US);
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("MMM.dd.yyyy", Locale.US);
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +50,10 @@ public class PSAnalyticsFragmentTab extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.ps_fragment_analytics, container, false);
         createProfileViews(v);
-        createChart(v);
+        resetDates(true);
         refreshDateRangeDisplay(v);
         setupControls(v);
+        createChart(v);
         return v;
     }
 
@@ -148,14 +149,19 @@ public class PSAnalyticsFragmentTab extends Fragment {
         ArrayList<String> xVals = new ArrayList<String>();
 
         int idx = 0;
+        boolean isWeek = (((RadioGroup)v.findViewById(R.id.radio_group)).getCheckedRadioButtonId() == R.id.radio_week);
         for (Calendar cur = (Calendar)startDate.clone(); PSUtil.beforeCalender(cur, endDate); cur.add(Calendar.DATE, 1)) {
-            PSDailyData dailyData = dataCollection.getDailyDataByTimeInSeconds((int)(cur.getTimeInMillis()/1000));
+            PSDailyData dailyData = dataCollection.getDailyData((int)(cur.getTimeInMillis()/1000));
             BarEntry ent = new BarEntry(0f, idx);
             if (dailyData != null){
                 ent = new BarEntry(dailyData.getFormula(), idx);
             }
             entriesAgg.add(ent);
-            xVals.add(Integer.toString(idx++ + 1));
+            if (isWeek) {
+                xVals.add(PSUtil.weekDays[idx++]);
+            }else {
+                xVals.add(Integer.toString(idx++ + 1));
+            }
         }
 
         BarDataSet setAgg = new BarDataSet(entriesAgg, PSDataStore.getInstance().getUser().getName());
