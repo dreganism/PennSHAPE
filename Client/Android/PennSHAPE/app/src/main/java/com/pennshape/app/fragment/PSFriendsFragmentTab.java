@@ -27,6 +27,7 @@ import com.pennshape.app.model.PSDataStore;
 import com.pennshape.app.model.PSUser;
 import com.pennshape.app.model.PSUserDataCollection;
 import com.pennshape.app.model.PSUtil;
+import com.pennshape.app.view.PSDatePickerView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,10 +35,6 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class PSFriendsFragmentTab extends Fragment {
-    protected Calendar startDate;
-    protected Calendar endDate;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("MMM.dd.yyyy", Locale.US);
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +49,6 @@ public class PSFriendsFragmentTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.ps_fragment_friends, container, false);
-        //createProfileViews(v);
-        resetDates();
-        refreshDateRangeDisplay(v);
         setupControls(v);
         createChart(v);
         return v;
@@ -63,6 +57,7 @@ public class PSFriendsFragmentTab extends Fragment {
 
     private void createChart(View v) {
         BarChart chart = (BarChart)v.findViewById(R.id.barChart);
+        PSDatePickerView datePickerView = (PSDatePickerView)v.findViewById(R.id.date_picker_view);
         ArrayList<PSUser> allUsers = PSDataStore.getInstance().getAllUsers();
         ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
         int[] colors = getResources().getIntArray(R.array.chart_color_schema);
@@ -71,7 +66,7 @@ public class PSFriendsFragmentTab extends Fragment {
             PSUserDataCollection dataCollection = PSDataStore.getInstance().getUserDataCollection(user.getID());
             ArrayList<BarEntry> userEntries =   new ArrayList<BarEntry>();
             int idx = 0;
-            for (Calendar cur = (Calendar)startDate.clone(); PSUtil.beforeCalender(cur, endDate); cur.add(Calendar.DATE, 1), idx++) {
+            for (Calendar cur = (Calendar)datePickerView.getStartDate().clone(); PSUtil.beforeCalender(cur, datePickerView.getEndDate()); cur.add(Calendar.DATE, 1), idx++) {
                 PSDailyData dailyData = dataCollection.getDailyData((int)(cur.getTimeInMillis()/1000));
                 BarEntry ent = new BarEntry(0f, idx);
                 if (dailyData != null){
@@ -96,51 +91,13 @@ public class PSFriendsFragmentTab extends Fragment {
         chart.invalidate(); // refresh
     }
 
-    public void refreshDateRangeDisplay(View view) {
-        TextView rangeDisplay = (TextView)view.findViewById(R.id.date_picker_display);
-        if(rangeDisplay!=null) {
-            rangeDisplay.setText(dateFormat.format(startDate.getTime()) + " -- " + dateFormat.format(endDate.getTime()));
-        }
-    }
-
     private void setupControls(View view){
-        ImageButton leftArrow = (ImageButton)view.findViewById(R.id.left_arrow);
-        ImageButton rightArrow = (ImageButton)view.findViewById(R.id.right_arrow);
-        leftArrow.setOnClickListener(new View.OnClickListener() {
+        PSDatePickerView datePickerView = (PSDatePickerView)view.findViewById(R.id.date_picker_view);
+        datePickerView.setListener(new PSDatePickerView.PSDatePickerViewListener() {
             @Override
-            public void onClick(View v) {
-                previousWeek();
-                refreshDateRangeDisplay(getView());
+            public void onDateChanged() {
                 createChart(getView());
             }
         });
-
-        rightArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nextWeek();
-                refreshDateRangeDisplay(getView());
-                createChart(getView());
-            }
-        });
-    }
-
-    private void resetDates(){
-        Calendar now = Calendar.getInstance(Locale.US);
-        int dayOfWeek = (now.get(Calendar.DAY_OF_WEEK) + 5) % 7;
-        startDate = Calendar.getInstance(Locale.US);
-        startDate.add(Calendar.DATE, -dayOfWeek);
-        endDate = Calendar.getInstance(Locale.US);
-        endDate.add(Calendar.DATE, 6 - dayOfWeek);
-    }
-
-    private void previousWeek(){
-        startDate.add(Calendar.DATE, -7);
-        endDate.add(Calendar.DATE, -7);
-    }
-
-    private void nextWeek(){
-        startDate.add(Calendar.DATE, 7);
-        endDate.add(Calendar.DATE, 7);
     }
 }

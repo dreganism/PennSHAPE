@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    tools:context="com.pennshape.app.view.PSDatePickerView">
+    <TextView
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/date_picker_display"
+        android:text="Oct.12.2015 -- Oct.12.2015"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        style="@style/UserDateFont"/>
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:id="@+id/left_arrow"
+        android:layout_toLeftOf="@id/date_picker_display"
+        android:layout_centerVertical="@id/date_picker_display"
+        android:scaleType="center"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_arrow_left"/>
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:id="@+id/right_arrow"
+        android:layout_toRightOf="@id/date_picker_display"
+        android:layout_centerVertical="@id/date_picker_display"
+        android:scaleType="center"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_arrow_right" />
+</RelativeLayout>
