@@ -5,4 +5,12 @@
     <item name="ps_blue_royal"  type="color">#0596BA</item>
     <item name="ps_blue_deep"   type="color">#047396</item>
     <item name="ps_blue_dark"   type="color">#364559</item>
+    <array name="chart_color_schema">
+        <item>#8FBFBA</item>
+        <item>#ba8fbf</item>
+        <item>#bf8f94</item>
+        <item>#bfba8f</item>
+        <item>#8f94bf</item>
+        <item>#94bf8f</item>
+    </array>
 </resources>

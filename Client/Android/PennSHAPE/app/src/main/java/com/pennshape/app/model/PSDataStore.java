@@ -9,8 +9,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class PSDataStore {
     private static PSDataStore sharedInstance = new PSDataStore();
@@ -84,5 +86,13 @@ public class PSDataStore {
 
     public PSUser getUser() {
         return groupMembers.get(userID);
+    }
+
+    public ArrayList<PSUser> getAllUsers() {
+        ArrayList<PSUser> users = new ArrayList<PSUser>();
+        for (PSUser user : groupMembers.values()) {
+            users.add(user);
+        }
+        return users;
     }
 }

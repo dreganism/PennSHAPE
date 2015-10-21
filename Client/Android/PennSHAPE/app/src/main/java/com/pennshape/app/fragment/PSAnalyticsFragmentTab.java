@@ -3,6 +3,7 @@
  */
 package com.pennshape.app.fragment;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -56,6 +57,7 @@ public class PSAnalyticsFragmentTab extends Fragment {
         createChart(v);
         return v;
     }
+
 
     private void resetDates(){
         resetDates(true);
