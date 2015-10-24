@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import com.pennshape.app.R;
 import com.pennshape.app.fragment.PSAnalyticsFragmentTab;
+import com.pennshape.app.fragment.PSDailyUpdateFragmentTab;
 import com.pennshape.app.fragment.PSFriendsFragmentTab;
 
 
@@ -30,7 +31,7 @@ public class PSMainActivity extends FragmentActivity {
                 PSFriendsFragmentTab.class, null);
         mTabHost.addTab(
                 mTabHost.newTabSpec("tabAdd").setIndicator(null, ContextCompat.getDrawable(this, R.drawable.tab_add_selector)),
-                PSAnalyticsFragmentTab.class, null);
+                PSDailyUpdateFragmentTab.class, null);
         mTabHost.addTab(
                 mTabHost.newTabSpec("tabChat").setIndicator(null, ContextCompat.getDrawable(this, R.drawable.tab_chat_selector)),
                 PSAnalyticsFragmentTab.class, null);

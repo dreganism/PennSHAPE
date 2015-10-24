@@ -7,4 +7,10 @@
     <string name="ps_login_user_pin_hint">Enter PIN here</string>
     <string name="ps_user_data_radio_week">Week</string>
     <string name="ps_user_data_radio_month">Month</string>
+    <string name="ps_record_title">Your activities</string>
+    <string name="ps_c1_name">Moderate</string>
+    <string name="ps_c2_name">Vigorous</string>
+    <string name="ps_c3_name">Muscle</string>
+    <string name="ps_record_default_val">10\'</string>
+    <string name="ps_record_button">Submit</string>
 </resources>
