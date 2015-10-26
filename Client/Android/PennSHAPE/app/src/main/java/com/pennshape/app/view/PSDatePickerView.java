@@ -22,7 +22,7 @@ public class PSDatePickerView extends RelativeLayout{
     }
     private Calendar startDate;
     private Calendar endDate;
-    private boolean byWeek = true;
+    private boolean byDay = false;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMM.dd.yyyy", Locale.US);
     protected PSDatePickerViewListener mListener;
 
@@ -50,26 +50,26 @@ public class PSDatePickerView extends RelativeLayout{
 
     private void resetDates(){
         Calendar now = Calendar.getInstance(Locale.US);
-        if(byWeek) {
+        if(byDay) {
+            startDate = (Calendar)now.clone();
+            endDate = (Calendar)now.clone();
+        }else {
             int dayOfWeek = (now.get(Calendar.DAY_OF_WEEK) + 5) % 7;
             startDate = Calendar.getInstance(Locale.US);
             startDate.add(Calendar.DATE, -dayOfWeek);
             endDate = Calendar.getInstance(Locale.US);
             endDate.add(Calendar.DATE, 6 - dayOfWeek);
-        }else {
-            int dayOfMonth = now.get(Calendar.DAY_OF_MONTH)-1;
-            int daysOfMonth = now.getActualMaximum(Calendar.DAY_OF_MONTH);
-            startDate = Calendar.getInstance(Locale.US);
-            startDate.add(Calendar.DATE, -dayOfMonth);
-            endDate = Calendar.getInstance(Locale.US);
-            endDate.add(Calendar.DATE, daysOfMonth - dayOfMonth -1);
         }
     }
 
     private void refreshDateRangeDisplay() {
         TextView rangeDisplay = (TextView) findViewById(R.id.date_picker_display);
         if(rangeDisplay!=null) {
-            rangeDisplay.setText(dateFormat.format(startDate.getTime()) + " -- " + dateFormat.format(endDate.getTime()));
+            if (byDay){
+                rangeDisplay.setText(dateFormat.format(startDate.getTime()));
+            }else {
+                rangeDisplay.setText(dateFormat.format(startDate.getTime()) + " -- " + dateFormat.format(endDate.getTime()));
+            }
         }
     }
 
@@ -96,24 +96,22 @@ public class PSDatePickerView extends RelativeLayout{
     }
 
     private void previous(){
-        if(byWeek) {
+        if(byDay) {
+            startDate.add(Calendar.DATE, -1);
+            endDate.add(Calendar.DATE, -1);
+        }else{
             startDate.add(Calendar.DATE, -7);
             endDate.add(Calendar.DATE, -7);
-        }else{
-            startDate.add(Calendar.MONTH, -1);
-            endDate.add(Calendar.MONTH, -1);
-            endDate.set(Calendar.DATE, endDate.getActualMaximum(Calendar.DAY_OF_MONTH));
         }
     }
 
     private void next(){
-        if(byWeek) {
+        if(byDay) {
+            startDate.add(Calendar.DATE, 1);
+            endDate.add(Calendar.DATE, 1);
+        }else{
             startDate.add(Calendar.DATE, 7);
             endDate.add(Calendar.DATE, 7);
-        }else{
-            startDate.add(Calendar.MONTH, 1);
-            endDate.add(Calendar.MONTH, 1);
-            endDate.set(Calendar.DATE, endDate.getActualMaximum(Calendar.DAY_OF_MONTH));
         }
     }
 
@@ -121,9 +119,9 @@ public class PSDatePickerView extends RelativeLayout{
     public Calendar getEndDate() { return  endDate; }
     public void setListener(PSDatePickerViewListener listener){ mListener = listener; }
 
-    public void setByWeek(boolean isByWeek) {
-        if(byWeek!=isByWeek) {
-            byWeek = isByWeek;
+    public void setByDay(boolean isByDay) {
+        if(byDay!=isByDay) {
+            byDay = isByDay;
             resetDates();
             refreshDateRangeDisplay();
             //notify the listener about the range change

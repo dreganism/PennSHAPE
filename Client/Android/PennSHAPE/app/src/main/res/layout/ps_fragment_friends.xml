@@ -7,15 +7,67 @@
     android:padding="12dp"
     android:background="#eaecee"
     tools:context="com.pennshape.app.fragment.PSFriendsFragmentTab">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
+        <!--R1-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="4dp">
+            <!--User 1-->
+            <com.pennshape.app.view.PSUserInfoSelectionView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_selection_1"
+                android:layout_marginRight="4dp">
+            </com.pennshape.app.view.PSUserInfoSelectionView>
+            <!--User 2-->
+            <com.pennshape.app.view.PSUserInfoSelectionView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_selection_2">
+            </com.pennshape.app.view.PSUserInfoSelectionView>
+        </LinearLayout>
+        <!--R2-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <!--User 3-->
+            <com.pennshape.app.view.PSUserInfoSelectionView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_selection_3"
+                android:layout_marginRight="4dp">
+            </com.pennshape.app.view.PSUserInfoSelectionView>
+            <!--User 4-->
+            <com.pennshape.app.view.PSUserInfoSelectionView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_selection_4">
+            </com.pennshape.app.view.PSUserInfoSelectionView>
+        </LinearLayout>
+
+    </LinearLayout>
     <!--DATE RANGE PICK CONTROL-->
     <com.pennshape.app.view.PSDatePickerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:id="@+id/date_picker_view">
     </com.pennshape.app.view.PSDatePickerView>
     <!--CHART-->
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/barChart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"/>
 </LinearLayout>

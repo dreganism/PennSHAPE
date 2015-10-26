@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="12dp"
+    android:padding="10dp"
     android:background="#eaecee"
     tools:context="com.pennshape.app.fragment.PSAnalyticsFragmentTab">
     <!--USER PROFILE-->
@@ -14,10 +14,10 @@
         android:background="@drawable/ps_border"
         android:padding="10dp">
         <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
             android:id="@+id/image"
-            android:padding="10dp"
+            android:padding="5dp"
             android:background="@color/ps_light_bg"
             android:src="@drawable/img_face_black"/>
         <TextView
@@ -28,53 +28,76 @@
             android:layout_toRightOf="@id/image"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
+            android:paddingBottom="2dp"
+            android:text="@string/ps_sample_string"
             style="@style/UserNameFont"/>
+        <!--ROW 1-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/weight_height_layout"
+            android:id="@+id/layout_r1"
             android:layout_toEndOf="@id/image"
             android:layout_below="@id/name"
             android:layout_toRightOf="@id/image"
             android:paddingLeft="15dp"
             android:paddingRight="5dp"
-            android:paddingTop="5dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/weight"
+                android:text="@string/ps_sample_string"
                 style="@style/UserProfileFont"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/height"
+                android:text="@string/ps_sample_string"
                 style="@style/UserProfileFont"/>
         </LinearLayout>
-
+        <!--ROW 2-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/layout_r2"
             android:layout_toEndOf="@id/image"
-            android:layout_below="@id/weight_height_layout"
+            android:layout_below="@id/layout_r1"
             android:layout_toRightOf="@id/image"
             android:paddingLeft="15dp"
             android:paddingRight="5dp"
-            android:paddingTop="5dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/age"
+                android:text="@string/ps_sample_string"
                 style="@style/UserProfileFont"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/bmi"
+                android:text="@string/ps_sample_string"
+                style="@style/UserProfileFont"/>
+        </LinearLayout>
+        <!--ROW 3-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/image"
+            android:layout_below="@id/layout_r2"
+            android:layout_toRightOf="@id/image"
+            android:paddingLeft="15dp"
+            android:paddingRight="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/exercise"
+                android:text="@string/ps_sample_string"
                 style="@style/UserProfileFont"/>
         </LinearLayout>
     </RelativeLayout>
@@ -83,6 +106,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:padding="5dp">
         <RadioGroup
             android:layout_width="wrap_content"
@@ -90,21 +114,21 @@
             android:id="@+id/radio_group"
             android:layout_centerInParent="true"
             android:orientation="horizontal">
-            <RadioButton android:id="@+id/radio_week"
+            <RadioButton android:id="@+id/radio_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:textColor="@color/ps_blue_deep"
-                android:text="@string/ps_user_data_radio_week"
-                android:checked="true"/>
+                android:text="@string/ps_user_data_radio_day" />
             <!--SPACING-->
             <View android:layout_width="60dp" android:layout_height="30dp"/>
-            <RadioButton android:id="@+id/radio_month"
+            <RadioButton android:id="@+id/radio_week"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor="@color/ps_blue_deep"
-                android:text="@string/ps_user_data_radio_month"/>
+                android:text="@string/ps_user_data_radio_week"
+                android:checked="true"/>
 
         </RadioGroup>
     </RelativeLayout>
@@ -113,8 +137,55 @@
     <com.pennshape.app.view.PSDatePickerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/date_picker_view">
+        android:id="@+id/date_picker_view"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
     </com.pennshape.app.view.PSDatePickerView>
+
+    <!--Activity DETAILS-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="5dp"
+        android:visibility="gone">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Moderate: 20'"
+                style="@style/UserDetailedDateFont"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Vigorous: 15'"
+                style="@style/UserDetailedDateFont"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Muscle: 10'"
+                style="@style/UserDetailedDateFont"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Steps: 2300"
+                style="@style/UserDetailedDateFont"/>
+        </LinearLayout>
+    </LinearLayout>
 
     <!--CHART-->
     <com.github.mikephil.charting.charts.BarChart

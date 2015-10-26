@@ -1,6 +1,7 @@
 package com.pennshape.app.fragment;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.BubbleChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -27,14 +29,17 @@ import com.pennshape.app.model.PSDataStore;
 import com.pennshape.app.model.PSUser;
 import com.pennshape.app.model.PSUserDataCollection;
 import com.pennshape.app.model.PSUtil;
+import com.pennshape.app.view.PSDailyDataMarkerView;
 import com.pennshape.app.view.PSDatePickerView;
+import com.pennshape.app.view.PSUserInfoSelectionView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class PSFriendsFragmentTab extends Fragment {
+public class PSFriendsFragmentTab extends Fragment implements PSUserInfoSelectionView.PSUserInfoSelectionViewListener{
+    private ArrayList<PSUserInfoSelectionView> userSelectionViews= new ArrayList<PSUserInfoSelectionView>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,8 +62,14 @@ public class PSFriendsFragmentTab extends Fragment {
 
     private void createChart(View v) {
         BarChart chart = (BarChart)v.findViewById(R.id.barChart);
+        chart.clear();
         PSDatePickerView datePickerView = (PSDatePickerView)v.findViewById(R.id.date_picker_view);
-        ArrayList<PSUser> allUsers = PSDataStore.getInstance().getAllUsers();
+        ArrayList<PSUser> allUsers = selectedUsers();
+        if(allUsers.size()==0){
+            chart.invalidate();
+            return;
+        }
+        //PSDataStore.getInstance().getAllUsers();
         ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
         int[] colors = getResources().getIntArray(R.array.chart_color_schema);
         for (int i= 0 ;i<allUsers.size();i++) {
@@ -84,20 +95,73 @@ public class PSFriendsFragmentTab extends Fragment {
         for (String weekDay : PSUtil.weekDays){
             xVals.add(weekDay);
         }
+        //BarData
         BarData data = new BarData(xVals, dataSets);
         chart.setData(data);
-        chart.setTouchEnabled(false);
+        //Config chart
         chart.setDescription("");
-        chart.invalidate(); // refresh
+        chart.setVisibleXRangeMaximum(12);
+        chart.setDrawValueAboveBar(false);
+        chart.setDrawHighlightArrow(true);
+        //Config axises
+        YAxis leftAxis = chart.getAxisLeft();
+        YAxis rightAxis = chart.getAxisRight();
+        leftAxis.setAxisMaxValue(120f);
+        rightAxis.setAxisMaxValue(120f);
+        leftAxis.setDrawGridLines(false);
+        rightAxis.setDrawGridLines(false);
+        //Config limit line
+        LimitLine ll = new LimitLine(60f);
+        ll.setLineColor(Color.CYAN);
+        ll.setLineWidth(1f);
+        leftAxis.removeAllLimitLines();
+        leftAxis.addLimitLine(ll);
+        //Config marker
+        PSDailyDataMarkerView markerView = new PSDailyDataMarkerView(v.getContext(), R.layout.ps_daily_data_marker_view);
+        chart.setMarkerView(markerView);
+        //Show data
+        chart.animateY(600);
     }
 
     private void setupControls(View view){
+        //user selection
+        userSelectionViews.clear();
+        userSelectionViews.add((PSUserInfoSelectionView) view.findViewById(R.id.user_selection_1));
+        userSelectionViews.add((PSUserInfoSelectionView)view.findViewById(R.id.user_selection_2));
+        userSelectionViews.add((PSUserInfoSelectionView)view.findViewById(R.id.user_selection_3));
+        userSelectionViews.add((PSUserInfoSelectionView)view.findViewById(R.id.user_selection_4));
+        ArrayList<PSUser> allUsers = PSDataStore.getInstance().getAllUsers();
+        int idx = 0;
+        for(PSUserInfoSelectionView selectionView : userSelectionViews){
+            selectionView.mListener = this;
+            if(idx<allUsers.size()) {
+                selectionView.setUser(allUsers.get(idx));
+            }
+            idx++;
+        }
+        //date picker
         PSDatePickerView datePickerView = (PSDatePickerView)view.findViewById(R.id.date_picker_view);
+        datePickerView.setByDay(false);
         datePickerView.setListener(new PSDatePickerView.PSDatePickerViewListener() {
             @Override
             public void onDateChanged() {
                 createChart(getView());
             }
         });
+    }
+
+    private ArrayList<PSUser> selectedUsers() {
+        ArrayList<PSUser> selectedUsers = new ArrayList<PSUser>();
+        for(PSUserInfoSelectionView selectionView : userSelectionViews){
+            PSUser user = selectionView.selectedUser();
+            if(user != null){
+                selectedUsers.add(user);
+            }
+        }
+        return selectedUsers;
+    }
+
+    public void onSelectionChanged() {
+        createChart(getView());
     }
 }

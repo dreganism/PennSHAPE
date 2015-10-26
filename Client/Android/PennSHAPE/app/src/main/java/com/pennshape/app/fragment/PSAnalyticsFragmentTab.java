@@ -18,6 +18,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -28,6 +29,7 @@ import com.pennshape.app.model.PSDataStore;
 import com.pennshape.app.model.PSUser;
 import com.pennshape.app.model.PSUserDataCollection;
 import com.pennshape.app.model.PSUtil;
+import com.pennshape.app.view.PSDailyDataMarkerView;
 import com.pennshape.app.view.PSDatePickerView;
 
 import org.w3c.dom.Text;
@@ -58,11 +60,11 @@ public class PSAnalyticsFragmentTab extends Fragment {
         TextView name = (TextView)v.findViewById(R.id.name);
         name.setText(user.getName());
         TextView weight = (TextView)v.findViewById(R.id.weight);
-        weight.setText("W: "+user.getWeightDesc());
+        weight.setText("Weight: "+user.getWeightDesc());
         TextView height = (TextView)v.findViewById(R.id.height);
-        height.setText("H: " + user.getHeightDesc());
+        height.setText("Height: " + user.getHeightDesc());
         TextView age = (TextView)v.findViewById(R.id.age);
-        age.setText("A: " + user.getAgeDesc());
+        age.setText("Age: " + user.getAgeDesc());
         TextView bwi = (TextView)v.findViewById(R.id.bmi);
         bwi.setText("BWI: " + user.getBMIDesc());
     }
@@ -83,10 +85,10 @@ public class PSAnalyticsFragmentTab extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(getView()!=null) {
                     PSDatePickerView datePickerView = (PSDatePickerView) getView().findViewById(R.id.date_picker_view);
-                    if (checkedId == R.id.radio_week) {
-                        datePickerView.setByWeek(true);
+                    if (checkedId == R.id.radio_day) {
+                        datePickerView.setByDay(true);
                     } else {
-                        datePickerView.setByWeek(false);
+                        datePickerView.setByDay(false);
                     }
                 }
             }
@@ -101,7 +103,7 @@ public class PSAnalyticsFragmentTab extends Fragment {
         ArrayList<String> xVals = new ArrayList<String>();
 
         int idx = 0;
-        boolean isWeek = (((RadioGroup)v.findViewById(R.id.radio_group)).getCheckedRadioButtonId() == R.id.radio_week);
+        boolean isDay = (((RadioGroup)v.findViewById(R.id.radio_group)).getCheckedRadioButtonId() == R.id.radio_day);
         for (Calendar cur = (Calendar)datePickerView.getStartDate().clone(); PSUtil.beforeCalender(cur, datePickerView.getEndDate()); cur.add(Calendar.DATE, 1)) {
             PSDailyData dailyData = dataCollection.getDailyData((int)(cur.getTimeInMillis()/1000));
             BarEntry ent = new BarEntry(0f, idx);
@@ -109,24 +111,39 @@ public class PSAnalyticsFragmentTab extends Fragment {
                 ent = new BarEntry(dailyData.getFormula(), idx);
             }
             entriesAgg.add(ent);
-            if (isWeek) {
-                xVals.add(PSUtil.weekDays[idx++]);
+            if (isDay) {
+                xVals.add("");
             }else {
-                xVals.add(Integer.toString(idx++ + 1));
+                xVals.add(PSUtil.weekDays[idx++]);
             }
         }
 
         BarDataSet setAgg = new BarDataSet(entriesAgg, PSDataStore.getInstance().getUser().getName());
         setAgg.setAxisDependency(YAxis.AxisDependency.LEFT);
         setAgg.setColor(getResources().getColor(R.color.ps_blue_sky));
+        if(isDay) {
+            setAgg.setBarSpacePercent(70);
+        }
 
         ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
         dataSets.add(setAgg);
 
         BarData data = new BarData(xVals, dataSets);
         chart.setData(data);
-        chart.setTouchEnabled(false);
+        //chart.setTouchEnabled(false);
         chart.setDescription("");
+        chart.setDrawValueAboveBar(false);
+
+        YAxis leftAxis = chart.getAxisLeft();
+        YAxis rightAxis = chart.getAxisRight();
+        leftAxis.setAxisMaxValue(150f);
+        rightAxis.setAxisMaxValue(150f);
+        XAxis xAxis = chart.getXAxis();
+
+        //Marker
+        PSDailyDataMarkerView markerView = new PSDailyDataMarkerView(v.getContext(), R.layout.ps_daily_data_marker_view);
+        chart.setMarkerView(markerView);
+        chart.setDrawHighlightArrow(true);
         chart.invalidate(); // refresh
     }
 }

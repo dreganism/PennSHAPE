@@ -6,30 +6,29 @@
     android:padding="5dp"
     tools:context="com.pennshape.app.view.PSDatePickerView">
     <TextView
-        android:layout_width="240dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/date_picker_display"
-        android:text="Oct.12.2015 -- Oct.12.2015"
+        android:text="sample"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:gravity="center"
         style="@style/UserDateFont"/>
     <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="35dp"
+        android:layout_width="50dp"
+        android:layout_height="20dp"
         android:id="@+id/left_arrow"
         android:layout_toLeftOf="@id/date_picker_display"
-        android:layout_centerVertical="@id/date_picker_display"
-        android:scaleType="center"
+        android:layout_centerVertical="true"
+        android:scaleType="centerInside"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_arrow_left"/>
     <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="35dp"
+        android:layout_width="50dp"
+        android:layout_height="20dp"
         android:id="@+id/right_arrow"
         android:layout_toRightOf="@id/date_picker_display"
-        android:layout_centerVertical="@id/date_picker_display"
-        android:scaleType="center"
+        android:layout_centerVertical="true"
+        android:scaleType="centerInside"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_arrow_right" />
 </RelativeLayout>
