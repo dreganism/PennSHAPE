@@ -8,22 +8,26 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Moderate: 10'"
+        android:id="@+id/mod"
+        android:text="@string/ps_sample_marker_mod"
         style="@style/MarkerViewDataFont"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/vig"
         style="@style/MarkerViewDataFont"
-        android:text="Vigorous: 5'"/>
+        android:text="@string/ps_sample_marker_vig"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/mus"
         style="@style/MarkerViewDataFont"
-        android:text="Muscle: 5'"/>
+        android:text="@string/ps_sample_marker_mus"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/stp"
         style="@style/MarkerViewDataFont"
-        android:text="Steps: 1000"/>
+        android:text="@string/ps_sample_marker_stp"/>
 
 </LinearLayout>

@@ -18,6 +18,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -97,6 +98,7 @@ public class PSAnalyticsFragmentTab extends Fragment {
 
     private void createChart(View v) {
         BarChart chart = (BarChart)v.findViewById(R.id.barChart);
+        chart.clear();
         PSDatePickerView datePickerView = (PSDatePickerView)v.findViewById(R.id.date_picker_view);
         PSUserDataCollection dataCollection = PSDataStore.getInstance().getUserDataCollection();
         ArrayList<BarEntry> entriesAgg =   new ArrayList<BarEntry>();
@@ -106,16 +108,19 @@ public class PSAnalyticsFragmentTab extends Fragment {
         boolean isDay = (((RadioGroup)v.findViewById(R.id.radio_group)).getCheckedRadioButtonId() == R.id.radio_day);
         for (Calendar cur = (Calendar)datePickerView.getStartDate().clone(); PSUtil.beforeCalender(cur, datePickerView.getEndDate()); cur.add(Calendar.DATE, 1)) {
             PSDailyData dailyData = dataCollection.getDailyData((int)(cur.getTimeInMillis()/1000));
-            BarEntry ent = new BarEntry(0f, idx);
+            BarEntry ent = null;
             if (dailyData != null){
-                ent = new BarEntry(dailyData.getFormula(), idx);
+                ent = new BarEntry(dailyData.getFormula(), idx, dailyData);
             }
-            entriesAgg.add(ent);
+            if(ent!=null) {
+                entriesAgg.add(ent);
+            }
             if (isDay) {
                 xVals.add("");
             }else {
-                xVals.add(PSUtil.weekDays[idx++]);
+                xVals.add(PSUtil.weekDays[idx]);
             }
+            idx++;
         }
 
         BarDataSet setAgg = new BarDataSet(entriesAgg, PSDataStore.getInstance().getUser().getName());
@@ -128,22 +133,30 @@ public class PSAnalyticsFragmentTab extends Fragment {
         ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
         dataSets.add(setAgg);
 
+        //BarData
         BarData data = new BarData(xVals, dataSets);
         chart.setData(data);
-        //chart.setTouchEnabled(false);
+        //Config chart
         chart.setDescription("");
         chart.setDrawValueAboveBar(false);
-
+        chart.setDrawHighlightArrow(true);
+        //Config axises
         YAxis leftAxis = chart.getAxisLeft();
         YAxis rightAxis = chart.getAxisRight();
-        leftAxis.setAxisMaxValue(150f);
-        rightAxis.setAxisMaxValue(150f);
-        XAxis xAxis = chart.getXAxis();
-
-        //Marker
+        leftAxis.setAxisMaxValue(120f);
+        rightAxis.setAxisMaxValue(120f);
+        leftAxis.setDrawGridLines(false);
+        rightAxis.setDrawGridLines(false);
+        //Config limit line
+        LimitLine ll = new LimitLine(60f);
+        ll.setLineColor(Color.CYAN);
+        ll.setLineWidth(1f);
+        leftAxis.removeAllLimitLines();
+        leftAxis.addLimitLine(ll);
+        //Config marker
         PSDailyDataMarkerView markerView = new PSDailyDataMarkerView(v.getContext(), R.layout.ps_daily_data_marker_view);
         chart.setMarkerView(markerView);
-        chart.setDrawHighlightArrow(true);
-        chart.invalidate(); // refresh
+        //Show data
+        chart.animateY(600);
     }
 }

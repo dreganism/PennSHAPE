@@ -10,6 +10,10 @@
     <string name="ps_sample_age">(30)</string>
     <string name="ps_sample_bmi">BMI: 16.0</string>
     <string name="ps_sample_fav_exer">♥ Running</string>
+    <string name="ps_sample_marker_mod">Moderate: **</string>
+    <string name="ps_sample_marker_vig">Vigorous: **</string>
+    <string name="ps_sample_marker_mus">Muscle: **</string>
+    <string name="ps_sample_marker_stp">Steps: **</string>
     <string name="ps_user_data_radio_day">Today</string>
     <string name="ps_user_data_radio_week">Week</string>
     <string name="ps_record_title">Your activities</string>

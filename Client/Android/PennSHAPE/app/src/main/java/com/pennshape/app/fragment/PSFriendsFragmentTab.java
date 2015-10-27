@@ -79,11 +79,13 @@ public class PSFriendsFragmentTab extends Fragment implements PSUserInfoSelectio
             int idx = 0;
             for (Calendar cur = (Calendar)datePickerView.getStartDate().clone(); PSUtil.beforeCalender(cur, datePickerView.getEndDate()); cur.add(Calendar.DATE, 1), idx++) {
                 PSDailyData dailyData = dataCollection.getDailyData((int)(cur.getTimeInMillis()/1000));
-                BarEntry ent = new BarEntry(0f, idx);
+                BarEntry ent = null;
                 if (dailyData != null){
-                    ent = new BarEntry(dailyData.getFormula(), idx);
+                    ent = new BarEntry(dailyData.getFormula(), idx, dailyData);
                 }
-                userEntries.add(ent);
+                if(ent!=null) {
+                    userEntries.add(ent);
+                }
             }
             BarDataSet userDataSet = new BarDataSet(userEntries, user.getName());
             userDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
