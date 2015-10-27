@@ -17,7 +17,6 @@
             android:layout_width="85dp"
             android:layout_height="85dp"
             android:id="@+id/image"
-            android:padding="5dp"
             android:background="@color/ps_light_bg"
             android:src="@drawable/img_face_black"/>
         <TextView

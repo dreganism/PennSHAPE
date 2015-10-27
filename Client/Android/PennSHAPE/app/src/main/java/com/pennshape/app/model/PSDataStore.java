@@ -90,8 +90,12 @@ public class PSDataStore {
 
     public ArrayList<PSUser> getAllUsers() {
         ArrayList<PSUser> users = new ArrayList<PSUser>();
+        //add self first
+        users.add(groupMembers.get(getUserID()));
         for (PSUser user : groupMembers.values()) {
-            users.add(user);
+            if(!user.getID().equals(getUserID())) {
+                users.add(user);
+            }
         }
         return users;
     }

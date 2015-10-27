@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ public class PSUserInfoSelectionView extends RelativeLayout {
     public interface PSUserInfoSelectionViewListener{
         void onSelectionChanged();
     }
+    private ImageView imageView;
     private CheckBox checkBox;
     private TextView nameView;
     private TextView ageView;
@@ -50,11 +52,25 @@ public class PSUserInfoSelectionView extends RelativeLayout {
                 }
             }
         });
+        imageView = (ImageView)findViewById(R.id.image);
         nameView = (TextView)findViewById(R.id.name);
         ageView = (TextView)findViewById(R.id.age);
         bmiView = (TextView)findViewById(R.id.bmi);
         favExecView = (TextView)findViewById(R.id.fav);
     }
+
+    private void setupPhoto() {
+        if (userModel.getID().equals("9001")){
+            imageView.setImageResource(R.drawable.sample_photo_1);
+        }else if (userModel.getID().equals("9002")){
+            imageView.setImageResource(R.drawable.sample_photo_2);
+        }else if (userModel.getID().equals("9003")){
+            imageView.setImageResource(R.drawable.sample_photo_3);
+        }else if (userModel.getID().equals("9004")){
+            imageView.setImageResource(R.drawable.sample_photo_4);
+        }
+    }
+
 
     public void setUser(PSUser user){
         userModel = user;
@@ -62,6 +78,7 @@ public class PSUserInfoSelectionView extends RelativeLayout {
         ageView.setText("("+userModel.getAgeDesc()+")");
         bmiView.setText("BMI: "+userModel.getBMIDesc());
         favExecView.setText("♥ Running");
+        setupPhoto();
     }
 
     public PSUser selectedUser(){

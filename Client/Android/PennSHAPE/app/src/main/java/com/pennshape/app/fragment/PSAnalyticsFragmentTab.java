@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -68,6 +69,9 @@ public class PSAnalyticsFragmentTab extends Fragment {
         age.setText("Age: " + user.getAgeDesc());
         TextView bwi = (TextView)v.findViewById(R.id.bmi);
         bwi.setText("BMI: " + user.getBMIDesc());
+        //Set image
+        ImageView imageView = (ImageView)v.findViewById(R.id.image);
+        imageView.setImageResource(R.drawable.sample_photo_1);
     }
 
     private void setupControls(View view){
