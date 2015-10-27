@@ -67,7 +67,7 @@ public class PSAnalyticsFragmentTab extends Fragment {
         TextView age = (TextView)v.findViewById(R.id.age);
         age.setText("Age: " + user.getAgeDesc());
         TextView bwi = (TextView)v.findViewById(R.id.bmi);
-        bwi.setText("BWI: " + user.getBMIDesc());
+        bwi.setText("BMI: " + user.getBMIDesc());
     }
 
     private void setupControls(View view){

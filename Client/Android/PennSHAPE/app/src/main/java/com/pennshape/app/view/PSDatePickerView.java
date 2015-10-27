@@ -5,10 +5,13 @@ package com.pennshape.app.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.pennshape.app.R;
 
@@ -22,6 +25,7 @@ public class PSDatePickerView extends RelativeLayout{
     }
     private Calendar startDate;
     private Calendar endDate;
+    private TextSwitcher switcher;
     private boolean byDay = false;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMM.dd.yyyy", Locale.US);
     protected PSDatePickerViewListener mListener;
@@ -44,8 +48,9 @@ public class PSDatePickerView extends RelativeLayout{
     private void init() {
         inflate(getContext(), R.layout.ps_date_picker_view, this);
         resetDates();
-        refreshDateRangeDisplay();
         setupControls();
+        refreshDateRangeDisplay();
+
     }
 
     private void resetDates(){
@@ -63,23 +68,36 @@ public class PSDatePickerView extends RelativeLayout{
     }
 
     private void refreshDateRangeDisplay() {
-        TextView rangeDisplay = (TextView) findViewById(R.id.date_picker_display);
-        if(rangeDisplay!=null) {
+        if(switcher!=null) {
             if (byDay){
-                rangeDisplay.setText(dateFormat.format(startDate.getTime()));
+                switcher.setText(dateFormat.format(startDate.getTime()));
             }else {
-                rangeDisplay.setText(dateFormat.format(startDate.getTime()) + " -- " + dateFormat.format(endDate.getTime()));
+                switcher.setText(dateFormat.format(startDate.getTime()) + " -- " + dateFormat.format(endDate.getTime()));
             }
         }
     }
 
     private void setupControls(){
+        switcher = (TextSwitcher)findViewById(R.id.switcher);
+        switcher.setFactory(new ViewSwitcher.ViewFactory() {
+
+            public View makeView() {
+                TextView text = new TextView(getContext());
+                text.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+                text.setTextAppearance(getContext(), R.style.UserDateFont);
+                return text;
+            }
+        });
+        switcher.setInAnimation(getContext(), android.R.anim.fade_in);
+        switcher.setOutAnimation(getContext(), android.R.anim.fade_out);
         ImageButton leftArrow = (ImageButton)findViewById(R.id.left_arrow);
         ImageButton rightArrow = (ImageButton)findViewById(R.id.right_arrow);
         leftArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 previous();
+                switcher.setInAnimation(getContext(), android.R.anim.slide_in_left);
+                switcher.setOutAnimation(getContext(), android.R.anim.slide_out_right);
                 refreshDateRangeDisplay();
                 if(mListener != null)   mListener.onDateChanged();
             }
@@ -89,6 +107,8 @@ public class PSDatePickerView extends RelativeLayout{
             @Override
             public void onClick(View v) {
                 next();
+                switcher.setInAnimation(getContext(), R.anim.slide_in_right);
+                switcher.setOutAnimation(getContext(), R.anim.slide_out_left);
                 refreshDateRangeDisplay();
                 if (mListener != null) mListener.onDateChanged();
             }

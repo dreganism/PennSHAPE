@@ -29,7 +29,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingBottom="2dp"
-            android:text="@string/ps_sample_string"
+            android:text="@string/ps_sample_name"
             style="@style/UserNameFont"/>
         <!--ROW 1-->
         <LinearLayout
@@ -47,14 +47,14 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/weight"
-                android:text="@string/ps_sample_string"
+                android:text="@string/ps_sample_weight"
                 style="@style/UserProfileFont"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/height"
-                android:text="@string/ps_sample_string"
+                android:text="@string/ps_sample_height"
                 style="@style/UserProfileFont"/>
         </LinearLayout>
         <!--ROW 2-->
@@ -73,14 +73,14 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/age"
-                android:text="@string/ps_sample_string"
+                android:text="@string/ps_sample_age"
                 style="@style/UserProfileFont"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/bmi"
-                android:text="@string/ps_sample_string"
+                android:text="@string/ps_sample_bmi"
                 style="@style/UserProfileFont"/>
         </LinearLayout>
         <!--ROW 3-->
@@ -97,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/exercise"
-                android:text="@string/ps_sample_string"
+                android:text="@string/ps_sample_fav_exer"
                 style="@style/UserProfileFont"/>
         </LinearLayout>
     </RelativeLayout>

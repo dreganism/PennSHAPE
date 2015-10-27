@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/date_text"
         android:layout_gravity="center"
-        android:text="Aug.25.1984"
+        android:text="@string/ps_sample_date"
         android:paddingBottom="15dp"
         style="@style/UserDateFont"/>
     <LinearLayout
@@ -35,26 +35,15 @@
             android:orientation="horizontal"
             android:paddingBottom="20dp">
             <TextView
-                android:layout_width="0dp"
-                android:layout_weight="2"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:text="@string/ps_c1_name"/>
-            <SeekBar
-                android:id="@+id/volume_bar_c1"
-                android:layout_width="0dp"
-                android:layout_weight="6"
+            <EditText
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:max="100"
-                android:progress="10"
-                android:secondaryProgress="0" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/c1_display"
-                android:layout_gravity="center_vertical"
-                android:text="@string/ps_record_default_val"/>
+                android:gravity="center"
+                android:hint="@string/ps_record_hint"
+                android:inputType="number" />
         </LinearLayout>
 
         <!--C2-->
@@ -64,26 +53,15 @@
             android:orientation="horizontal"
             android:paddingBottom="20dp">
             <TextView
-                android:layout_width="0dp"
-                android:layout_weight="2"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:text="@string/ps_c2_name"/>
-            <SeekBar
-                android:id="@+id/volume_bar_c2"
-                android:layout_width="0dp"
-                android:layout_weight="6"
+            <EditText
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:max="100"
-                android:progress="10"
-                android:secondaryProgress="0" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/c2_display"
-                android:layout_gravity="center_vertical"
-                android:text="@string/ps_record_default_val"/>
+                android:gravity="center"
+                android:hint="@string/ps_record_hint"
+                android:inputType="number" />
         </LinearLayout>
 
         <!--C3-->
@@ -93,26 +71,15 @@
             android:orientation="horizontal"
             android:paddingBottom="20dp">
             <TextView
-                android:layout_width="0dp"
-                android:layout_weight="2"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:text="@string/ps_c3_name"/>
-            <SeekBar
-                android:id="@+id/volume_bar_c3"
-                android:layout_width="0dp"
-                android:layout_weight="6"
+            <EditText
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:max="100"
-                android:progress="10"
-                android:secondaryProgress="0" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/c3_display"
-                android:layout_gravity="center_vertical"
-                android:text="@string/ps_record_default_val"/>
+                android:gravity="center"
+                android:hint="@string/ps_record_hint"
+                android:inputType="number" />
         </LinearLayout>
 
         <!--Button-->
