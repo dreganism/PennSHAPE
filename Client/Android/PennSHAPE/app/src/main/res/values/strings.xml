@@ -19,10 +19,29 @@
     <string name="ps_user_data_radio_day">Today</string>
     <string name="ps_user_data_radio_week">Week</string>
     <string name="ps_record_title">Your activities</string>
-    <string name="ps_c1_name">Moderate (minutes):</string>
-    <string name="ps_c2_name">Vigorous (minutes):</string>
-    <string name="ps_c3_name">Muscle (minutes):</string>
-    <string name="ps_record_hint">Enter here</string>
+    <string name="ps_c1_name">Moderate:</string>
+    <string name="ps_c2_name">Vigorous:</string>
+    <string name="ps_c3_name">Muscle:</string>
+    <string name="ps_record_hint">minutes</string>
     <string name="ps_record_default_val">10\'</string>
     <string name="ps_record_button">Submit</string>
+    <string name="ps_sport_choose">Choose exercise</string>
+    <!--MOD-->
+    <string name="ps_sport_jumping_ropes">Jumping ropes</string>
+    <string name="ps_sport_biking">Biking</string>
+    <string name="ps_sport_fast_walking">Fast Walking</string>
+    <string name="ps_sport_climbling_steps">Climbling steps</string>
+    <string name="ps_sport_housekeeping">Housekeeping</string>
+    <!--VIG-->
+    <string name="ps_sport_dancing">Dancing, Zumba</string>
+    <string name="ps_sport_spinning">Spinning</string>
+    <string name="ps_sport_swimming">Swimming</string>
+    <string name="ps_sport_tennis">Tennis</string>
+    <string name="ps_sport_running">Running</string>
+    <!--MUS-->
+    <string name="ps_sport_sit_up">Sit-up</string>
+    <string name="ps_sport_push_up">Push-up</string>
+    <string name="ps_sport_squat">Squat</string>
+    <string name="ps_sport_weightlifting">Weight lifting</string>
+    <string name="ps_sport_yoga">Yoga</string>
 </resources>
