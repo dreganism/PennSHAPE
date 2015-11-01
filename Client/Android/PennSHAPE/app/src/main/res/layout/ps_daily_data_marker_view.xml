@@ -5,24 +5,81 @@
     android:padding="5dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
+    <!--MOD-->
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/mod"
-        android:text="@string/ps_sample_marker_mod"
-        style="@style/MarkerViewDataFont"/>
-    <TextView
+        android:layout_margin="2dp">
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/mod"
+            android:layout_gravity="center_vertical"
+            android:text="@string/ps_sample_marker_mod"
+            style="@style/MarkerViewDataFont"/>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/img_mod_1"/>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/img_mod_2"/>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/img_mod_3"/>
+    </LinearLayout>
+    <!--VIG-->
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/vig"
-        style="@style/MarkerViewDataFont"
-        android:text="@string/ps_sample_marker_vig"/>
-    <TextView
+        android:layout_margin="2dp">
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/vig"
+            android:layout_gravity="center_vertical"
+            style="@style/MarkerViewDataFont"
+            android:text="@string/ps_sample_marker_vig"/>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/img_vig_1"/>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/img_vig_2"/>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/img_vig_3"/>
+    </LinearLayout>
+    <!--MUS-->
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/mus"
-        style="@style/MarkerViewDataFont"
-        android:text="@string/ps_sample_marker_mus"/>
+        android:layout_margin="2dp">
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/mus"
+            android:layout_gravity="center_vertical"
+            style="@style/MarkerViewDataFont"
+            android:text="@string/ps_sample_marker_mus"/>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/img_mus_1"/>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/img_mus_2"/>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/img_mus_3"/>
+    </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
