@@ -26,6 +26,7 @@
     <string name="ps_record_default_val">10\'</string>
     <string name="ps_record_button">Submit</string>
     <string name="ps_sport_choose">Choose exercise</string>
+
     <!--MOD-->
     <string name="ps_sport_jumping_ropes">Jumping ropes</string>
     <string name="ps_sport_biking">Biking</string>
@@ -44,4 +45,9 @@
     <string name="ps_sport_squat">Squat</string>
     <string name="ps_sport_weightlifting">Weight lifting</string>
     <string name="ps_sport_yoga">Yoga</string>
+
+    <string name="ps_chat_placeholder">You have no message</string>
+    <string name="ps_setting_change">Change Photo</string>
+    <string name="ps_setting_logout">Logout</string>
+    <string name="ps_setting_update_weight">Update body weight</string>
 </resources>
