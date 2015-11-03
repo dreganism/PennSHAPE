@@ -24,7 +24,7 @@ object ConfigDao {
   def getConfig(): Config = {
     DB.withConnection {
       implicit connection =>
-        SQL("select * from Config").as(configdata *).apply(0)
+        SQL("select * from config").as(configdata *).apply(0)
     }
   }
 
