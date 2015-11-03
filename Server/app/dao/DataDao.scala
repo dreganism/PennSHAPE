@@ -31,7 +31,7 @@ object DataDao {
     DB.withConnection {
       implicit connection =>
         SQL(
-          "select a.uid, a.date, a.c1, a.c2,a.c3,a.steps, a.cal from penndata a where uid in (" +
+          "select a.uid, a.date, a.c1, a.c2,a.c3,a.steps, a.cal from activities a where uid in (" +
             "select uid from penngroup where groupid =  (select groupid from penngroup where uid={uid}))").on("uid" -> uid).as(userdata *)
     }
   }
