@@ -55,5 +55,28 @@ object DataDao {
     hashmap
   }
 
+  def insertActivities (uid:String, date:String, c1:String, c2: String, c3:String):Boolean ={
+
+    DB.withConnection { implicit c =>
+      val count = SQL("""Select count(*) as code from activities c where c.uid = {uid} and c.date = {date};""")
+        .on("uid"->uid, "date"->date).as(SqlParser.long("code").single)
+
+      if (count ==0){
+        val id =
+          SQL("insert into activities(uid, date, c1, c2,c3) values ({uid}, {date}, {c1}, {c2}, {c3})")
+            .on("uid" -> uid, "date"-> date, "c1"-> c1, "c2"->c2, "c3"-> c3).executeInsert()
+      } else if(count ==1){
+        val result = SQL("update activities set c1={c1}, c2={c2}, c3={c3} where uid = {uid} and date = {date}").
+          on("c1"-> c1, "c2"->c2, "c3"-> c3,"uid" -> uid, "date"-> date)
+          .executeUpdate()
+      }
+return true
+    }
+
+
+
+    return true
+
+  }
 
 }

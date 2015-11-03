@@ -2,6 +2,7 @@ package controllers
 
 import dao._
 import models._
+import play.api.libs.json.JsValue
 import play.api.mvc._
 import util._
 
@@ -61,6 +62,26 @@ class Application extends Controller {
   def getResult(uid:String) = Action {
     val res = ResultDao.getResultByUserId(uid)
     Ok(ResultFormat.getResultJson(res))
+  }
+
+
+  def insertAction(uid:String) = Action {
+
+    request =>
+      val body: AnyContent = request.body
+
+      val jsonBody: Option[JsValue] = body.asJson
+
+      jsonBody.map { jsValue =>
+
+        val date:String = (jsValue \ "date").get.toString().replace("\"","") // 2015-10-26
+        val c1 = (jsValue \ "c1").get.toString().replace("\"","")
+        val c2 = (jsValue \ "c2").get.toString().replace("\"","")
+        val c3 = (jsValue \ "c3").get.toString().replace("\"","")
+        println("uid:"+uid+" date:"+date+" "+"c1:"+c1+"c2:"+c2+"c3"+c3)
+        DataDao.insertActivities(uid, date, c1, c2, c3);
+      }
+      Ok("OK")
   }
 
 }
