@@ -16,9 +16,9 @@ object DataDao {
   val userdata = {
     get[String]("uid") ~
       get[DateTime]("date") ~
-      get[Int]("c1") ~
-      get[Int]("c2") ~
-      get[Int]("c3") ~
+      get[String]("c1") ~
+      get[String]("c2") ~
+      get[String]("c3") ~
       get[Int]("steps") ~
       get[Int]("cal") map {
       case uid ~ date ~ c1 ~ c2 ~ c3 ~ steps ~ cal
@@ -31,7 +31,7 @@ object DataDao {
     DB.withConnection {
       implicit connection =>
         SQL(
-          "select a.uid, a.date, a.c1, a.c2,a.c3,a.steps, a.cal from activities a where uid in (" +
+          "select a.uid, a.date, a.c1, a.c2,a.c3,a.steps, a.calories as cal from activities a where uid in (" +
             "select uid from penngroup where groupid =  (select groupid from penngroup where uid={uid}))").on("uid" -> uid).as(userdata *)
     }
   }

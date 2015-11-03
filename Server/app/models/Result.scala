@@ -35,9 +35,9 @@ case class Result(
 */
 case class Data(
                  date: DateTime,
-                 c1: Int,
-                 c2: Int,
-                 c3: Int,
+                 c1: String,
+                 c2: String,
+                 c3: String,
                  steps: Int,
                  cal: Int
                  )
@@ -46,9 +46,9 @@ case class Data(
 case class UserData(
                      uid: String,
                      date: DateTime,
-                     c1: Int,
-                     c2: Int,
-                     c3: Int,
+                     c1: String,
+                     c2: String,
+                     c3: String,
                      steps: Int,
                      cal: Int
                      )
