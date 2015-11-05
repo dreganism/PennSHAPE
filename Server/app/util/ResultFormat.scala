@@ -27,7 +27,7 @@ object ResultFormat {
     implicit val dataFormat = Json.format[Data]
     implicit val resultFormat = Json.format[Result]
 
-    Json.obj("Success" -> result)
+    Json.obj("202" -> result)
   }
 
 

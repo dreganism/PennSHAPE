@@ -25,7 +25,7 @@ class Application extends Controller {
   def users = Action {
 
     val result: List[User] = UserDao.selectAll()
-    Ok(UserFormat.getUserList("true", result))
+    Ok(UserFormat.getUserList("202", result))
 
   }
 
@@ -49,13 +49,13 @@ class Application extends Controller {
 
   def getGroupDataByUserid(uid: String) = Action {
     val groupdata: Map[String, ListBuffer[Data]] = DataDao.getGroupDataByUserId(uid).toMap
-    Ok(DataFormat.getJsonDataMap(groupdata))
+    Ok("{\"202\":"+DataFormat.getJsonDataMap(groupdata)+"}")
 
   }
 
   def getConfig() = Action {
     val config: Config = ConfigDao.getConfig()
-    Ok(ConfigFormat.getJsonConfig(config))
+    Ok("{\"202\":"+ConfigFormat.getJsonConfig(config)+"}")
 
   }
 
@@ -68,8 +68,7 @@ class Application extends Controller {
     val res = UserDao.getUseridByEmail(email)
     print(res)
     if (!res.forall(_.isEmpty)) {
-
-      Ok(res.get)
+      Ok("{\"202\":\""+res.get+"\"}")
     }else {
       Ok("{\"501\":\"User is is not found\"}")
     }
@@ -94,7 +93,7 @@ class Application extends Controller {
         println("uid:"+uid+" date:"+date+" "+"c1:"+c1+"c2:"+c2+"c3"+c3)
         DataDao.insertActivities(uid, date, c1, c2, c3);
       }
-      Ok("OK")
+      Ok("{\"202\":\"Update successfully\"}")
   }
 
 }
