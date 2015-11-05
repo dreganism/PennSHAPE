@@ -27,3 +27,5 @@ GET    /join/:uid                   controllers.Application.getResult(uid:String
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 POST   /activities/:uid             controllers.Application.insertAction(uid:String)
+
+GET    /users/:email                controllers.Application.getUidbyEmail(email:String)

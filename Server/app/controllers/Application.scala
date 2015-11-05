@@ -64,6 +64,19 @@ class Application extends Controller {
     Ok(ResultFormat.getResultJson(res))
   }
 
+  def getUidbyEmail(email:String) = Action {
+    val res = UserDao.getUseridByEmail(email)
+    print(res)
+    if (!res.forall(_.isEmpty)) {
+
+      Ok(res.get)
+    }else {
+      Ok("{\"501\":\"User is is not found\"}")
+    }
+  }
+
+
+
 
   def insertAction(uid:String) = Action {
 

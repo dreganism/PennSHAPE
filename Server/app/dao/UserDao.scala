@@ -50,5 +50,12 @@ object UserDao {
     users
   }
 
+  def getUseridByEmail(email: String): Option[String] = {
+    DB.withConnection {
+          println ("LLL:"+email)
+      implicit connection =>
+        SQL("select a.uid from user a where a.email={email}").on("email" -> email).as(SqlParser.str("uid").singleOpt)
+    }
+  }
 
 }
