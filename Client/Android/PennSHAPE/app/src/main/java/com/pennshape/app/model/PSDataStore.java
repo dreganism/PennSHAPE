@@ -23,6 +23,7 @@ public class PSDataStore {
     public static PSDataStore getInstance() {
         return sharedInstance;
     }
+    private PSDataStore(){}
 
     public void reloadFromInputStream(InputStream is) {
         try {

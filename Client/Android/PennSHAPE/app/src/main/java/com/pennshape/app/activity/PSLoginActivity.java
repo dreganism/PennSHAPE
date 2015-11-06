@@ -2,6 +2,7 @@ package com.pennshape.app.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import java.io.InputStream;
 public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHttpTaskRequestHandler{
     EditText userName;
     EditText userPIN;
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
             showSampleData();
         }else{
             login();
+            progress = ProgressDialog.show(this, "Loading...", "Please wait", true);
         }
     }
 
@@ -109,10 +112,12 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
             String userID = (String)result;
             if(userID.length()==0){
                 displayError("Invalid user ID");
+                if(progress!=null) progress.dismiss();
             }else{
                 pullUserData(userID);
             }
         }else if(request instanceof PSUserDataTaskRequest) {
+            if(progress!=null) progress.dismiss();
             JSONObject userData = (JSONObject)result;
             try {
                 PSDataStore.getInstance().reloadFronJson(userData);
@@ -129,6 +134,7 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
 
     @Override
     public void onFailure(PSHttpTaskRequest request, String error) {
+        if(progress!=null) progress.dismiss();
         displayError(error);
     }
 }

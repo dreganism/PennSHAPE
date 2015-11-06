@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.pennshape.app.R;
 import com.pennshape.app.model.PSUser;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by hasun on 10/25/15.
@@ -68,6 +69,10 @@ public class PSUserInfoSelectionView extends RelativeLayout {
             imageView.setImageResource(R.drawable.sample_photo_3);
         }else if (userModel.getID().equals("9004")){
             imageView.setImageResource(R.drawable.sample_photo_4);
+        }else{
+            Picasso.with(getContext())
+                    .load(userModel.getPhoto())
+                    .into(imageView);
         }
     }
 

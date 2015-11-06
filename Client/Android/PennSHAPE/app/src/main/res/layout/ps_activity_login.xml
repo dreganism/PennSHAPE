@@ -45,6 +45,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:gravity="center"
-        android:hint="@string/ps_login_user_pin_hint"/>
+        android:hint="@string/ps_login_user_pin_hint"
+        android:visibility="gone"/>
 
 </RelativeLayout>

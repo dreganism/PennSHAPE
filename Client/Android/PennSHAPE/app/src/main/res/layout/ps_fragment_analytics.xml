@@ -14,8 +14,8 @@
         android:background="@drawable/ps_border"
         android:padding="10dp">
         <ImageView
-            android:layout_width="85dp"
-            android:layout_height="85dp"
+            android:layout_width="@dimen/ps_user_photo_size"
+            android:layout_height="@dimen/ps_user_photo_size"
             android:id="@+id/image"
             android:background="@color/ps_light_bg"
             android:src="@drawable/img_face_black"/>

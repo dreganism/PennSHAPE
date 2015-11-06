@@ -33,6 +33,7 @@ import com.pennshape.app.model.PSUserDataCollection;
 import com.pennshape.app.model.PSUtil;
 import com.pennshape.app.view.PSDailyDataMarkerView;
 import com.pennshape.app.view.PSDatePickerView;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -71,7 +72,10 @@ public class PSAnalyticsFragmentTab extends Fragment {
         bwi.setText("BMI: " + user.getBMIDesc());
         //Set image
         ImageView imageView = (ImageView)v.findViewById(R.id.image);
-        imageView.setImageResource(R.drawable.sample_photo_1);
+        //imageView.setImageResource(R.drawable.sample_photo_1);
+        Picasso.with(v.getContext())
+                .load(user.getPhoto())
+                .into(imageView);
     }
 
     private void setupControls(View view){
