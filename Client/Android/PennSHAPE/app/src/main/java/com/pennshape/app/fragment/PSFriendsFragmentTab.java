@@ -78,7 +78,7 @@ public class PSFriendsFragmentTab extends Fragment implements PSUserInfoSelectio
             ArrayList<BarEntry> userEntries =   new ArrayList<BarEntry>();
             int idx = 0;
             for (Calendar cur = (Calendar)datePickerView.getStartDate().clone(); PSUtil.beforeCalender(cur, datePickerView.getEndDate()); cur.add(Calendar.DATE, 1), idx++) {
-                PSDailyData dailyData = dataCollection.getDailyData((int)(cur.getTimeInMillis()/1000));
+                PSDailyData dailyData = dataCollection.getDailyData(cur.getTimeInMillis());
                 BarEntry ent = null;
                 if (dailyData != null){
                     ent = new BarEntry(dailyData.getFormula(), idx, dailyData);
@@ -108,8 +108,8 @@ public class PSFriendsFragmentTab extends Fragment implements PSUserInfoSelectio
         //Config axises
         YAxis leftAxis = chart.getAxisLeft();
         YAxis rightAxis = chart.getAxisRight();
-        leftAxis.setAxisMaxValue(120f);
-        rightAxis.setAxisMaxValue(120f);
+        //leftAxis.setAxisMaxValue(120f);
+        //rightAxis.setAxisMaxValue(120f);
         leftAxis.setDrawGridLines(false);
         rightAxis.setDrawGridLines(false);
         //Config limit line

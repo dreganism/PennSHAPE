@@ -111,7 +111,7 @@ public class PSAnalyticsFragmentTab extends Fragment {
         int idx = 0;
         boolean isDay = (((RadioGroup)v.findViewById(R.id.radio_group)).getCheckedRadioButtonId() == R.id.radio_day);
         for (Calendar cur = (Calendar)datePickerView.getStartDate().clone(); PSUtil.beforeCalender(cur, datePickerView.getEndDate()); cur.add(Calendar.DATE, 1)) {
-            PSDailyData dailyData = dataCollection.getDailyData((int)(cur.getTimeInMillis()/1000));
+            PSDailyData dailyData = dataCollection.getDailyData(cur.getTimeInMillis());
             BarEntry ent = null;
             if (dailyData != null){
                 ent = new BarEntry(dailyData.getFormula(), idx, dailyData);
@@ -147,8 +147,8 @@ public class PSAnalyticsFragmentTab extends Fragment {
         //Config axises
         YAxis leftAxis = chart.getAxisLeft();
         YAxis rightAxis = chart.getAxisRight();
-        leftAxis.setAxisMaxValue(120f);
-        rightAxis.setAxisMaxValue(120f);
+        //leftAxis.setAxisMaxValue(120f);
+        //rightAxis.setAxisMaxValue(120f);
         leftAxis.setDrawGridLines(false);
         rightAxis.setDrawGridLines(false);
         //Config limit line

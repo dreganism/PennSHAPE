@@ -7,11 +7,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PSConfig {
-    protected Integer startDate = 0;
-    protected Integer endDate = 0;
+    protected Long startDate = 0L;
+    protected Long endDate = 0L;
     public PSConfig(JSONObject json) throws JSONException{
-        startDate = Integer.parseInt((String)json.getString("start_date"));
-        endDate = Integer.parseInt((String)json.getString("end_date"));
+        startDate = json.getLong("start_date");
+        endDate = json.getLong("end_date");
     }
 
 }

@@ -26,13 +26,13 @@ public class PSUserDataCollection {
         }
     }
 
-    public PSDailyData getDailyData(Integer date) {
+    public PSDailyData getDailyData(Long date) {
         return dataCollection.get(dateDesc(date));
     }
 
-    public static String dateDesc(Integer date) {
+    public static String dateDesc(Long date) {
         Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(date * 1000L);
+        cal.setTimeInMillis(date);
         return dateFormat.format(cal.getTime());
     }
 }
