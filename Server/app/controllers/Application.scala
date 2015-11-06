@@ -61,7 +61,11 @@ class Application extends Controller {
 
   def getResult(uid:String) = Action {
     val res = ResultDao.getResultByUserId(uid)
-    Ok(ResultFormat.getResultJson(res))
+    if(res.status == "true") {
+      Ok(ResultFormat.getResultJson(res))
+    }else {
+      Ok("{\"501\":\"User is is not found\"}")
+    }
   }
 
   def getUidbyEmail(email:String) = Action {

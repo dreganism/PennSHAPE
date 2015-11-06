@@ -62,8 +62,11 @@ object ResultDao {
     //val user = Json.obj("user" -> uid)
 
     //val status = Json.obj("status" -> "true")
-
-    Result("true", uid, groupusers, groupdata, messages, groupmessages, config)
+    if(groupusers.size>0) {
+      Result("true", uid, groupusers, groupdata, messages, groupmessages, config)
+    } else {
+      Result("false",null,null,null,null,null,null);
+    }
 
 
   }
