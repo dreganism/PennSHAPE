@@ -40,9 +40,10 @@ public abstract class PSHttpTaskRequest extends AsyncTask<Void, Void, Object> {
             InputStream inputStream = null;
             HttpURLConnection urlConnection = null;
             urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod(getRequestMethod());
             urlConnection.setRequestProperty("Content-Type", "application/json");
             urlConnection.setRequestProperty("Accept", "application/json");
-            urlConnection.setRequestMethod(getRequestMethod());
+            setupConnection(urlConnection);
             int statusCode = urlConnection.getResponseCode();
             if (statusCode == 200) {
                 try {
@@ -65,7 +66,7 @@ public abstract class PSHttpTaskRequest extends AsyncTask<Void, Void, Object> {
                 result = null;
             }
         }catch (IOException e) {
-            error = "Wrong request result";
+            error = "Failed to send request";
         }
         return result;
     }
@@ -102,6 +103,8 @@ public abstract class PSHttpTaskRequest extends AsyncTask<Void, Void, Object> {
     protected String getBaseURL() {
         return "http://52.91.163.80:9000/";
     }
+
+    protected void setupConnection(HttpURLConnection urlConnection) throws IOException{ }
 
     protected abstract String getUrl();
 }

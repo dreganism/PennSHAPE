@@ -21,7 +21,42 @@ public class PSSport {
         this.desc = desc;
     }
 
-    static public int partDrawableDescription(String desc) {
+    public String getSportDescription(){
+        if(imageID == R.drawable.sport_fw){
+            return "A1";
+        }else if(imageID == R.drawable.sport_jr){
+            return "A2";
+        }else if(imageID == R.drawable.sport_rb){
+            return "A3";
+        }else if(imageID == R.drawable.sport_sc){
+            return "A4";
+        }else if(imageID == R.drawable.sport_hk){
+            return "A5";
+        }else if(imageID == R.drawable.sport_dz){
+            return "B1";
+        }else if(imageID == R.drawable.sport_ru){
+            return "B2";
+        }else if(imageID == R.drawable.sport_mb){
+            return "B3";
+        }else if(imageID == R.drawable.sport_sw){
+            return "B4";
+        }else if(imageID == R.drawable.sport_tn){
+            return "B5";
+        }else if(imageID == R.drawable.sport_su){
+            return "C1";
+        }else if(imageID == R.drawable.sport_pu){
+            return "C2";
+        }else if(imageID == R.drawable.sport_sq){
+            return "C3";
+        }else if(imageID == R.drawable.sport_wl){
+            return "C4";
+        }else if(imageID == R.drawable.sport_yg){
+            return "C5";
+        }
+        return "**";
+    }
+
+    static public int parseDrawableDescription(String desc) {
         if(desc.equals("A1")){
             return R.drawable.sport_fw;
         }else if(desc.equals("A2")){
@@ -61,7 +96,7 @@ public class PSSport {
         int res = -1;
         if(desc.length()==6){
             for(int start=0;start<6;start+=2){
-                res = partDrawableDescription(desc.substring(start, start + 2));
+                res = parseDrawableDescription(desc.substring(start, start + 2));
                 if(res>0 && !sports.contains(res)) {
                     sports.add(res);
                 }
