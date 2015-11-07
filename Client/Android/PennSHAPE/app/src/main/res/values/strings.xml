@@ -47,7 +47,10 @@
     <string name="ps_sport_yoga">Yoga</string>
 
     <string name="ps_chat_placeholder">You have no message</string>
-    <string name="ps_setting_change">Change Photo</string>
     <string name="ps_setting_logout">Logout</string>
     <string name="ps_setting_update_weight">Update body weight</string>
+
+    <!--KEYS-->
+    <string name="ps_pref_name">com.pennshape.app.pref.default</string>
+    <string name="ps_pref_key_id">com.pennshape.app.pref.key.id</string>
 </resources>

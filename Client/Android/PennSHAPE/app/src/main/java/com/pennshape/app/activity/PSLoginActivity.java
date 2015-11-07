@@ -3,12 +3,15 @@ package com.pennshape.app.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.pennshape.app.R;
@@ -27,6 +30,7 @@ import java.io.InputStream;
 public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHttpTaskRequestHandler{
     EditText userName;
     EditText userPIN;
+    Button loginButton;
     ProgressDialog progress;
 
     @Override
@@ -35,6 +39,8 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
         setContentView(R.layout.ps_activity_login);
         userName = (EditText)findViewById(R.id.loginUserNameEditText);
         userPIN = (EditText)findViewById(R.id.loginUserPINEditText);
+        loginButton = (Button)findViewById(R.id.button);
+        checkUser();
     }
 
     @Override
@@ -66,6 +72,22 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
             login();
             progress = ProgressDialog.show(this, "Loading...", "Please wait", true);
         }
+    }
+
+    private void checkUser(){
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.ps_pref_name), Context.MODE_PRIVATE);
+        String userID = sharedPref.getString(getString(R.string.ps_pref_key_id), null);
+        if(userID!=null && userID.length()>0) {
+            progress = ProgressDialog.show(this, "Loading...", "Please wait", true);
+            pullUserData(userID);
+        }
+    }
+
+    private void persistUserID(String userID) {
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.ps_pref_name), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(getString(R.string.ps_pref_key_id), userID);
+        editor.apply();
     }
 
     private void showSampleData() {
@@ -114,6 +136,7 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
                 displayError("Invalid user ID");
                 if(progress!=null) progress.dismiss();
             }else{
+                persistUserID(userID);
                 pullUserData(userID);
             }
         }else if(request instanceof PSUserDataTaskRequest) {

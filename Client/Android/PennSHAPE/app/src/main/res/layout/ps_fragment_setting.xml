@@ -7,81 +7,90 @@
     android:background="#eaecee"
     tools:context="com.pennshape.app.fragment.PSSettingFragmentTab">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/name"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/ps_sample_name"
-        style="@style/SettingProfileFont"
-        />
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/image"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/sample_photo_1"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/change"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/ps_setting_change"/>
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:orientation="horizontal">
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        android:background="@drawable/ps_border">
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/image"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/sample_photo_1"/>
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/age"
-            android:text="@string/ps_sample_age"
-            style="@style/SettingProfileFont"
-            />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:id="@+id/height"
-            android:text="@string/ps_sample_height"
-            style="@style/SettingProfileFont"
-            />
-    </LinearLayout>
+            android:id="@+id/name"
+            android:layout_toRightOf="@+id/image"
+            android:layout_marginLeft="10dp"
+            android:text="@string/ps_sample_name"
+            style="@style/UserNameFont" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout1"
+            android:layout_toRightOf="@+id/image"
+            android:layout_below="@+id/name"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/age"
+                android:text="@string/ps_sample_age"
+                style="@style/SettingProfileFont"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/height"
+                android:text="@string/ps_sample_height"
+                style="@style/SettingProfileFont"/>
+        </LinearLayout>
+
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/weight"
             android:text="@string/ps_sample_weight"
-            style="@style/SettingProfileFont"
-            />
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_toRightOf="@+id/image"
+            android:layout_below="@+id/linearLayout1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="6dp"
+            style="@style/SettingProfileFont" />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text="@string/ps_setting_update_weight"
-            />
-    </LinearLayout>
+            android:id="@+id/fav"
+            android:text="@string/ps_sample_fav_exer"
+            android:layout_toRightOf="@+id/image"
+            android:layout_below="@+id/weight"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            style="@style/SettingProfileFont" />
+    </RelativeLayout>
+
+
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/changeWeight"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:text="@string/ps_setting_update_weight"/>-->
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/logout"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
         android:text="@string/ps_setting_logout"/>
 
