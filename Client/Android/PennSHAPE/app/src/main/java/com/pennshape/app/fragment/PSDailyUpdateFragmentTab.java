@@ -2,6 +2,7 @@ package com.pennshape.app.fragment;
 
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.NumberPicker;
-import android.widget.SeekBar;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -25,12 +26,9 @@ import com.pennshape.app.request.PSUserDataTaskRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 public class PSDailyUpdateFragmentTab extends Fragment implements PSHttpTaskRequest.PSHttpTaskRequestHandler{
@@ -80,6 +78,14 @@ public class PSDailyUpdateFragmentTab extends Fragment implements PSHttpTaskRequ
                 submit();
             }
         });
+        //Calendar
+        ImageView calender = (ImageView)view.findViewById(R.id.calendar);
+        calender.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                showCalendar();
+            }
+        });
     }
 
     private void submit(){
@@ -95,6 +101,26 @@ public class PSDailyUpdateFragmentTab extends Fragment implements PSHttpTaskRequ
         request.handler = this;
         request.execute();
         progress = ProgressDialog.show(getView().getContext(), "Loading...", "Please wait", true);
+    }
+
+    private void showCalendar(){
+        Calendar today = Calendar.getInstance();
+        DatePickerDialog dialog = new DatePickerDialog(
+                getView().getContext(),
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        TextView dateTextView = (TextView)getView().findViewById(R.id.date_text);
+                        dateTextView.setText(dateFormat.format(newDate.getTime()));
+                    }
+                },
+                today.get(Calendar.YEAR),
+                today.get(Calendar.MONTH),
+                today.get(Calendar.DAY_OF_MONTH)
+        );
+        dialog.show();
     }
 
     private String invalidate() {
