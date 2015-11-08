@@ -19,6 +19,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -146,7 +147,6 @@ public class PSAnalyticsFragmentTab extends Fragment {
         chart.setData(data);
         //Config chart
         chart.setDescription("");
-        chart.setDrawValueAboveBar(false);
         chart.setDrawHighlightArrow(true);
         //Config axises
         YAxis leftAxis = chart.getAxisLeft();
@@ -164,6 +164,9 @@ public class PSAnalyticsFragmentTab extends Fragment {
         //Config marker
         PSDailyDataMarkerView markerView = new PSDailyDataMarkerView(v.getContext(), R.layout.ps_daily_data_marker_view);
         chart.setMarkerView(markerView);
+        //Legend
+        Legend l = chart.getLegend();
+        l.setEnabled(false);
         //Show data
         chart.animateY(600);
     }

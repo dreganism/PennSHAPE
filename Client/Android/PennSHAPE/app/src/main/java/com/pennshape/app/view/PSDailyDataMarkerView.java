@@ -69,7 +69,7 @@ public class PSDailyDataMarkerView extends MarkerView {
 
     @Override
     public int getYOffset() {
-        return -getHeight()-5;
+        return -getHeight()-23;
     }
 
     private void refreshImages(PSDailyData data) {

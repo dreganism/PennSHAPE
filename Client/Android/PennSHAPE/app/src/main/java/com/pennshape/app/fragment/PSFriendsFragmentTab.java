@@ -14,7 +14,9 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.BubbleChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -82,10 +84,10 @@ public class PSFriendsFragmentTab extends Fragment implements PSUserInfoSelectio
                 BarEntry ent = null;
                 if (dailyData != null){
                     ent = new BarEntry(dailyData.getFormula(), idx, dailyData);
+                }else{
+                    ent = new BarEntry(0, idx, null);
                 }
-                if(ent!=null) {
-                    userEntries.add(ent);
-                }
+                userEntries.add(ent);
             }
             BarDataSet userDataSet = new BarDataSet(userEntries, user.getName());
             userDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
@@ -103,13 +105,12 @@ public class PSFriendsFragmentTab extends Fragment implements PSUserInfoSelectio
         //Config chart
         chart.setDescription("");
         chart.setVisibleXRangeMaximum(12);
-        chart.setDrawValueAboveBar(false);
         chart.setDrawHighlightArrow(true);
+        int viewPortIndex = getCenterIdx(datePickerView.getStartDate(), datePickerView.getEndDate(), allUsers.size());
+        chart.centerViewTo(viewPortIndex, 0, YAxis.AxisDependency.LEFT);
         //Config axises
         YAxis leftAxis = chart.getAxisLeft();
         YAxis rightAxis = chart.getAxisRight();
-        //leftAxis.setAxisMaxValue(120f);
-        //rightAxis.setAxisMaxValue(120f);
         leftAxis.setDrawGridLines(false);
         rightAxis.setDrawGridLines(false);
         //Config limit line
@@ -123,6 +124,15 @@ public class PSFriendsFragmentTab extends Fragment implements PSUserInfoSelectio
         chart.setMarkerView(markerView);
         //Show data
         chart.animateY(600);
+    }
+
+    protected int getCenterIdx(final Calendar start, final Calendar end, final int users){
+        Calendar now = Calendar.getInstance();
+        if(now.get(Calendar.DAY_OF_YEAR)>=start.get(Calendar.DAY_OF_YEAR) &&
+           now.get(Calendar.DAY_OF_YEAR) <= end.get(Calendar.DAY_OF_YEAR)){
+            return (now.get(Calendar.DAY_OF_WEEK)+5)%7*users+users/2;
+        }
+        return 0;
     }
 
     private void setupControls(View view){
