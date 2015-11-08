@@ -125,15 +125,21 @@ public class PSDailyUpdateFragmentTab extends Fragment implements PSHttpTaskRequ
 
     private String invalidate() {
         int editTextIDs[] = {R.id.edit1, R.id.edit2, R.id.edit3};
+        boolean allEmpty = true;
         for(int i=0;i<3;i++){
             String input = ((EditText)getView().findViewById(editTextIDs[i])).getText().toString();
-            if(input==null || input.length()==0){
-                return "Please enter the minutes you spent on each type of exercise";
+            if(input!=null && input.length()!=0){
+                allEmpty = false;
+            }else{
+                continue;
             }
             Integer min = Integer.valueOf(input);
             if(min<0 || min>360) {
                 return "The time for each type exercise should between 0' and 360'";
             }
+        }
+        if(allEmpty){
+            return "Please enter the minutes you spent on at least one type of exercise";
         }
         return null;
     }
@@ -166,6 +172,9 @@ public class PSDailyUpdateFragmentTab extends Fragment implements PSHttpTaskRequ
             json.put("date", date);
             for(int c=0; c<3; c++){
                 String cString = ((EditText)getView().findViewById(editTextIDs[c])).getText().toString();
+                if(cString==null || cString.length()==0){
+                    cString = "0";
+                }
                 cString += "#";
                 for(int i=0; i<3; i++){
                     Spinner spinner = (Spinner)getView().findViewById(spinnerIDs[c*3+i]);

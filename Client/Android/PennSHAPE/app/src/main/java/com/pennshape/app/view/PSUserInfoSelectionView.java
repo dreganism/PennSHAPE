@@ -1,5 +1,6 @@
 package com.pennshape.app.view;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -74,6 +75,20 @@ public class PSUserInfoSelectionView extends RelativeLayout {
                     .load(userModel.getPhoto())
                     .into(imageView);
         }
+        //Image Dialog
+        imageView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(getContext());
+                dialog.setContentView(R.layout.ps_photo_dialog);
+                dialog.setTitle(userModel.getName());
+                ImageView photoView = (ImageView)dialog.findViewById(R.id.image);
+                Picasso.with(getContext())
+                        .load(userModel.getPhoto())
+                        .into(photoView);
+                dialog.show();
+            }
+        });
     }
 
 

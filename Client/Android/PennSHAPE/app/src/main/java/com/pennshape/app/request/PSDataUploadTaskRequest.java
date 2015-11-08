@@ -37,7 +37,7 @@ public class PSDataUploadTaskRequest extends PSHttpTaskRequest {
 
     @Override
     protected void setupConnection(HttpURLConnection urlConnection) throws IOException{
-        urlConnection.setDoInput(true);
+        urlConnection.setDoOutput(true);
         DataOutputStream os = new DataOutputStream(urlConnection.getOutputStream());
         os.writeBytes(dataString);
         os.flush();

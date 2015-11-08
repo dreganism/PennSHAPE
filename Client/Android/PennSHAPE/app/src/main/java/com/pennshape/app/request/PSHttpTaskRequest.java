@@ -43,7 +43,10 @@ public abstract class PSHttpTaskRequest extends AsyncTask<Void, Void, Object> {
             urlConnection.setRequestMethod(getRequestMethod());
             urlConnection.setRequestProperty("Content-Type", "application/json");
             urlConnection.setRequestProperty("Accept", "application/json");
+            urlConnection.setDoInput(true);
             setupConnection(urlConnection);
+            urlConnection.setReadTimeout(10000);
+            urlConnection.setConnectTimeout(15000);
             int statusCode = urlConnection.getResponseCode();
             if (statusCode == 200) {
                 try {
