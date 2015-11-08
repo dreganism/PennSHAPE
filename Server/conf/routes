@@ -28,4 +28,6 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 POST   /activities/:uid             controllers.Application.insertAction(uid:String)
 
+POST  /geolocation/:uid             controllers.Application.insertGeoLocation(uid:String)
+
 GET    /users/:email                controllers.Application.getUidbyEmail(email:String)

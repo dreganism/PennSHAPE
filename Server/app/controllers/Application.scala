@@ -7,6 +7,7 @@ import play.api.mvc._
 import util._
 
 import scala.collection.mutable.ListBuffer
+import scala.util.Try
 
 class Application extends Controller {
 
@@ -79,6 +80,30 @@ class Application extends Controller {
   }
 
 
+  def insertGeoLocation(uid:String) = Action {
+
+    request =>
+      val body: AnyContent = request.body
+
+      val jsonBody:Option[JsValue] = body.asJson
+
+      jsonBody.map { jsValue =>
+        val geotime:String = (jsValue \ "geotime").get.toString().replace("\"","") // 2015-10-26
+        val lat = (jsValue \ "lat").get.toString().replace("\"","")
+        val lon = (jsValue \ "lon").get.toString().replace("\"","")
+        println("uid:"+uid+" date:"+geotime+" "+"lat:"+lat+"lon:"+lon)
+        try {
+          val success = GeolocationDao.insertGeolocation(uid, geotime, lat, lon)
+          if (!success) {
+            Ok("{\"505\":\"Failed to update geolocation\"}")
+          }
+        } catch {
+          case e: Exception =>
+          (Ok("{\"505\":\"Failed to update geolocation\"}"))
+        }
+      }
+      Ok("{\"202\":\"Update successfully\"}")
+  }
 
 
   def insertAction(uid:String) = Action {
@@ -95,7 +120,7 @@ class Application extends Controller {
         val c2 = (jsValue \ "c2").get.toString().replace("\"","")
         val c3 = (jsValue \ "c3").get.toString().replace("\"","")
         println("uid:"+uid+" date:"+date+" "+"c1:"+c1+"c2:"+c2+"c3"+c3)
-        DataDao.insertActivities(uid, date, c1, c2, c3);
+        Try(DataDao.insertActivities(uid, date, c1, c2, c3)).getOrElse(Ok("{\"505\":\"Failed to update geolocation\"}"));
       }
       Ok("{\"202\":\"Update successfully\"}")
   }
