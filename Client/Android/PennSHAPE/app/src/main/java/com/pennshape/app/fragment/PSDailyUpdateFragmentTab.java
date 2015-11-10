@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -190,6 +191,11 @@ public class PSDailyUpdateFragmentTab extends Fragment implements PSHttpTaskRequ
         return dataString;
     }
 
+    public void switchTab(int idx){
+        FragmentTabHost mTabHost = (FragmentTabHost)getActivity().findViewById(android.R.id.tabhost);
+        mTabHost.setCurrentTab(0);
+    }
+
     private void refreshUserData() {
         PSUserDataTaskRequest request = new PSUserDataTaskRequest();
         request.setUserID(PSDataStore.getInstance().getUserID());
@@ -206,6 +212,7 @@ public class PSDailyUpdateFragmentTab extends Fragment implements PSHttpTaskRequ
             JSONObject userData = (JSONObject)result;
             try {
                 PSDataStore.getInstance().reloadFronJson(userData);
+                switchTab(0);
             } catch (JSONException e) {
                 displayError("User data parse failure");
                 return;
