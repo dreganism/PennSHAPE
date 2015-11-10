@@ -73,7 +73,6 @@ public class PSFriendsFragmentTab extends Fragment implements PSUserInfoSelectio
         }
         //PSDataStore.getInstance().getAllUsers();
         ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
-        int[] colors = getResources().getIntArray(R.array.chart_color_schema);
         for (int i= 0 ;i<allUsers.size();i++) {
             PSUser user = allUsers.get(i);
             PSUserDataCollection dataCollection = PSDataStore.getInstance().getUserDataCollection(user.getID());
@@ -91,7 +90,7 @@ public class PSFriendsFragmentTab extends Fragment implements PSUserInfoSelectio
             }
             BarDataSet userDataSet = new BarDataSet(userEntries, user.getName());
             userDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-            userDataSet.setColor(colors[i]);
+            userDataSet.setColor(userSelectionViews.get(i).getUserColor());
             dataSets.add(userDataSet);
         }
 
@@ -138,16 +137,18 @@ public class PSFriendsFragmentTab extends Fragment implements PSUserInfoSelectio
     private void setupControls(View view){
         //user selection
         userSelectionViews.clear();
-        userSelectionViews.add((PSUserInfoSelectionView) view.findViewById(R.id.user_selection_1));
+        userSelectionViews.add((PSUserInfoSelectionView)view.findViewById(R.id.user_selection_1));
         userSelectionViews.add((PSUserInfoSelectionView)view.findViewById(R.id.user_selection_2));
         userSelectionViews.add((PSUserInfoSelectionView)view.findViewById(R.id.user_selection_3));
         userSelectionViews.add((PSUserInfoSelectionView)view.findViewById(R.id.user_selection_4));
+        int[] colors = getResources().getIntArray(R.array.chart_color_schema);
         ArrayList<PSUser> allUsers = PSDataStore.getInstance().getAllUsers();
         int idx = 0;
         for(PSUserInfoSelectionView selectionView : userSelectionViews){
             selectionView.mListener = this;
             if(idx<allUsers.size()) {
                 selectionView.setUser(allUsers.get(idx));
+                selectionView.setUserColor(colors[idx]);
             }
             idx++;
         }

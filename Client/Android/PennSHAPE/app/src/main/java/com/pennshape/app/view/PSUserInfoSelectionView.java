@@ -2,6 +2,7 @@ package com.pennshape.app.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CheckBox;
@@ -28,6 +29,7 @@ public class PSUserInfoSelectionView extends RelativeLayout {
     private TextView bmiView;
     private TextView favExecView;
     private PSUser userModel;
+    private int userColor;
     public PSUserInfoSelectionViewListener mListener;
     public PSUserInfoSelectionView(Context context) {
         super(context);
@@ -42,6 +44,24 @@ public class PSUserInfoSelectionView extends RelativeLayout {
         super(context, attrs, defStyle);
         init();
     }
+
+    public void setUserColor(int color) {
+        setBackgroundColor(adjustAlpha(color, 0.8f));
+        userColor = color;
+    }
+
+    public int getUserColor(){
+        return userColor;
+    }
+
+    private int adjustAlpha(int color, float factor) {
+        int alpha = Math.round(Color.alpha(color) * factor);
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        return Color.argb(alpha, red, green, blue);
+    }
+
 
     private void init() {
         inflate(getContext(), R.layout.ps_user_info_selection_view, this);
