@@ -41,8 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="30dp">
+            android:layout_marginBottom="20dp">
             <TextView
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
@@ -92,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="30dp">
+            android:paddingBottom="20dp">
             <TextView
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
@@ -142,7 +141,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="30dp">
+            android:paddingBottom="20dp">
             <TextView
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
@@ -187,13 +186,21 @@
             </LinearLayout>
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/steps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/ps_sample_marker_stp"
+            android:paddingBottom="30dp"
+            style="@style/DailyRecordCategoryName"/>
+
         <!--Button-->
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/submit"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
             android:text="@string/ps_record_button"/>
 
     </LinearLayout>

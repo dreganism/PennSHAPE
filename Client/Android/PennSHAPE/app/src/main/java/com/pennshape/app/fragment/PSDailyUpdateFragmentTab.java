@@ -20,7 +20,9 @@ import android.widget.TextView;
 import com.pennshape.app.R;
 import com.pennshape.app.adapter.PSSport;
 import com.pennshape.app.adapter.PSSportArrayAdapter;
+import com.pennshape.app.model.PSDailyData;
 import com.pennshape.app.model.PSDataStore;
+import com.pennshape.app.model.PSUserDataCollection;
 import com.pennshape.app.request.PSDataUploadTaskRequest;
 import com.pennshape.app.request.PSHttpTaskRequest;
 import com.pennshape.app.request.PSUserDataTaskRequest;
@@ -87,6 +89,15 @@ public class PSDailyUpdateFragmentTab extends Fragment implements PSHttpTaskRequ
                 showCalendar();
             }
         });
+        //Steps
+        TextView steps = (TextView)view.findViewById(R.id.steps);
+        int count = 0;
+        PSUserDataCollection dataCollection = PSDataStore.getInstance().getUserDataCollection();
+        PSDailyData dailyData = dataCollection.getDailyData(Calendar.getInstance().getTimeInMillis());
+        if(dailyData!=null){
+            count = dailyData.getSteps();
+        }
+        steps.setText("Steps: "+count);
     }
 
     private void submit(){
@@ -115,6 +126,7 @@ public class PSDailyUpdateFragmentTab extends Fragment implements PSHttpTaskRequ
                         newDate.set(year, monthOfYear, dayOfMonth);
                         TextView dateTextView = (TextView)getView().findViewById(R.id.date_text);
                         dateTextView.setText(dateFormat.format(newDate.getTime()));
+                        resetInputs(newDate);
                     }
                 },
                 today.get(Calendar.YEAR),
@@ -122,6 +134,33 @@ public class PSDailyUpdateFragmentTab extends Fragment implements PSHttpTaskRequ
                 today.get(Calendar.DAY_OF_MONTH)
         );
         dialog.show();
+    }
+
+    private void resetInputs(Calendar date){
+        //Spinners
+        int spinnerIDs[] = {
+                R.id.spinner11, R.id.spinner12, R.id.spinner13,
+                R.id.spinner21, R.id.spinner22, R.id.spinner23,
+                R.id.spinner31, R.id.spinner32, R.id.spinner33
+        };
+        for(int i = 0; i< 9; i++){
+            Spinner spinner = (Spinner)getView().findViewById(spinnerIDs[i]);
+            spinner.setSelection(0);
+        }
+        //EditText
+        int editTextIDs[] = {R.id.edit1, R.id.edit2, R.id.edit3};
+        for(int i=0; i<3; i++){
+            ((EditText)getView().findViewById(editTextIDs[i])).setText("");
+        }
+        //Steps
+        TextView steps = (TextView)getView().findViewById(R.id.steps);
+        int count = 0;
+        PSUserDataCollection dataCollection = PSDataStore.getInstance().getUserDataCollection();
+        PSDailyData dailyData = dataCollection.getDailyData(date.getTimeInMillis());
+        if(dailyData!=null){
+            count = dailyData.getSteps();
+        }
+        steps.setText("Steps: "+count);
     }
 
     private String invalidate() {
