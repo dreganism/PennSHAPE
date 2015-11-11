@@ -7,7 +7,6 @@ import play.api.mvc._
 import util._
 
 import scala.collection.mutable.ListBuffer
-import scala.util.Try
 
 class Application extends Controller {
 
@@ -80,6 +79,28 @@ class Application extends Controller {
   }
 
 
+  def updateFavorite(uid:String) = Action {
+      request =>
+    val body: AnyContent = request.body
+
+        var result :Boolean = true
+
+    val jsonBody: Option[JsValue] = body.asJson
+
+    jsonBody.map { jsValue =>
+
+      val favorite:String = (jsValue \ "favorite").get.toString().replace("\"","") // 2015-10-26
+
+      result = UserDao.setFavorite(uid, favorite)
+    }
+        if (result){
+          Ok("{\"202\":\"Update successfully\"}")
+        } else {
+          Ok("{\"505\":\"Failed to update Favorite\"}");
+        }
+  }
+
+
   def insertGeoLocation(uid:String) = Action {
 
     request =>
@@ -110,6 +131,7 @@ class Application extends Controller {
 
     request =>
       val body: AnyContent = request.body
+      var result :Boolean = true
 
       val jsonBody: Option[JsValue] = body.asJson
 
@@ -119,10 +141,14 @@ class Application extends Controller {
         val c1 = (jsValue \ "c1").get.toString().replace("\"","")
         val c2 = (jsValue \ "c2").get.toString().replace("\"","")
         val c3 = (jsValue \ "c3").get.toString().replace("\"","")
-        println("uid:"+uid+" date:"+date+" "+"c1:"+c1+"c2:"+c2+"c3"+c3)
-        Try(DataDao.insertActivities(uid, date, c1, c2, c3)).getOrElse(Ok("{\"505\":\"Failed to update geolocation\"}"));
+        result = DataDao.insertActivities(uid, date, c1, c2, c3)
       }
-      Ok("{\"202\":\"Update successfully\"}")
+
+      if(result) {
+        Ok("{\"202\":\"Update successfully\"}")
+      }else {
+        Ok("{\"505\":\"Failed to update geolocation\"}")
+      }
   }
 
 }

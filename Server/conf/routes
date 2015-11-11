@@ -30,4 +30,7 @@ POST   /activities/:uid             controllers.Application.insertAction(uid:Str
 
 POST  /geolocation/:uid             controllers.Application.insertGeoLocation(uid:String)
 
+POST  /setfavorite/:uid             controllers.Application.updateFavorite(uid:String)
+
+
 GET    /users/:email                controllers.Application.getUidbyEmail(email:String)

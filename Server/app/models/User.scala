@@ -12,6 +12,7 @@ case class User(val uid: String,
                 var age: Int,
                 var height: String,
                 var weight: String,
+                var favorite: String,
                 var pic: String
                  )
 
