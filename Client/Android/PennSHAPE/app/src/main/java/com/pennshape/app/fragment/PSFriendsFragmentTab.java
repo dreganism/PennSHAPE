@@ -66,7 +66,7 @@ public class PSFriendsFragmentTab extends Fragment implements PSUserInfoSelectio
         BarChart chart = (BarChart)v.findViewById(R.id.barChart);
         chart.clear();
         PSDatePickerView datePickerView = (PSDatePickerView)v.findViewById(R.id.date_picker_view);
-        ArrayList<PSUser> allUsers = selectedUsers();
+        ArrayList<PSUserInfoSelectionView> allUsers = selectedUsers();
         if(allUsers.size()==0){
             chart.invalidate();
             return;
@@ -74,7 +74,7 @@ public class PSFriendsFragmentTab extends Fragment implements PSUserInfoSelectio
         //PSDataStore.getInstance().getAllUsers();
         ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
         for (int i= 0 ;i<allUsers.size();i++) {
-            PSUser user = allUsers.get(i);
+            PSUser user = allUsers.get(i).selectedUser();
             PSUserDataCollection dataCollection = PSDataStore.getInstance().getUserDataCollection(user.getID());
             ArrayList<BarEntry> userEntries =   new ArrayList<BarEntry>();
             int idx = 0;
@@ -90,7 +90,7 @@ public class PSFriendsFragmentTab extends Fragment implements PSUserInfoSelectio
             }
             BarDataSet userDataSet = new BarDataSet(userEntries, user.getName());
             userDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-            userDataSet.setColor(userSelectionViews.get(i).getUserColor());
+            userDataSet.setColor(allUsers.get(i).getUserColor());
             dataSets.add(userDataSet);
         }
 
@@ -163,12 +163,12 @@ public class PSFriendsFragmentTab extends Fragment implements PSUserInfoSelectio
         });
     }
 
-    private ArrayList<PSUser> selectedUsers() {
-        ArrayList<PSUser> selectedUsers = new ArrayList<PSUser>();
+    private ArrayList<PSUserInfoSelectionView> selectedUsers() {
+        ArrayList<PSUserInfoSelectionView> selectedUsers = new ArrayList<PSUserInfoSelectionView>();
         for(PSUserInfoSelectionView selectionView : userSelectionViews){
             PSUser user = selectionView.selectedUser();
             if(user != null){
-                selectedUsers.add(user);
+                selectedUsers.add(selectionView);
             }
         }
         return selectedUsers;

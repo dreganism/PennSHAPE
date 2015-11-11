@@ -117,7 +117,7 @@ public class PSUserInfoSelectionView extends RelativeLayout {
         nameView.setText(userModel.getName());
         ageView.setText("("+userModel.getAgeDesc()+")");
         bmiView.setText("BMI: "+userModel.getBMIDesc());
-        favExecView.setText("♥ Running");
+        favExecView.setText(getContext().getResources().getText(R.string.ps_sample_fav_exer));
         setupPhoto();
     }
 

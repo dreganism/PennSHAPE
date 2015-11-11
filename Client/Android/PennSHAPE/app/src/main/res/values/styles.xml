@@ -72,4 +72,11 @@
         <item name="android:typeface">serif</item>
     </style>
 
+    <style name="AlertViewTitle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/ps_blue_dark</item>
+        <item name="android:typeface">serif</item>
+    </style>
+
 </resources>

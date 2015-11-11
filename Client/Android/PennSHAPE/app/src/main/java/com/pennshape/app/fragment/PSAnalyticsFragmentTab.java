@@ -4,6 +4,8 @@
 package com.pennshape.app.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -87,22 +90,38 @@ public class PSAnalyticsFragmentTab extends Fragment {
                 createChart(getView());
             }
         });
-
-
-        RadioGroup radioGroup = (RadioGroup)view.findViewById(R.id.radio_group);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        Button changeButton = (Button)view.findViewById(R.id.change);
+        changeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(getView()!=null) {
-                    PSDatePickerView datePickerView = (PSDatePickerView) getView().findViewById(R.id.date_picker_view);
-                    if (checkedId == R.id.radio_day) {
-                        datePickerView.setByDay(true);
-                    } else {
-                        datePickerView.setByDay(false);
-                    }
-                }
+            public void onClick(View v) {
+                showAlertDialog();
             }
         });
+    }
+
+    private void showAlertDialog() {
+        LayoutInflater inflater = LayoutInflater.from(getView().getContext());
+        View alertView = inflater.inflate(R.layout.ps_favorite_exercise_alert_dialog, null);
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getView().getContext());
+        alertBuilder.setView(alertView);
+        final EditText editText = (EditText)alertView.findViewById(R.id.editText);
+        alertBuilder.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String input = editText.getText().toString();
+
+                    }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alertDialog = alertBuilder.create();
+        alertDialog.show();
+
+
     }
 
     private void createChart(View v) {
@@ -114,7 +133,6 @@ public class PSAnalyticsFragmentTab extends Fragment {
         ArrayList<String> xVals = new ArrayList<String>();
 
         int idx = 0;
-        boolean isDay = (((RadioGroup)v.findViewById(R.id.radio_group)).getCheckedRadioButtonId() == R.id.radio_day);
         for (Calendar cur = (Calendar)datePickerView.getStartDate().clone(); PSUtil.beforeCalender(cur, datePickerView.getEndDate()); cur.add(Calendar.DATE, 1)) {
             PSDailyData dailyData = dataCollection.getDailyData(cur.getTimeInMillis());
             BarEntry ent = null;
@@ -124,20 +142,14 @@ public class PSAnalyticsFragmentTab extends Fragment {
             if(ent!=null) {
                 entriesAgg.add(ent);
             }
-            if (isDay) {
-                xVals.add("");
-            }else {
-                xVals.add(PSUtil.weekDays[idx]);
-            }
+            xVals.add(PSUtil.weekDays[idx]);
+
             idx++;
         }
 
         BarDataSet setAgg = new BarDataSet(entriesAgg, PSDataStore.getInstance().getUser().getName());
         setAgg.setAxisDependency(YAxis.AxisDependency.LEFT);
         setAgg.setColor(getResources().getColor(R.color.ps_blue_sky));
-        if(isDay) {
-            setAgg.setBarSpacePercent(70);
-        }
 
         ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
         dataSets.add(setAgg);
