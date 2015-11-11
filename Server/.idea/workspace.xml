@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1531c06b-a553-4846-b7ed-024b106b057c" name="Default" comment="check in location update">
+    <list default="true" id="1531c06b-a553-4846-b7ed-024b106b057c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/Application.scala" afterPath="$PROJECT_DIR$/app/controllers/Application.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/dao/DataDao.scala" afterPath="$PROJECT_DIR$/app/dao/DataDao.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/dao/UserDao.scala" afterPath="$PROJECT_DIR$/app/dao/UserDao.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/User.scala" afterPath="$PROJECT_DIR$/app/models/User.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conf/routes" afterPath="$PROJECT_DIR$/conf/routes" />
     </list>
     <ignored path="PennShape.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -42,8 +38,8 @@
       <file leaf-file-name="UserDao.scala" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/dao/UserDao.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.668008">
-              <caret line="62" column="5" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.48692152">
+              <caret line="56" column="21" selection-start-line="56" selection-start-column="21" selection-end-line="56" selection-end-column="21" />
               <folding>
                 <element signature="e#14#47#0" expanded="true" />
               </folding>
@@ -752,7 +748,13 @@
       <option name="project" value="LOCAL" />
       <updated>1446956813928</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="check in favorite column">
+      <created>1447273164789</created>
+      <option name="number" value="00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1447273164789</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -805,7 +807,8 @@
     <MESSAGE value="some return format fixes" />
     <MESSAGE value="add error message for unknow uid" />
     <MESSAGE value="check in location update" />
-    <option name="LAST_COMMIT_MESSAGE" value="check in location update" />
+    <MESSAGE value="check in favorite column" />
+    <option name="LAST_COMMIT_MESSAGE" value="check in favorite column" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1231,8 +1234,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/dao/UserDao.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.668008">
-          <caret line="62" column="5" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.48692152">
+          <caret line="56" column="21" selection-start-line="56" selection-start-column="21" selection-end-line="56" selection-end-column="21" />
           <folding>
             <element signature="e#14#47#0" expanded="true" />
           </folding>

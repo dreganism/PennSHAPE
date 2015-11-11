@@ -54,7 +54,7 @@ object UserDao {
     val currentTime = minuteFormat.format(today)
 
     DB.withConnection { implicit c =>try{
-        SQL("update User set favorite={favorite}, update_ts={updatets} where uid = {uid}")
+        SQL("update user set favorite={favorite}, update_ts={updatets} where uid = {uid}")
           .on("favorite" -> favorite, "updatets" -> currentTime, "uid" -> uid ).executeUpdate()} catch {
       case e: Exception =>
         e.printStackTrace()
