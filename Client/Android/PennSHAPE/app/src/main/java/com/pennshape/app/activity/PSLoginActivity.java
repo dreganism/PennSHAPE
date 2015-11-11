@@ -29,7 +29,6 @@ import java.io.InputStream;
 
 public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHttpTaskRequestHandler{
     EditText userName;
-    EditText userPIN;
     Button loginButton;
     ProgressDialog progress;
 
@@ -38,7 +37,6 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ps_activity_login);
         userName = (EditText)findViewById(R.id.loginUserNameEditText);
-        userPIN = (EditText)findViewById(R.id.loginUserPINEditText);
         loginButton = (Button)findViewById(R.id.button);
         checkUser();
     }

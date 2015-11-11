@@ -79,4 +79,12 @@
         <item name="android:typeface">serif</item>
     </style>
 
+    <style name="LoginTitleFont">
+        <item name="android:textSize">36sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#F1A4A0</item>
+        <item name="android:typeface">serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

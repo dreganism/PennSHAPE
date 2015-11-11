@@ -1,51 +1,45 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@color/ps_light_bg"
     tools:context="com.pennshape.app.activity.PSLoginActivity">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_gravity="center_horizontal"
         android:src="@drawable/logo_banner" />
 
-    <Button
-        android:layout_width="@dimen/ps_button_login_width"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ps_login_button_text"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="60dp"
-        android:id="@+id/button"
-        android:onClick="onClick"/>
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/ps_title_activity_login"
+        style="@style/LoginTitleFont"/>
 
     <EditText
         android:layout_width="@dimen/ps_user_edit_login_width"
         android:layout_height="wrap_content"
         android:id="@+id/loginUserNameEditText"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
         android:gravity="center"
         android:hint="@string/ps_login_user_name_hint"/>
 
-    <EditText
-        android:layout_width="@dimen/ps_user_edit_login_width"
+    <Button
+        android:layout_width="@dimen/ps_button_login_width"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/loginUserPINEditText"
-        android:layout_below="@+id/loginUserNameEditText"
+        android:text="@string/ps_login_button_text"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:hint="@string/ps_login_user_pin_hint"
-        android:visibility="gone"/>
+        android:id="@+id/button"
+        android:onClick="onClick"/>
 
-</RelativeLayout>
+</LinearLayout>
