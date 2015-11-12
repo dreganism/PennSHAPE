@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.pennshape.app.R;
 import com.pennshape.app.adapter.PSSport;
 import com.pennshape.app.adapter.PSSportArrayAdapter;
+import com.pennshape.app.location.PSLocationManager;
 import com.pennshape.app.model.PSDailyData;
 import com.pennshape.app.model.PSDataStore;
 import com.pennshape.app.model.PSUserDataCollection;
@@ -255,6 +256,8 @@ public class PSDailyUpdateFragmentTab extends Fragment implements PSHttpTaskRequ
             } catch (JSONException e) {
                 displayError("User data parse failure");
             }
+            //upload location
+            PSLocationManager.sharedManager().fireLocation();
         }
     }
 

@@ -13,6 +13,7 @@ import com.pennshape.app.fragment.PSChatMessageFragmentTab;
 import com.pennshape.app.fragment.PSDailyUpdateFragmentTab;
 import com.pennshape.app.fragment.PSFriendsFragmentTab;
 import com.pennshape.app.fragment.PSSettingFragmentTab;
+import com.pennshape.app.location.PSLocationManager;
 
 
 public class PSMainActivity extends FragmentActivity {
@@ -67,5 +68,7 @@ public class PSMainActivity extends FragmentActivity {
     @Override
     public void onResume(){
         super.onResume();
+        //upload location
+        PSLocationManager.sharedManager().fireLocation();
     }
 }
