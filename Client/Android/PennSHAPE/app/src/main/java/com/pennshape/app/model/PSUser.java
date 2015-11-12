@@ -16,6 +16,7 @@ public class PSUser {
     private Float height;
     private Float weight;
     private String photo;
+    private String favorite;
     public PSUser (JSONObject json) throws JSONException{
         uid = (String)json.getString("uid");
         email = (String)json.getString("email");
@@ -25,6 +26,11 @@ public class PSUser {
         height = Float.parseFloat((String) json.getString("height"));
         weight = Float.parseFloat((String) json.getString("weight"));
         photo = (String)json.getString("pic");
+        if(json.has("favorite")){
+            favorite = (String)json.getString("favorite");
+        }else{
+            favorite = "";
+        }
     }
 
     public String getID(){ return uid; }
@@ -47,5 +53,8 @@ public class PSUser {
     }
     public String getAgeDesc() {
         return ""+age;
+    }
+    public String getFavorite() {
+        return favorite;
     }
 }

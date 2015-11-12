@@ -254,7 +254,6 @@ public class PSDailyUpdateFragmentTab extends Fragment implements PSHttpTaskRequ
                 switchTab(0);
             } catch (JSONException e) {
                 displayError("User data parse failure");
-                return;
             }
         }
     }

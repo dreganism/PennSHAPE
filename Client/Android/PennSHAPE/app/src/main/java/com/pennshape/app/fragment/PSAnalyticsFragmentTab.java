@@ -5,6 +5,7 @@ package com.pennshape.app.fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -35,10 +36,16 @@ import com.pennshape.app.model.PSDataStore;
 import com.pennshape.app.model.PSUser;
 import com.pennshape.app.model.PSUserDataCollection;
 import com.pennshape.app.model.PSUtil;
+import com.pennshape.app.request.PSDataUploadTaskRequest;
+import com.pennshape.app.request.PSHttpTaskRequest;
+import com.pennshape.app.request.PSUserDataTaskRequest;
+import com.pennshape.app.request.PSUserProfileUploadTaskRequest;
 import com.pennshape.app.view.PSDailyDataMarkerView;
 import com.pennshape.app.view.PSDatePickerView;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
@@ -46,7 +53,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class PSAnalyticsFragmentTab extends Fragment {
+public class PSAnalyticsFragmentTab extends Fragment implements PSHttpTaskRequest.PSHttpTaskRequestHandler{
+    private ProgressDialog progress;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,9 +82,10 @@ public class PSAnalyticsFragmentTab extends Fragment {
         age.setText("Age: " + user.getAgeDesc());
         TextView bwi = (TextView)v.findViewById(R.id.bmi);
         bwi.setText("BMI: " + user.getBMIDesc());
+        TextView fav = (TextView)v.findViewById(R.id.exercise);
+        fav.setText("♥ "+ user.getFavorite());
         //Set image
         ImageView imageView = (ImageView)v.findViewById(R.id.image);
-        //imageView.setImageResource(R.drawable.sample_photo_1);
         Picasso.with(v.getContext())
                 .load(user.getPhoto())
                 .into(imageView);
@@ -109,12 +118,12 @@ public class PSAnalyticsFragmentTab extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String input = editText.getText().toString();
-
+                        submitFavoriteExercise(input);
                     }
                 })
                 .setNegativeButton("Cancel",
                         new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                            public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }
                         });
@@ -122,6 +131,15 @@ public class PSAnalyticsFragmentTab extends Fragment {
         alertDialog.show();
 
 
+    }
+
+    private void submitFavoriteExercise(String fav){
+        PSUserProfileUploadTaskRequest request = new PSUserProfileUploadTaskRequest();
+        request.setUserID(PSDataStore.getInstance().getUserID());
+        request.setFavorite(fav);
+        request.handler = this;
+        request.execute();
+        progress = ProgressDialog.show(getView().getContext(), "Loading...", "Please wait", true);
     }
 
     private void createChart(View v) {
@@ -163,8 +181,6 @@ public class PSAnalyticsFragmentTab extends Fragment {
         //Config axises
         YAxis leftAxis = chart.getAxisLeft();
         YAxis rightAxis = chart.getAxisRight();
-        //leftAxis.setAxisMaxValue(120f);
-        //rightAxis.setAxisMaxValue(120f);
         leftAxis.setDrawGridLines(false);
         rightAxis.setDrawGridLines(false);
         //Config limit line
@@ -181,5 +197,52 @@ public class PSAnalyticsFragmentTab extends Fragment {
         l.setEnabled(false);
         //Show data
         chart.animateY(600);
+    }
+
+    private void displayError(String message) {
+        new AlertDialog.Builder(getView().getContext())
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(PSDataStore.getInstance().expired()){
+            refreshData();
+            progress = ProgressDialog.show(getView().getContext(), "Loading...", "Please wait", true);
+        }
+    }
+
+    @Override
+    public void onSuccess(PSHttpTaskRequest request, Object result) {
+        if(request instanceof PSUserProfileUploadTaskRequest){
+            refreshData();
+        }else if(request instanceof PSUserDataTaskRequest){
+            if(progress!=null) progress.dismiss();
+            JSONObject userData = (JSONObject)result;
+            try {
+                PSDataStore.getInstance().reloadFronJson(userData);
+                createProfileViews(getView());
+                createChart(getView());
+            } catch (JSONException e) {
+                displayError("User data parse failure");
+            }
+        }
+    }
+
+    @Override
+    public void onFailure(PSHttpTaskRequest request, String error) {
+        if(progress!=null) progress.dismiss();
+        displayError(error);
+    }
+
+    private void refreshData(){
+        PSUserDataTaskRequest request = new PSUserDataTaskRequest();
+        request.setUserID(PSDataStore.getInstance().getUserID());
+        request.handler = this;
+        request.execute();
     }
 }
