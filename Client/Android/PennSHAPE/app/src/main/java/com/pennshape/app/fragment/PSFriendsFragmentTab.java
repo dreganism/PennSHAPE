@@ -1,47 +1,45 @@
 package com.pennshape.app.fragment;
 
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.BubbleChart;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
-import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.BubbleData;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.pennshape.app.R;
 import com.pennshape.app.model.PSDailyData;
 import com.pennshape.app.model.PSDataStore;
 import com.pennshape.app.model.PSUser;
 import com.pennshape.app.model.PSUserDataCollection;
 import com.pennshape.app.model.PSUtil;
+import com.pennshape.app.request.PSHttpTaskRequest;
+import com.pennshape.app.request.PSUserDataTaskRequest;
 import com.pennshape.app.view.PSDailyDataMarkerView;
 import com.pennshape.app.view.PSDatePickerView;
 import com.pennshape.app.view.PSUserInfoSelectionView;
 
-import java.text.SimpleDateFormat;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 
-public class PSFriendsFragmentTab extends Fragment implements PSUserInfoSelectionView.PSUserInfoSelectionViewListener{
+public class PSFriendsFragmentTab extends Fragment
+        implements
+        PSUserInfoSelectionView.PSUserInfoSelectionViewListener,
+        PSHttpTaskRequest.PSHttpTaskRequestHandler{
     private ArrayList<PSUserInfoSelectionView> userSelectionViews= new ArrayList<PSUserInfoSelectionView>();
+    private ProgressDialog progress;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +57,18 @@ public class PSFriendsFragmentTab extends Fragment implements PSUserInfoSelectio
         setupControls(v);
         createChart(v);
         return v;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(PSDataStore.getInstance().expired()){
+            PSUserDataTaskRequest request = new PSUserDataTaskRequest();
+            request.setUserID(PSDataStore.getInstance().getUserID());
+            request.handler = this;
+            request.execute();
+            progress = ProgressDialog.show(getView().getContext(), "Loading...", "Please wait", true);
+        }
     }
 
 
@@ -176,5 +186,33 @@ public class PSFriendsFragmentTab extends Fragment implements PSUserInfoSelectio
 
     public void onSelectionChanged() {
         createChart(getView());
+    }
+
+    @Override
+    public void onSuccess(PSHttpTaskRequest request, Object result) {
+        if(request instanceof PSUserDataTaskRequest){
+            if(progress!=null) progress.dismiss();
+            JSONObject userData = (JSONObject)result;
+            try {
+                PSDataStore.getInstance().reloadFronJson(userData);
+                createChart(getView());
+            } catch (JSONException e) {
+                displayError("User data parse failure");
+            }
+        }
+    }
+
+    @Override
+    public void onFailure(PSHttpTaskRequest request, String error) {
+        if(progress!=null) progress.dismiss();
+        displayError(error);
+    }
+
+    private void displayError(String message) {
+        new AlertDialog.Builder(getView().getContext())
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

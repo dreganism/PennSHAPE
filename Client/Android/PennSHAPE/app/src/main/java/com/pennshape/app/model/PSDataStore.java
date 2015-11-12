@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -19,6 +20,7 @@ public class PSDataStore {
     protected String userID = "";
     protected HashMap<String, PSUser> groupMembers;
     protected HashMap<String, PSUserDataCollection> groupMembersData;
+    protected Calendar lastUpdate;
     protected PSConfig config;
     public static PSDataStore getInstance() {
         return sharedInstance;
@@ -49,6 +51,19 @@ public class PSDataStore {
         loadAllData(json.getJSONObject("data"));
         //load config
         loadConfig(json.getJSONObject("config"));
+        //update timestamp
+        lastUpdate = Calendar.getInstance();
+    }
+    public boolean expired(){
+        if(lastUpdate != null){
+            Calendar now = Calendar.getInstance();
+            if((now.getTimeInMillis()-lastUpdate.getTimeInMillis())>60000){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return true;
     }
 
     protected void loadAllUsers(JSONArray array) throws JSONException{

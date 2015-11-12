@@ -37,9 +37,9 @@ public class PSMainActivity extends FragmentActivity {
         mTabHost.addTab(
                 mTabHost.newTabSpec("tabChat").setIndicator(null, ContextCompat.getDrawable(this, R.drawable.tab_chat_selector)),
                 PSChatMessageFragmentTab.class, null);
-        mTabHost.addTab(
-                mTabHost.newTabSpec("tabSetting").setIndicator(null, ContextCompat.getDrawable(this, R.drawable.tab_setting_selector)),
-                PSSettingFragmentTab.class, null);
+//        mTabHost.addTab(
+//                mTabHost.newTabSpec("tabSetting").setIndicator(null, ContextCompat.getDrawable(this, R.drawable.tab_setting_selector)),
+//                PSSettingFragmentTab.class, null);
     }
 
     @Override
@@ -62,5 +62,10 @@ public class PSMainActivity extends FragmentActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
     }
 }
