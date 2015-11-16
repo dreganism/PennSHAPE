@@ -85,7 +85,7 @@ public class PSLocationManager implements LocationListener, PSHttpTaskRequest.PS
             request.setLongitude(location.getLongitude());
             request.setTime(dateFormat.format(Calendar.getInstance().getTime()));
             request.handler = this;
-            request.execute();
+            request.run();
         }
     }
 

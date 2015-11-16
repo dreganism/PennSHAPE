@@ -3,7 +3,9 @@
  */
 package com.pennshape.app.request;
 
+import android.annotation.TargetApi;
 import android.os.AsyncTask;
+import android.os.Build;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -84,6 +86,16 @@ public abstract class PSHttpTaskRequest extends AsyncTask<Void, Void, Object> {
             }
             handler = null;
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB) // API 11
+    public void run() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }else {
+            execute();
+        }
+
     }
 
     private String convertInputStreamToString(InputStream inputStream) throws IOException {

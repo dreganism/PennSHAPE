@@ -112,7 +112,7 @@ public class PSDailyUpdateFragmentTab extends Fragment implements PSHttpTaskRequ
         request.setUserID(PSDataStore.getInstance().getUserID());
         request.setDataString(dataString);
         request.handler = this;
-        request.execute();
+        request.run();
         progress = ProgressDialog.show(getView().getContext(), "Loading...", "Please wait", true);
     }
 
@@ -240,7 +240,7 @@ public class PSDailyUpdateFragmentTab extends Fragment implements PSHttpTaskRequ
         PSUserDataTaskRequest request = new PSUserDataTaskRequest();
         request.setUserID(PSDataStore.getInstance().getUserID());
         request.handler = this;
-        request.execute();
+        request.run();
     }
 
     @Override

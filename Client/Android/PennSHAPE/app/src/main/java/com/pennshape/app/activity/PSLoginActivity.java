@@ -116,14 +116,14 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
         PSLoginTaskRequest request = new PSLoginTaskRequest();
         request.setUserName(userName.getText().toString());
         request.handler = this;
-        request.execute();
+        request.run();
     }
 
     private void pullUserData(String userID) {
         PSUserDataTaskRequest request = new PSUserDataTaskRequest();
         request.setUserID(userID);
         request.handler = this;
-        request.execute();
+        request.run();
     }
 
     @Override
