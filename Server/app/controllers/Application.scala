@@ -113,9 +113,9 @@ class Application extends Controller {
       }
 
       if(result.get != -1) {
-        Ok("{\"202\":\"Update successfully\"}")
+        Ok("{\"202\":\""+result.get+"\"}")
       }else {
-        Ok("{\"505\":\"Failed to update geolocation\"}")
+        Ok("{\"505\":\"Failed to insert GroupMessage\"}")
       }
 
 
