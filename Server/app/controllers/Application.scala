@@ -129,7 +129,14 @@ class Application extends Controller {
       fromvalue = from.get
     }
 
-    val res = MessageDao.getGroupMessageByGroupId(groupid, fromvalue)
+    var res = List[GroupMessage]()
+
+    if(groupid != -1) {
+      res = MessageDao.getGroupMessageByGroupId(groupid, fromvalue)
+    } else {
+      res = MessageDao.getGroupMessageByGroupId(-2, fromvalue)
+    }
+
     if(res.size > 0) {
       Ok(MessageFormat.getJsonGroupMessages(res))
     }else {

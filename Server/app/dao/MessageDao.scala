@@ -66,7 +66,7 @@ object MessageDao {
 
     DB.withConnection {
       implicit connection =>
-        SQL("select a.id, a.uid, a.time,a.msg,a.groupid from groupmessage a where groupid = {groupid} and id > {fromvalue} order by id ").on("groupid" -> groupid, "fromvalue" -> fromvalue).as(groupmessage *)
+        SQL("select a.id, a.uid, a.time,a.msg,a.groupid from groupmessage a where groupid in ( {groupid}, -2) and id > {fromvalue} order by id ").on("groupid" -> groupid, "fromvalue" -> fromvalue).as(groupmessage *)
     }
   }
 }
