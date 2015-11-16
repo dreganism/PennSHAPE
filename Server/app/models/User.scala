@@ -12,8 +12,12 @@ case class User(val uid: String,
                 var age: Int,
                 var height: String,
                 var weight: String,
+                var favorite: String,
                 var pic: String
                  )
 
+case class UserandGroup(val uid: String,
+                var groupid: Int
+               )
 
 

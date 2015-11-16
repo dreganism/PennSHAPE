@@ -18,7 +18,7 @@ object MessageFormat {
   def getJsonGroupMessages(messages: List[GroupMessage]): JsObject = {
     implicit val messageFormat = Json.format[GroupMessage]
 
-Json.obj("groupmessages" -> messages)
+    Json.obj("groupmessages" -> messages)
 
   }
 

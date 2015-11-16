@@ -41,11 +41,6 @@ class Application extends Controller {
 
   }
 
-  def getGroupMessagesByUserid(uid: String) = Action {
-    val groupmessages: List[GroupMessage] = MessageDao.getGroupMessageByUserId(uid)
-    Ok(MessageFormat.getJsonGroupMessages(groupmessages))
-
-  }
 
   def getGroupDataByUserid(uid: String) = Action {
     val groupdata: Map[String, ListBuffer[Data]] = DataDao.getGroupDataByUserId(uid).toMap
@@ -71,20 +66,112 @@ class Application extends Controller {
   def getUidbyEmail(email:String) = Action {
     val res = UserDao.getUseridByEmail(email)
     print(res)
-    if (!res.forall(_.isEmpty)) {
-      Ok("{\"202\":\""+res.get+"\"}")
+    if (res.size >0) {
+      Ok(UserFormat.getUserandGroup(res))
     }else {
       Ok("{\"501\":\"User is is not found\"}")
     }
   }
 
 
+  def updateFavorite(uid:String) = Action {
+      request =>
+    val body: AnyContent = request.body
+
+        var result :Boolean = true
+
+    val jsonBody: Option[JsValue] = body.asJson
+
+    jsonBody.map { jsValue =>
+
+      val favorite:String = (jsValue \ "favorite").get.toString().replace("\"","") // 2015-10-26
+
+      result = UserDao.setFavorite(uid, favorite)
+    }
+        if (result){
+          Ok("{\"202\":\"Update successfully\"}")
+        } else {
+          Ok("{\"505\":\"Failed to update Favorite\"}");
+        }
+  }
+
+
+  def setGroupMessage(uid:String) = Action {
+
+    request =>
+      val body: AnyContent = request.body
+      var result: Option[Long] = Some(-1)
+
+      val jsonBody: Option[JsValue] = body.asJson
+
+      jsonBody.map { jsValue =>
+
+        val time:String = (jsValue \ "time").get.toString().replace("\"","") // 2015-10-26
+        val message = (jsValue \ "message").get.toString().replace("\"","")
+        val groupid = (jsValue \ "groupid").get.toString().replace("\"","")
+        result = MessageDao.insertGroupMessage(uid, time, message, groupid)
+      }
+
+      if(result.get != -1) {
+        Ok("{\"202\":\""+result.get+"\"}")
+      }else {
+        Ok("{\"505\":\"Failed to insert GroupMessage\"}")
+      }
+
+
+  }
+
+
+  def getGroupMessage(groupid:Int,from: Option[Int]) = Action {
+
+    var fromvalue = 0
+    if(from != None) {
+      fromvalue = from.get
+    }
+
+    val res = MessageDao.getGroupMessageByGroupId(groupid, fromvalue)
+    if(res.size > 0) {
+      Ok(MessageFormat.getJsonGroupMessages(res))
+    }else {
+      Ok("{\"501\":\"Group is not found\"}")
+    }
+
+
+  }
+
+
+
+  def insertGeoLocation(uid:String) = Action {
+
+    request =>
+      val body: AnyContent = request.body
+
+      val jsonBody:Option[JsValue] = body.asJson
+
+      jsonBody.map { jsValue =>
+        val geotime:String = (jsValue \ "geotime").get.toString().replace("\"","") // 2015-10-26
+        val lat = (jsValue \ "lat").get.toString().replace("\"","")
+        val lon = (jsValue \ "lon").get.toString().replace("\"","")
+        println("uid:"+uid+" date:"+geotime+" "+"lat:"+lat+"lon:"+lon)
+        try {
+          val success = GeolocationDao.insertGeolocation(uid, geotime, lat, lon)
+          if (!success) {
+            Ok("{\"505\":\"Failed to update geolocation\"}")
+          }
+        } catch {
+          case e: Exception =>
+          (Ok("{\"505\":\"Failed to update geolocation\"}"))
+        }
+      }
+      Ok("{\"202\":\"Update successfully\"}")
+  }
 
 
   def insertAction(uid:String) = Action {
 
     request =>
       val body: AnyContent = request.body
+      var result :Boolean = true
 
       val jsonBody: Option[JsValue] = body.asJson
 
@@ -94,10 +181,16 @@ class Application extends Controller {
         val c1 = (jsValue \ "c1").get.toString().replace("\"","")
         val c2 = (jsValue \ "c2").get.toString().replace("\"","")
         val c3 = (jsValue \ "c3").get.toString().replace("\"","")
-        println("uid:"+uid+" date:"+date+" "+"c1:"+c1+"c2:"+c2+"c3"+c3)
-        DataDao.insertActivities(uid, date, c1, c2, c3);
+        result = DataDao.insertActivities(uid, date, c1, c2, c3)
       }
-      Ok("{\"202\":\"Update successfully\"}")
+
+      if(result) {
+        Ok("{\"202\":\"Update successfully\"}")
+      }else {
+        Ok("{\"505\":\"Failed to update geolocation\"}")
+      }
   }
+
+
 
 }

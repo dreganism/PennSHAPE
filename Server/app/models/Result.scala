@@ -15,8 +15,8 @@ case class Result(
                    uid: String,
                    group: List[User],
                    data: Map[String, ListBuffer[Data]],
-                   messages: List[Message],
-                   chat: List[GroupMessage],
+                   //messages: List[Message],
+                   //chat: List[GroupMessage],
                    config: Config
                    )
 
@@ -53,20 +53,18 @@ case class UserData(
                      cal: Int
                      )
 
-case class Message(mid: Int,
+case class Message(id: Long,
                    uid: String,
-                   uidto: String,
+                   to: String,
                    time: DateTime,
-                   msg: String,
-                   mtype: Int
+                   msg: String
                     )
 
 
-case class GroupMessage(mid: Int,
+case class GroupMessage(id: Long,
                         uid: String,
                         time: DateTime,
                         msg: String,
-                        mtype: Int,
                         groupid: Int
                          )
 
@@ -87,3 +85,4 @@ case class Fail(
                  code: String,
                  error: String
                  )
+
