@@ -16,5 +16,8 @@ case class User(val uid: String,
                 var pic: String
                  )
 
+case class UserandGroup(val uid: String,
+                var groupid: Int
+               )
 
 

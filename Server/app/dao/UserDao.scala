@@ -6,7 +6,7 @@ import java.util.Calendar
 
 import anorm.SqlParser._
 import anorm._
-import models.User
+import models.{UserandGroup, User}
 import play.api.Play.current
 import play.api.db._
 
@@ -31,6 +31,13 @@ object UserDao {
       get[String]("pic") map {
       case uid ~ email ~ phone ~ displayname ~ age ~ height ~ weight ~ favorite ~ pic
       => User(uid, email, phone, displayname, age, height, weight, favorite, pic)
+    }
+  }
+
+  val usergroup = {
+    get[String]("uid") ~
+    get[Int]("groupid") map {
+      case uid ~ groupid => UserandGroup(uid, groupid)
     }
   }
 
@@ -71,11 +78,11 @@ object UserDao {
     users
   }
 
-  def getUseridByEmail(email: String): Option[String] = {
+  def getUseridByEmail(email: String): List[UserandGroup] = {
     DB.withConnection {
           println ("LLL:"+email)
       implicit connection =>
-        SQL("select a.uid from user a where a.email={email}").on("email" -> email).as(SqlParser.str("uid").singleOpt)
+        SQL("select a.uid, b.groupid from user a join penngroup b on a.uid=b.uid where a.email={email}").on("email" -> email).as(usergroup *)
     }
   }
 
