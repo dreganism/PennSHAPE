@@ -4,7 +4,7 @@ package util
  * Created by zeli on 10/17/15.
  */
 
-import models.User
+import models.{UserandGroup, User}
 import play.api.libs.json._
 
 object UserFormat {
@@ -27,5 +27,14 @@ object UserFormat {
 
   }
 
+  def getUserandGroup(userandgroup: List[UserandGroup]): JsObject = {
+    implicit val userFormat = Json.format[UserandGroup]
+    if(userandgroup.size>0) {
+      Json.obj("202" -> userandgroup(0))
+    } else {
+      Json.obj("501" -> null)
+    }
+
+  }
 }
 

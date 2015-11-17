@@ -22,8 +22,8 @@ object ResultFormat {
   def getResultJson(result:Result):JsObject = {
     implicit val configFormat = Json.format[Config]
     implicit val userFormat = Json.format[User]
-    implicit val messageFormat = Json.format[GroupMessage]
-    implicit val groupmessageFormat = Json.format[Message]
+    //implicit val messageFormat = Json.format[GroupMessage]
+    //implicit val groupmessageFormat = Json.format[Message]
     implicit val dataFormat = Json.format[Data]
     implicit val resultFormat = Json.format[Result]
 

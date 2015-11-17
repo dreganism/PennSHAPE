@@ -51,9 +51,9 @@ object ResultDao {
   def getResultByUserId(uid: String): Result = {
     val groupusers: List[User] = UserDao.getGroupUsers(uid)
 
-    val messages: List[Message] = MessageDao.getMessageByUserId(uid)
+    //val messages: List[Message] = MessageDao.getMessageByUserId(uid)
 
-    val groupmessages: List[GroupMessage] = MessageDao.getGroupMessageByUserId(uid)
+    //val groupmessages: List[GroupMessage] = MessageDao.getGroupMessageByUserId(uid)
 
     val groupdata: Map[String, ListBuffer[Data]] = DataDao.getGroupDataByUserId(uid).toMap
 
@@ -63,9 +63,10 @@ object ResultDao {
 
     //val status = Json.obj("status" -> "true")
     if(groupusers.size>0) {
-      Result("true", uid, groupusers, groupdata, messages, groupmessages, config)
+      //Result("true", uid, groupusers, groupdata, messages, groupmessages, config)
+      Result("true", uid, groupusers, groupdata, config)
     } else {
-      Result("false",null,null,null,null,null,null);
+      Result("false",null,null,null,null);
     }
 
 

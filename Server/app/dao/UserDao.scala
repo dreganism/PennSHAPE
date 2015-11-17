@@ -1,9 +1,12 @@
 package dao
 
 
+import java.text.SimpleDateFormat
+import java.util.Calendar
+
 import anorm.SqlParser._
 import anorm._
-import models.User
+import models.{UserandGroup, User}
 import play.api.Play.current
 import play.api.db._
 
@@ -24,9 +27,17 @@ object UserDao {
       get[Int]("age") ~
       get[String]("height") ~
       get[String]("weight") ~
+      get[String]("favorite") ~
       get[String]("pic") map {
-      case uid ~ email ~ phone ~ displayname ~ age ~ height ~ weight ~ pic
-      => User(uid, email, phone, displayname, age, height, weight, pic)
+      case uid ~ email ~ phone ~ displayname ~ age ~ height ~ weight ~ favorite ~ pic
+      => User(uid, email, phone, displayname, age, height, weight, favorite, pic)
+    }
+  }
+
+  val usergroup = {
+    get[String]("uid") ~
+    get[Int]("groupid") map {
+      case uid ~ groupid => UserandGroup(uid, groupid)
     }
   }
 
@@ -37,10 +48,27 @@ object UserDao {
   def getGroupUserById(uid: String): List[User] = {
     DB.withConnection {
       implicit connection =>
-        SQL("select a.uid, a.email, a.phone, a.displayname,a.age,a.height, a.weight, a.pic from user a where uid in (" +
+        SQL("select a.uid, a.email, a.phone, a.displayname,a.age,a.height, a.weight, a.favorite, a.pic from user a where uid in (" +
           "select uid from penngroup where groupid =  " +
           "(select groupid from penngroup where uid={uid}))").on("uid" -> uid).as(user *)
     }
+  }
+
+  def setFavorite(uid :String, favorite :String): Boolean = {
+
+    val today = Calendar.getInstance().getTime()
+    val minuteFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    val currentTime = minuteFormat.format(today)
+
+    DB.withConnection { implicit c =>try{
+        SQL("update user set favorite={favorite}, update_ts={updatets} where uid = {uid}")
+          .on("favorite" -> favorite, "updatets" -> currentTime, "uid" -> uid ).executeUpdate()} catch {
+      case e: Exception =>
+        e.printStackTrace()
+        return false;
+      }
+    }
+    return true;
   }
 
 
@@ -50,11 +78,11 @@ object UserDao {
     users
   }
 
-  def getUseridByEmail(email: String): Option[String] = {
+  def getUseridByEmail(email: String): List[UserandGroup] = {
     DB.withConnection {
           println ("LLL:"+email)
       implicit connection =>
-        SQL("select a.uid from user a where a.email={email}").on("email" -> email).as(SqlParser.str("uid").singleOpt)
+        SQL("select a.uid, b.groupid from user a join penngroup b on a.uid=b.uid where a.email={email}").on("email" -> email).as(usergroup *)
     }
   }
 

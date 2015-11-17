@@ -13,10 +13,6 @@ GET    /users                       controllers.Application.users
 
 GET    /groupusers/:uid             controllers.Application.getGroupUsersById(uid:String)
 
-GET    /messages/:uid               controllers.Application.getMessagesByUserid(uid:String)
-
-GET    /groupmessages/:uid          controllers.Application.getGroupMessagesByUserid(uid:String)
-
 GET    /groupdata/:uid              controllers.Application.getGroupDataByUserid(uid:String)
 
 GET    /config                      controllers.Application.getConfig()
@@ -28,4 +24,12 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 POST   /activities/:uid             controllers.Application.insertAction(uid:String)
 
+POST  /geolocation/:uid             controllers.Application.insertGeoLocation(uid:String)
+
+POST  /setfavorite/:uid             controllers.Application.updateFavorite(uid:String)
+
+POST  /setgroupmessage/:uid         controllers.Application.setGroupMessage(uid:String)
+
 GET    /users/:email                controllers.Application.getUidbyEmail(email:String)
+
+GET    /getgroupmessage/:groupid    controllers.Application.getGroupMessage(groupid:Int, from: Option[Int])

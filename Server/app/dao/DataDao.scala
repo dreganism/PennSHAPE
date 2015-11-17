@@ -4,10 +4,14 @@ import anorm.SqlParser._
 import anorm._
 import models.{Data, UserData}
 import org.joda.time.DateTime
+import play.Play
 import play.api.db.DB
 
 import scala.collection.mutable.ListBuffer
 import play.api.Play.current
+
+import scala.util.Try
+import scala.sys.process._
 
 /**
  * Created by zeli on 10/17/15.
@@ -55,26 +59,32 @@ object DataDao {
     hashmap
   }
 
-  def insertActivities (uid:String, date:String, c1:String, c2: String, c3:String):Boolean ={
+  def triggerPython(uid:String): Unit ={
 
+    val fitbitpath = Play.application().configuration().getString("fitbitcrawl.path")
+    val cmd = Seq("python", fitbitpath, uid )
+    cmd.!
+
+
+  }
+
+
+  def insertActivities (uid:String, date:String, c1:String, c2: String, c3:String):Boolean ={
+    triggerPython(uid);
     DB.withConnection { implicit c =>
       val count = SQL("""Select count(*) as code from activities c where c.uid = {uid} and c.date = {date};""")
         .on("uid"->uid, "date"->date).as(SqlParser.long("code").single)
 
       if (count ==0){
-        val id =
-          SQL("insert into activities(uid, date, c1, c2,c3) values ({uid}, {date}, {c1}, {c2}, {c3})")
-            .on("uid" -> uid, "date"-> date, "c1"-> c1, "c2"->c2, "c3"-> c3).executeInsert()
+          Try(SQL("insert into activities(uid, date, c1, c2,c3) values ({uid}, {date}, {c1}, {c2}, {c3})")
+            .on("uid" -> uid, "date"-> date, "c1"-> c1, "c2"->c2, "c3"-> c3).executeInsert()).getOrElse(return false)
       } else if(count ==1){
-        val result = SQL("update activities set c1={c1}, c2={c2}, c3={c3} where uid = {uid} and date = {date}").
+       Try( SQL("update activities set c1={c1}, c2={c2}, c3={c3} where uid = {uid} and date = {date}").
           on("c1"-> c1, "c2"->c2, "c3"-> c3,"uid" -> uid, "date"-> date)
-          .executeUpdate()
+          .executeUpdate()).getOrElse(return false)
       }
-return true
+
     }
-
-
-
     return true
 
   }
