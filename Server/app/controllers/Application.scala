@@ -140,9 +140,8 @@ class Application extends Controller {
     if(res.size > 0) {
       Ok(MessageFormat.getJsonGroupMessages(res))
     }else {
-      Ok("{\"501\":\"Group is not found\"}")
+      Ok("{\"503\":\"no new messages for the group\"}")
     }
-
 
   }
 
