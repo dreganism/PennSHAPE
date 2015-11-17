@@ -18,6 +18,7 @@ import java.util.Map;
 public class PSDataStore {
     private static PSDataStore sharedInstance = new PSDataStore();
     protected String userID = "";
+    protected String group = "";
     protected HashMap<String, PSUser> groupMembers;
     protected HashMap<String, PSUserDataCollection> groupMembersData;
     protected Calendar lastUpdate;
@@ -98,6 +99,14 @@ public class PSDataStore {
 
     public String getUserID() {
         return userID;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     public PSUser getUser() {

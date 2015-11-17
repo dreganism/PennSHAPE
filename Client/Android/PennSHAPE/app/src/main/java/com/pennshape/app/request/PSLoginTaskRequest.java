@@ -8,6 +8,7 @@ import org.json.JSONObject;
  */
 public class PSLoginTaskRequest extends PSHttpTaskRequest {
     private String userName = "";
+    private String group = "";
     @Override
     protected String getUrl() {
         return getBaseURL()+"users/" + userName;
@@ -17,7 +18,9 @@ public class PSLoginTaskRequest extends PSHttpTaskRequest {
     protected Object parseResult(JSONObject jsonObject) {
         String userID = null;
         try {
-            userID = jsonObject.getString("202");
+            JSONObject userInfo = jsonObject.getJSONObject("202");
+            group = userInfo.getString("groupid");
+            userID = userInfo.getString("uid");
         } catch (JSONException e) {
             error = "Login task failing";
         }
@@ -26,5 +29,9 @@ public class PSLoginTaskRequest extends PSHttpTaskRequest {
 
     public void setUserName(String userName){
         this.userName = userName;
+    }
+
+    public String getGroup() {
+        return group;
     }
 }

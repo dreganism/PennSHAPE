@@ -75,16 +75,20 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
     private void checkUser(){
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.ps_pref_name), Context.MODE_PRIVATE);
         String userID = sharedPref.getString(getString(R.string.ps_pref_key_id), null);
-        if(userID!=null && userID.length()>0) {
+        String groupID = sharedPref.getString(getString(R.string.ps_pref_key_group), null);
+        if(userID!=null && userID.length()>0 && groupID!=null && groupID.length()>0 ) {
             progress = ProgressDialog.show(this, "Loading...", "Please wait", true);
             pullUserData(userID);
         }
+        PSDataStore.getInstance().setGroup(groupID);
     }
 
-    private void persistUserID(String userID) {
+    private void persistUserID(String userID, String groupID) {
+        PSDataStore.getInstance().setGroup(groupID);
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.ps_pref_name), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(getString(R.string.ps_pref_key_id), userID);
+        editor.putString(getString(R.string.ps_pref_key_group), groupID);
         editor.apply();
     }
 
@@ -130,11 +134,12 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
     public void onSuccess(PSHttpTaskRequest request, Object result) {
         if(request instanceof PSLoginTaskRequest) {
             String userID = (String)result;
-            if(userID.length()==0){
-                displayError("Invalid user ID");
+            String groupID = ((PSLoginTaskRequest)request).getGroup();
+            if(userID.length()==0 || groupID.length()==0){
+                displayError("Invalid user ID or group");
                 if(progress!=null) progress.dismiss();
             }else{
-                persistUserID(userID);
+                persistUserID(userID, groupID);
                 pullUserData(userID);
             }
         }else if(request instanceof PSUserDataTaskRequest) {

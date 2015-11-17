@@ -116,7 +116,7 @@ public abstract class PSHttpTaskRequest extends AsyncTask<Void, Void, Object> {
     }
 
     protected String getBaseURL() {
-        return "http://52.91.163.80:9000/";
+        return "http://54.85.95.11:9000/";
     }
 
     protected void setupConnection(HttpURLConnection urlConnection) throws IOException{ }
