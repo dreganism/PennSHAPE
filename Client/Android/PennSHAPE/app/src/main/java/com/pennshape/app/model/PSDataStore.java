@@ -3,6 +3,10 @@
  */
 package com.pennshape.app.model;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +27,7 @@ public class PSDataStore {
     protected HashMap<String, PSUserDataCollection> groupMembersData;
     protected Calendar lastUpdate;
     protected PSConfig config;
+    protected PSDatabaseHelper dbHelper;
     public static PSDataStore getInstance() {
         return sharedInstance;
     }
@@ -113,6 +118,10 @@ public class PSDataStore {
         return groupMembers.get(userID);
     }
 
+    public PSUser getUser(String userID) {
+        return groupMembers.get(userID);
+    }
+
     public ArrayList<PSUser> getAllUsers() {
         ArrayList<PSUser> users = new ArrayList<PSUser>();
         //add self first
@@ -123,5 +132,54 @@ public class PSDataStore {
             }
         }
         return users;
+    }
+
+    /* *** *** *** *** *** Message Database *** *** *** *** *** */
+    public void initDatabase(Context context){
+        dbHelper = new PSDatabaseHelper(context);
+    }
+
+    public int lastMessageID(){
+        Cursor cursor = dbHelper.getLast();
+        if(cursor.getCount()>0){
+            cursor.moveToFirst();
+            return cursor.getInt(cursor.getColumnIndex(PSDatabaseHelper.COL_ID));
+        }
+        return -1;
+    }
+
+    public void saveMessageArray(JSONArray array) {
+        for (int i =0;i<array.length();i++){
+            try {
+                JSONObject json = array.getJSONObject(i);
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(PSDatabaseHelper.COL_ID, json.getInt("id"));
+                contentValues.put(PSDatabaseHelper.COL_UID, json.getString("uid"));
+                contentValues.put(PSDatabaseHelper.COL_TIME, json.getLong("time"));
+                contentValues.put(PSDatabaseHelper.COL_MSG, json.getString("msg"));
+                contentValues.put(PSDatabaseHelper.COL_GROUP_ID, json.getInt("groupid"));
+                dbHelper.insertValues(contentValues);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public ArrayList<PSMessage> getRecentMessages() {
+        ArrayList<PSMessage> messages = new ArrayList<PSMessage>();
+        Cursor cursor = dbHelper.getDataTotal(100);
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()){
+            PSMessage message = new PSMessage(
+                    cursor.getInt(cursor.getColumnIndex(PSDatabaseHelper.COL_ID)),
+                    cursor.getString(cursor.getColumnIndex(PSDatabaseHelper.COL_UID)),
+                    cursor.getInt(cursor.getColumnIndex(PSDatabaseHelper.COL_GROUP_ID)),
+                    cursor.getString(cursor.getColumnIndex(PSDatabaseHelper.COL_MSG)),
+                    cursor.getLong(cursor.getColumnIndex(PSDatabaseHelper.COL_TIME))
+            );
+            messages.add(message);
+            cursor.moveToNext();
+        }
+        return messages;
     }
 }

@@ -87,4 +87,18 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="MessageFont">
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textColor">@color/ps_blue_dark</item>
+        <item name="android:typeface">serif</item>
+    </style>
+
+    <style name="MessageSenderFont">
+        <item name="android:textSize">18sp</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textColor">@color/ps_blue_deep</item>
+        <item name="android:typeface">serif</item>
+    </style>
+
 </resources>

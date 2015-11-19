@@ -18,16 +18,16 @@ public class PSUser {
     private String photo;
     private String favorite;
     public PSUser (JSONObject json) throws JSONException{
-        uid = (String)json.getString("uid");
-        email = (String)json.getString("email");
-        phone = (String)json.getString("phone");
-        displayName = (String)json.getString("displayname");
-        age = Integer.parseInt((String) json.getString("age"));
-        height = Float.parseFloat((String) json.getString("height"));
-        weight = Float.parseFloat((String) json.getString("weight"));
-        photo = (String)json.getString("pic");
+        uid = json.getString("uid");
+        email = json.getString("email");
+        phone = json.getString("phone");
+        displayName = json.getString("displayname");
+        age = Integer.parseInt(json.getString("age"));
+        height = Float.parseFloat(json.getString("height"));
+        weight = Float.parseFloat(json.getString("weight"));
+        photo = json.getString("pic");
         if(json.has("favorite")){
-            favorite = (String)json.getString("favorite");
+            favorite = json.getString("favorite");
         }else{
             favorite = "";
         }

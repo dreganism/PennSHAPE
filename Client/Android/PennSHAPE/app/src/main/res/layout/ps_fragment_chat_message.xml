@@ -10,6 +10,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"
         android:text="@string/ps_chat_placeholder"
-        style="@style/UserNameFont"/>
+        style="@style/UserNameFont"
+        android:visibility="gone"/>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
 
 </FrameLayout>

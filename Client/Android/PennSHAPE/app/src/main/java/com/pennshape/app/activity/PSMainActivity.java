@@ -14,6 +14,7 @@ import com.pennshape.app.fragment.PSDailyUpdateFragmentTab;
 import com.pennshape.app.fragment.PSFriendsFragmentTab;
 import com.pennshape.app.fragment.PSSettingFragmentTab;
 import com.pennshape.app.location.PSLocationManager;
+import com.pennshape.app.model.PSDataStore;
 
 
 public class PSMainActivity extends FragmentActivity {
@@ -41,6 +42,9 @@ public class PSMainActivity extends FragmentActivity {
 //        mTabHost.addTab(
 //                mTabHost.newTabSpec("tabSetting").setIndicator(null, ContextCompat.getDrawable(this, R.drawable.tab_setting_selector)),
 //                PSSettingFragmentTab.class, null);
+
+        //Init Database
+        PSDataStore.getInstance().initDatabase(PSMainActivity.this);
     }
 
     @Override

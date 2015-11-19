@@ -56,7 +56,7 @@ public abstract class PSHttpTaskRequest extends AsyncTask<Void, Void, Object> {
                     String response = convertInputStreamToString(inputStream);
                     String json = response.substring(response.indexOf("{"));
                     JSONObject jsonObj = new JSONObject(json);
-                    if(jsonObj.has("202")){
+                    if(validResult(jsonObj)){
                         result = parseResult(jsonObj);
                     }else{
                         error = "Request failing ("+json+")";
@@ -105,6 +105,10 @@ public abstract class PSHttpTaskRequest extends AsyncTask<Void, Void, Object> {
         while((line = bufferedReader.readLine()) != null) result += line;
         inputStream.close();
         return result;
+    }
+
+    protected boolean validResult(JSONObject jsonObject) {
+        return jsonObject.has("202");
     }
 
     protected Object parseResult(JSONObject jsonObject) {
