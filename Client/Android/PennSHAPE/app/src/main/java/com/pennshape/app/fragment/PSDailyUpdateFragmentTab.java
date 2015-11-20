@@ -113,6 +113,7 @@ public class PSDailyUpdateFragmentTab extends Fragment implements PSHttpTaskRequ
         request.setDataString(dataString);
         request.handler = this;
         request.run();
+        if(progress!= null) progress.dismiss();
         progress = ProgressDialog.show(getView().getContext(), "Loading...", "Please wait", true);
     }
 

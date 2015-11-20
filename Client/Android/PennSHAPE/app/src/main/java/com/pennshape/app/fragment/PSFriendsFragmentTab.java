@@ -67,6 +67,7 @@ public class PSFriendsFragmentTab extends Fragment
             request.setUserID(PSDataStore.getInstance().getUserID());
             request.handler = this;
             request.run();
+            if(progress!= null) progress.dismiss();
             progress = ProgressDialog.show(getView().getContext(), "Loading...", "Please wait", true);
         }
     }

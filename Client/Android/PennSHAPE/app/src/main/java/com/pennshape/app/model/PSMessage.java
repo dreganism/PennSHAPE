@@ -23,10 +23,15 @@ public class PSMessage {
     }
 
     public String getMessage() {
-        return msg;
+        String escaped = msg.replace("\\n","\n");
+        return escaped;
     }
 
     public String getUid() {
         return uid;
+    }
+
+    public Long getTime() {
+        return time;
     }
 }

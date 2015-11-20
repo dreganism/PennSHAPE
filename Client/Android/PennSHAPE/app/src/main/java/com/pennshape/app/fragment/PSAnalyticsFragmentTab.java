@@ -3,29 +3,23 @@
  */
 package com.pennshape.app.fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
-import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -36,7 +30,6 @@ import com.pennshape.app.model.PSDataStore;
 import com.pennshape.app.model.PSUser;
 import com.pennshape.app.model.PSUserDataCollection;
 import com.pennshape.app.model.PSUtil;
-import com.pennshape.app.request.PSDataUploadTaskRequest;
 import com.pennshape.app.request.PSHttpTaskRequest;
 import com.pennshape.app.request.PSUserDataTaskRequest;
 import com.pennshape.app.request.PSUserProfileUploadTaskRequest;
@@ -46,12 +39,9 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 
 public class PSAnalyticsFragmentTab extends Fragment implements PSHttpTaskRequest.PSHttpTaskRequestHandler{
     private ProgressDialog progress;
@@ -110,7 +100,7 @@ public class PSAnalyticsFragmentTab extends Fragment implements PSHttpTaskReques
 
     private void showAlertDialog() {
         LayoutInflater inflater = LayoutInflater.from(getView().getContext());
-        View alertView = inflater.inflate(R.layout.ps_favorite_exercise_alert_dialog, null);
+        View alertView = inflater.inflate(R.layout.ps_alert_dialog_favorite_exercise, null);
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getView().getContext());
         alertBuilder.setView(alertView);
         final EditText editText = (EditText)alertView.findViewById(R.id.editText);
@@ -139,6 +129,7 @@ public class PSAnalyticsFragmentTab extends Fragment implements PSHttpTaskReques
         request.setFavorite(fav);
         request.handler = this;
         request.run();
+        if(progress!= null) progress.dismiss();
         progress = ProgressDialog.show(getView().getContext(), "Loading...", "Please wait", true);
     }
 
@@ -212,6 +203,7 @@ public class PSAnalyticsFragmentTab extends Fragment implements PSHttpTaskReques
         super.onResume();
         if(PSDataStore.getInstance().expired()){
             refreshData();
+            if(progress!= null) progress.dismiss();
             progress = ProgressDialog.show(getView().getContext(), "Loading...", "Please wait", true);
         }
     }

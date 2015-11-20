@@ -16,7 +16,7 @@
     <string name="ps_sample_marker_vig">Vigorous: **</string>
     <string name="ps_sample_marker_mus">Muscle: **</string>
     <string name="ps_sample_marker_stp">Steps: **</string>
-    <string name="ps_sample_message">Joe: Hi! Everyone!</string>
+    <string name="ps_sample_message">Hi!\nEveryone!</string>
     <string name="ps_user_data_radio_day">Today</string>
     <string name="ps_user_data_radio_week">Week</string>
     <string name="ps_record_title">Your activities</string>
@@ -52,6 +52,7 @@
     <string name="ps_chat_placeholder">You have no message</string>
     <string name="ps_setting_logout">Logout</string>
     <string name="ps_setting_update_weight">Update body weight</string>
+    <string name="ps_message_button">Chat</string>
 
     <!--KEYS-->
     <string name="ps_pref_name">com.pennshape.app.pref.default</string>

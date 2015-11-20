@@ -68,6 +68,7 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
             showSampleData();
         }else{
             login();
+            if(progress!= null) progress.dismiss();
             progress = ProgressDialog.show(this, "Loading...", "Please wait", true);
         }
     }

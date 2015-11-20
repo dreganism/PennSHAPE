@@ -9,7 +9,10 @@ import android.widget.TextView;
 import com.pennshape.app.model.PSDataStore;
 import com.pennshape.app.model.PSMessage;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 import com.pennshape.app.R;
 import com.pennshape.app.model.PSUser;
@@ -21,6 +24,7 @@ import org.w3c.dom.Text;
  */
 public class PSMessagesArrayAdapter extends ArrayAdapter<PSMessage> {
     private ArrayList<PSMessage> messageList;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("MMM-dd HH:mm", Locale.US);
     public PSMessagesArrayAdapter(Context context, int resource, ArrayList<PSMessage> objects) {
         super(context, resource, objects);
         messageList = objects;
@@ -33,14 +37,22 @@ public class PSMessagesArrayAdapter extends ArrayAdapter<PSMessage> {
         }
         TextView textView = (TextView)convertView.findViewById(R.id.message);
         TextView senderView = (TextView)convertView.findViewById(R.id.sender);
+        TextView timeView = (TextView)convertView.findViewById(R.id.time);
         PSMessage message = getItem(position);
         PSUser user = PSDataStore.getInstance().getUser(message.getUid());
         String sender = "Penn Fit";
         if(user != null){
             sender = user.getName();
+            senderView.setTextColor(getContext().getResources().getColor(R.color.ps_blue_deep));
+        }else{
+            senderView.setTextColor(getContext().getResources().getColor(R.color.ps_purple));
         }
         senderView.setText(sender);
         textView.setText(message.getMessage());
+        Long unix = message.getTime();
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(unix);
+        timeView.setText(dateFormat.format(date.getTime()));
         return convertView;
     }
 
