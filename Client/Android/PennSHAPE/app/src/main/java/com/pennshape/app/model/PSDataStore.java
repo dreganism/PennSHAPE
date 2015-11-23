@@ -118,6 +118,12 @@ public class PSDataStore {
         return groupMembers.get(userID);
     }
 
+    public boolean dataReady(){
+        if(groupMembersData!=null && groupMembersData.size()>0)
+            return true;
+        return  false;
+    }
+
     public PSUser getUser(String userID) {
         return groupMembers.get(userID);
     }
@@ -136,7 +142,9 @@ public class PSDataStore {
 
     /* *** *** *** *** *** Message Database *** *** *** *** *** */
     public void initDatabase(Context context){
-        dbHelper = new PSDatabaseHelper(context);
+        if(dbHelper==null) {
+            dbHelper = new PSDatabaseHelper(context);
+        }
     }
 
     public int lastMessageID(){

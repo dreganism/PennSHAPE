@@ -31,6 +31,7 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
     EditText userName;
     Button loginButton;
     ProgressDialog progress;
+    String intentExtraString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,10 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
         setContentView(R.layout.ps_activity_login);
         userName = (EditText)findViewById(R.id.loginUserNameEditText);
         loginButton = (Button)findViewById(R.id.button);
+        //Get intent extra
+        Intent i = getIntent();
+        intentExtraString = i.getStringExtra(Intent.EXTRA_TEXT);
+        //Need login?
         checkUser();
     }
 
@@ -74,6 +79,10 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
     }
 
     private void checkUser(){
+        if(PSDataStore.getInstance().dataReady()){
+            intentMainActivity();
+            return;
+        }
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.ps_pref_name), Context.MODE_PRIVATE);
         String userID = sharedPref.getString(getString(R.string.ps_pref_key_id), null);
         String groupID = sharedPref.getString(getString(R.string.ps_pref_key_group), null);
@@ -102,10 +111,7 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Intent intent;
-        intent = new Intent(this, PSMainActivity.class);
-        startActivity(intent);
-        this.finish();
+        intentMainActivity();
     }
 
     private void displayError(String message) {
@@ -131,6 +137,15 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
         request.run();
     }
 
+    private void intentMainActivity(){
+        Intent intent = new Intent(this, PSMainActivity.class);
+        if(intentExtraString!=null) {
+            intent.putExtra(Intent.EXTRA_TEXT, intentExtraString);
+        }
+        startActivity(intent);
+        this.finish();
+    }
+
     @Override
     public void onSuccess(PSHttpTaskRequest request, Object result) {
         if(request instanceof PSLoginTaskRequest) {
@@ -152,10 +167,7 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
                 displayError("User data parse failure");
                 return;
             }
-            Intent intent;
-            intent = new Intent(this, PSMainActivity.class);
-            startActivity(intent);
-            this.finish();
+            intentMainActivity();
         }
     }
 

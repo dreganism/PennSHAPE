@@ -118,7 +118,7 @@ public class PSLocationManager implements LocationListener, PSHttpTaskRequest.PS
     @Override
     public void onSuccess(PSHttpTaskRequest request, Object result) {
         if(request instanceof PSLocationUploadTaskRequest){
-            showLocation();
+            //showLocation();
         }
     }
 

@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pennshape.app" >
+    package="com.pennshape.app">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
+        android:name=".activity.PSApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name=".activity.PSApplication">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".activity.PSMainActivity"
-            android:label="@string/app_name" >
-
-        </activity>
+            android:label="@string/app_name"
+            android:launchMode="singleInstance"/>
         <activity
             android:name=".activity.PSLoginActivity"
             android:label="@string/ps_title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.PSMainActivity" />
         </activity>
+
+        <service
+            android:name=".service.PSMessagesService"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/ps_service_messages"/>
     </application>
 
 </manifest>

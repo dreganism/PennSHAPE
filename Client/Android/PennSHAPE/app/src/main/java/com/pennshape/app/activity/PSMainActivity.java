@@ -1,5 +1,9 @@
 package com.pennshape.app.activity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -15,10 +19,14 @@ import com.pennshape.app.fragment.PSFriendsFragmentTab;
 import com.pennshape.app.fragment.PSSettingFragmentTab;
 import com.pennshape.app.location.PSLocationManager;
 import com.pennshape.app.model.PSDataStore;
+import com.pennshape.app.service.PSMessagesService;
+
+import java.util.Calendar;
 
 
 public class PSMainActivity extends FragmentActivity {
     private FragmentTabHost mTabHost;
+    private static final long REPEAT_TIME = 1000 * 60;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +53,10 @@ public class PSMainActivity extends FragmentActivity {
 
         //Init Database
         PSDataStore.getInstance().initDatabase(PSMainActivity.this);
+        //Init Messages Service
+        startMessagesService(REPEAT_TIME);
+        //Get intent extra
+        triggeredFromNotification(getIntent());
     }
 
     @Override
@@ -74,5 +86,28 @@ public class PSMainActivity extends FragmentActivity {
         super.onResume();
         //upload location
         PSLocationManager.sharedManager().fireLocation();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent){
+        super.onNewIntent(intent);
+        triggeredFromNotification(intent);
+    }
+
+    private void startMessagesService(long interval) {
+        Context context = PSMainActivity.this;
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent i = new Intent(context, PSMessagesService.class);
+        PendingIntent pending = PendingIntent.getService(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, 5);
+        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), interval, pending);
+    }
+
+    private void triggeredFromNotification(Intent i){
+        String extra = i.getStringExtra(Intent.EXTRA_TEXT);
+        if(extra != null && extra.equals(getString(R.string.ps_service_message_intent_extra))){
+            mTabHost.setCurrentTabByTag("tabChat");
+        }
     }
 }

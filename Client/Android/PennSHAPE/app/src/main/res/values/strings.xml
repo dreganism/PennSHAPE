@@ -29,6 +29,9 @@
     <string name="ps_sport_choose">Choose exercise</string>
     <string name="ps_change_fav">Change</string>
     <string name="ps_change_fav_alert_title">Enter your favorite exercise:</string>
+    <string name="ps_service_messages">com.pennshape.app.service.PSMessagesService</string>
+    <string name="ps_service_messages_new">You have new messages!</string>
+    <string name="ps_service_message_intent_extra">ps.message.new</string>
 
     <!--MOD-->
     <string name="ps_sport_jumping_ropes">Jumping ropes</string>

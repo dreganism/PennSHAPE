@@ -3,12 +3,15 @@ package com.pennshape.app.fragment;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -57,6 +60,10 @@ public class PSChatMessageFragmentTab extends Fragment implements PSHttpTaskRequ
                 showInputDialog();
             }
         });
+        ListView listView = (ListView)view.findViewById(R.id.listView);
+        ArrayList<PSMessage> messageList = PSDataStore.getInstance().getRecentMessages();
+        messagesAdapter = new PSMessagesArrayAdapter(view.getContext(), R.layout.ps_message_list_item, messageList);
+        listView.setAdapter(messagesAdapter);
     }
 
     private void showInputDialog() {
@@ -84,8 +91,8 @@ public class PSChatMessageFragmentTab extends Fragment implements PSHttpTaskRequ
                         });
         AlertDialog alertDialog = alertBuilder.create();
         alertDialog.show();
-
-
+        //Show keyboard
+        alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
     private void sendMessage(String message) {
@@ -102,14 +109,14 @@ public class PSChatMessageFragmentTab extends Fragment implements PSHttpTaskRequ
 
     public void onResume(){
         super.onResume();
-        pullMessages();
+        updateMessage();
     }
 
-    public void showMessages(View view){
+    public void updateMessage(){
         ArrayList<PSMessage> messageList = PSDataStore.getInstance().getRecentMessages();
-        messagesAdapter = new PSMessagesArrayAdapter(view.getContext(), R.layout.ps_message_list_item, messageList);
-        ListView listView = (ListView)view.findViewById(R.id.listView);
-        listView.setAdapter(messagesAdapter);
+        messagesAdapter.clear();
+        messagesAdapter.addAll(messageList);
+        messagesAdapter.notifyDataSetChanged();
     }
 
     public void pullMessages(){
@@ -137,7 +144,7 @@ public class PSChatMessageFragmentTab extends Fragment implements PSHttpTaskRequ
     public void onSuccess(PSHttpTaskRequest request, Object result) {
         if(request instanceof PSMessagePullTaskRequest){
             PSDataStore.getInstance().saveMessageArray((JSONArray)result);
-            showMessages(getView());
+            updateMessage();
             if(progress!= null) progress.dismiss();
         }else if(request instanceof PSMessageSendTaskRequest){
             pullMessages();
