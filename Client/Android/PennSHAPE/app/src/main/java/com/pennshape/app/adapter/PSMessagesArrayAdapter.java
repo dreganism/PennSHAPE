@@ -41,9 +41,9 @@ public class PSMessagesArrayAdapter extends ArrayAdapter<PSMessage> {
         PSMessage message = getItem(position);
         PSUser user = PSDataStore.getInstance().getUser(message.getUid());
         String sender = "Penn Fit";
-        if(user != null){
+        if(user != null && user.themeColor!=0){
             sender = user.getName();
-            senderView.setTextColor(getContext().getResources().getColor(R.color.ps_blue_deep));
+            senderView.setTextColor(user.themeColor);
         }else{
             senderView.setTextColor(getContext().getResources().getColor(R.color.ps_purple));
         }

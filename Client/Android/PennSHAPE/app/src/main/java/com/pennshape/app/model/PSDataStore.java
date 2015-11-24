@@ -7,6 +7,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.pennshape.app.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,10 +30,15 @@ public class PSDataStore {
     protected Calendar lastUpdate;
     protected PSConfig config;
     protected PSDatabaseHelper dbHelper;
+    protected Context appContext;
     public static PSDataStore getInstance() {
         return sharedInstance;
     }
     private PSDataStore(){}
+
+    public void setAppContext(Context context){
+        appContext = context;
+    }
 
     public void reloadFromInputStream(InputStream is) {
         try {
@@ -60,6 +67,7 @@ public class PSDataStore {
         //update timestamp
         lastUpdate = Calendar.getInstance();
     }
+
     public boolean expired(){
         if(lastUpdate != null){
             Calendar now = Calendar.getInstance();
@@ -74,9 +82,13 @@ public class PSDataStore {
 
     protected void loadAllUsers(JSONArray array) throws JSONException{
         groupMembers = new HashMap<String, PSUser>();
+        int[] colors = appContext.getResources().getIntArray(R.array.chart_color_schema);
+        int nColors = colors.length;
         for (int i = 0; i < array.length(); i++) {
             PSUser user = new PSUser(array.getJSONObject(i));
             groupMembers.put(user.getID(), user);
+            //set display color
+            user.themeColor = colors[i%nColors];
         }
     }
 
@@ -175,7 +187,7 @@ public class PSDataStore {
 
     public ArrayList<PSMessage> getRecentMessages() {
         ArrayList<PSMessage> messages = new ArrayList<PSMessage>();
-        Cursor cursor = dbHelper.getDataTotal(100);
+        Cursor cursor = dbHelper.getDataTotal(200);
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
             PSMessage message = new PSMessage(

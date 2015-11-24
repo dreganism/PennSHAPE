@@ -14,7 +14,6 @@ import android.util.Log;
 
 import com.pennshape.app.R;
 import com.pennshape.app.activity.PSLoginActivity;
-import com.pennshape.app.activity.PSMainActivity;
 import com.pennshape.app.model.PSDataStore;
 import com.pennshape.app.request.PSHttpTaskRequest;
 import com.pennshape.app.request.PSMessagePullTaskRequest;
@@ -25,6 +24,8 @@ import org.json.JSONArray;
 public class PSMessagesService extends Service implements PSHttpTaskRequest.PSHttpTaskRequestHandler{
     private final IBinder binder = new MessagesBinder();
     public static int notificationID  = 24066; //SHAPE
+    public static String NewMessageAction = "com.pennshape.app.intent.action.message";
+    public static String IntentExtra = "com.pennshape.app.intent.extra.message";
 
     public PSMessagesService() {
     }
@@ -48,6 +49,11 @@ public class PSMessagesService extends Service implements PSHttpTaskRequest.PSHt
     }
 
     private void notifyNewMessage(String message){
+        //Broadcast
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.putExtra(IntentExtra, message);
+        broadcastIntent.setAction(NewMessageAction);
+        sendBroadcast(broadcastIntent);
         //Builder
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
         mBuilder.setSmallIcon(R.mipmap.ic_launcher);

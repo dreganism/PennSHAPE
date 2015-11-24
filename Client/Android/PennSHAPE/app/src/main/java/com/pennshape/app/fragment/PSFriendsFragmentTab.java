@@ -77,7 +77,7 @@ public class PSFriendsFragmentTab extends Fragment
         BarChart chart = (BarChart)v.findViewById(R.id.barChart);
         chart.clear();
         PSDatePickerView datePickerView = (PSDatePickerView)v.findViewById(R.id.date_picker_view);
-        ArrayList<PSUserInfoSelectionView> allUsers = selectedUsers();
+        ArrayList<PSUser> allUsers = selectedUsers();
         if(allUsers.size()==0){
             chart.invalidate();
             return;
@@ -85,7 +85,7 @@ public class PSFriendsFragmentTab extends Fragment
         //PSDataStore.getInstance().getAllUsers();
         ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
         for (int i= 0 ;i<allUsers.size();i++) {
-            PSUser user = allUsers.get(i).selectedUser();
+            PSUser user = allUsers.get(i);
             PSUserDataCollection dataCollection = PSDataStore.getInstance().getUserDataCollection(user.getID());
             ArrayList<BarEntry> userEntries =   new ArrayList<BarEntry>();
             int idx = 0;
@@ -101,7 +101,7 @@ public class PSFriendsFragmentTab extends Fragment
             }
             BarDataSet userDataSet = new BarDataSet(userEntries, user.getName());
             userDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-            userDataSet.setColor(allUsers.get(i).getUserColor());
+            userDataSet.setColor(user.themeColor);
             dataSets.add(userDataSet);
         }
 
@@ -152,14 +152,12 @@ public class PSFriendsFragmentTab extends Fragment
         userSelectionViews.add((PSUserInfoSelectionView)view.findViewById(R.id.user_selection_2));
         userSelectionViews.add((PSUserInfoSelectionView)view.findViewById(R.id.user_selection_3));
         userSelectionViews.add((PSUserInfoSelectionView)view.findViewById(R.id.user_selection_4));
-        int[] colors = getResources().getIntArray(R.array.chart_color_schema);
         ArrayList<PSUser> allUsers = PSDataStore.getInstance().getAllUsers();
         int idx = 0;
         for(PSUserInfoSelectionView selectionView : userSelectionViews){
             selectionView.mListener = this;
             if(idx<allUsers.size()) {
                 selectionView.setUser(allUsers.get(idx));
-                selectionView.setUserColor(colors[idx]);
             }
             idx++;
         }
@@ -174,12 +172,12 @@ public class PSFriendsFragmentTab extends Fragment
         });
     }
 
-    private ArrayList<PSUserInfoSelectionView> selectedUsers() {
-        ArrayList<PSUserInfoSelectionView> selectedUsers = new ArrayList<PSUserInfoSelectionView>();
+    private ArrayList<PSUser> selectedUsers() {
+        ArrayList<PSUser> selectedUsers = new ArrayList<PSUser>();
         for(PSUserInfoSelectionView selectionView : userSelectionViews){
             PSUser user = selectionView.selectedUser();
             if(user != null){
-                selectedUsers.add(selectionView);
+                selectedUsers.add(user);
             }
         }
         return selectedUsers;

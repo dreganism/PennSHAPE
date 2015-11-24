@@ -29,7 +29,7 @@ public class PSUserInfoSelectionView extends RelativeLayout {
     private TextView bmiView;
     private TextView favExecView;
     private PSUser userModel;
-    private int userColor;
+
     public PSUserInfoSelectionViewListener mListener;
     public PSUserInfoSelectionView(Context context) {
         super(context);
@@ -43,15 +43,6 @@ public class PSUserInfoSelectionView extends RelativeLayout {
     public PSUserInfoSelectionView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
-    }
-
-    public void setUserColor(int color) {
-        setBackgroundColor(adjustAlpha(color, 0.8f));
-        userColor = color;
-    }
-
-    public int getUserColor(){
-        return userColor;
     }
 
     private int adjustAlpha(int color, float factor) {
@@ -118,6 +109,7 @@ public class PSUserInfoSelectionView extends RelativeLayout {
         ageView.setText("("+userModel.getAgeDesc()+")");
         bmiView.setText("BMI: "+userModel.getBMIDesc());
         favExecView.setText(("♥ "+ userModel.getFavorite()));
+        setBackgroundColor(adjustAlpha(user.themeColor, 0.8f));
         setupPhoto();
     }
 

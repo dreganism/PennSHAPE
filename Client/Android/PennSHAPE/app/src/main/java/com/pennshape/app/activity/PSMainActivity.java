@@ -1,9 +1,14 @@
 package com.pennshape.app.activity;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.Fragment;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -27,6 +32,14 @@ import java.util.Calendar;
 public class PSMainActivity extends FragmentActivity {
     private FragmentTabHost mTabHost;
     private static final long REPEAT_TIME = 1000 * 60;
+    private BroadcastReceiver receiver =
+            new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    String message = intent.getStringExtra(PSMessagesService.IntentExtra);
+                    alertNewMessages(message);
+                }
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +99,14 @@ public class PSMainActivity extends FragmentActivity {
         super.onResume();
         //upload location
         PSLocationManager.sharedManager().fireLocation();
+        //Broadcast receiver
+        registerReceiver(receiver, new IntentFilter(PSMessagesService.NewMessageAction));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        unregisterReceiver(receiver);
     }
 
     @Override
@@ -109,5 +130,24 @@ public class PSMainActivity extends FragmentActivity {
         if(extra != null && extra.equals(getString(R.string.ps_service_message_intent_extra))){
             mTabHost.setCurrentTabByTag("tabChat");
         }
+    }
+
+    private void alertNewMessages(String message) {
+        if(mTabHost.getCurrentTabTag().equals("tabChat")){
+            PSChatMessageFragmentTab chatFragTab = (PSChatMessageFragmentTab)getSupportFragmentManager().findFragmentByTag("tabChat");
+            chatFragTab.updateMessage();
+            return;
+        }
+        new AlertDialog.Builder(this)
+                .setTitle(message)
+                .setMessage("Check your messages now?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        mTabHost.setCurrentTabByTag("tabChat");
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(R.mipmap.ic_launcher)
+                .show();
     }
 }

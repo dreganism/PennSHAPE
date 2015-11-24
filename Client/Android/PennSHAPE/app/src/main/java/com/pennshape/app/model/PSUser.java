@@ -17,6 +17,7 @@ public class PSUser {
     private Float weight;
     private String photo;
     private String favorite;
+    public int themeColor;
     public PSUser (JSONObject json) throws JSONException{
         uid = json.getString("uid");
         email = json.getString("email");
