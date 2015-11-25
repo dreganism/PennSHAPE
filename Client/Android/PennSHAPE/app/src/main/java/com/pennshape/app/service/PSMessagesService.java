@@ -6,6 +6,8 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.app.TaskStackBuilder;
@@ -56,8 +58,10 @@ public class PSMessagesService extends Service implements PSHttpTaskRequest.PSHt
         sendBroadcast(broadcastIntent);
         //Builder
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
-        mBuilder.setContentTitle("Penn Shape");
+        mBuilder.setSmallIcon(R.drawable.sport_yg);
+        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.sport_yg);
+        mBuilder.setLargeIcon(largeIcon);
+        mBuilder.setContentTitle("Penn Fit");
         mBuilder.setContentText(message);
         mBuilder.setVibrate(new long[] { 300, 300, 300, 300, 300 });
         mBuilder.setAutoCancel(true);
@@ -99,8 +103,13 @@ public class PSMessagesService extends Service implements PSHttpTaskRequest.PSHt
     public void onSuccess(PSHttpTaskRequest request, Object result) {
         if(request instanceof PSMessagePullTaskRequest){
             PSDataStore.getInstance().saveMessageArray((JSONArray) result);
-            if(((JSONArray) result).length()>0) {
-                notifyNewMessage("You have " + ((JSONArray) result).length() + " new messages");
+            int n = ((JSONArray) result).length();
+            if(n>0) {
+                String message = "You have " + n + " new message";
+                if(n>1) {
+                    message += "s";
+                }
+                notifyNewMessage(message);
             }
         }
     }
