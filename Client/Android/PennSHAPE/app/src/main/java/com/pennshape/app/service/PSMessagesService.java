@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.app.NotificationCompat;
@@ -58,9 +59,15 @@ public class PSMessagesService extends Service implements PSHttpTaskRequest.PSHt
         sendBroadcast(broadcastIntent);
         //Builder
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-        mBuilder.setSmallIcon(R.drawable.sport_yg);
-        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.sport_yg);
-        mBuilder.setLargeIcon(largeIcon);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mBuilder.setSmallIcon(R.drawable.sport_yg);
+            Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.sport_yg);
+            mBuilder.setLargeIcon(largeIcon);
+        } else{
+            mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+            Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+            mBuilder.setLargeIcon(largeIcon);
+        }
         mBuilder.setContentTitle("Penn Fit");
         mBuilder.setContentText(message);
         mBuilder.setVibrate(new long[] { 300, 300, 300, 300, 300 });
