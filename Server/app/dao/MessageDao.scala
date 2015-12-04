@@ -61,12 +61,21 @@ object MessageDao {
     }
   }
 
-
-  def getGroupMessageByGroupId(groupid: Int, fromvalue : Int): List[GroupMessage] = {
+// -2 denote admin message
+  def getGroupMessageByGroupIdForGroup(groupid: Int, fromvalue : Int): List[GroupMessage] = {
 
     DB.withConnection {
       implicit connection =>
-        SQL("select a.id, a.uid, a.time,a.msg,a.groupid from groupmessage a where groupid in ( {groupid}, -2) and id > {fromvalue} order by id ").on("groupid" -> groupid, "fromvalue" -> fromvalue).as(groupmessage *)
+        SQL("select a.id, a.uid, a.time,a.msg,a.groupid from groupmessage a where groupid in ( {groupid}, 0) and id > {fromvalue} order by id ").on("groupid" -> groupid, "fromvalue" -> fromvalue).as(groupmessage *)
     }
   }
+
+  def getGroupMessageByGroupIdForNonGroup(fromvalue : Int): List[GroupMessage] = {
+
+    DB.withConnection {
+      implicit connection =>
+        SQL("select a.id, a.uid, a.time,a.msg,a.groupid from groupmessage a where groupid = 0 and id > {fromvalue} order by id ").on("fromvalue" -> fromvalue).as(groupmessage *)
+    }
+  }
+
 }

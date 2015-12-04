@@ -131,10 +131,12 @@ class Application extends Controller {
 
     var res = List[GroupMessage]()
 
-    if(groupid != -1) {
-      res = MessageDao.getGroupMessageByGroupId(groupid, fromvalue)
-    } else {
-      res = MessageDao.getGroupMessageByGroupId(-2, fromvalue)
+    // 0 denote the admin message
+
+    if(groupid >0 ) {
+      res = MessageDao.getGroupMessageByGroupIdForGroup(groupid, fromvalue)
+    } else if (groupid <0 ) {
+      res = MessageDao.getGroupMessageByGroupIdForNonGroup(fromvalue)
     }
 
     if(res.size > 0) {
