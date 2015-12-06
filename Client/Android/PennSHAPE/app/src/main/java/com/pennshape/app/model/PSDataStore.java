@@ -126,6 +126,10 @@ public class PSDataStore {
         this.group = group;
     }
 
+    public boolean isGroupUser(){
+        return groupMembers.size()>1;
+    }
+
     public PSUser getUser() {
         return groupMembers.get(userID);
     }

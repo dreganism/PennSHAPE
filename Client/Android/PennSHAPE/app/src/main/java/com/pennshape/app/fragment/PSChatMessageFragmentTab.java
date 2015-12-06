@@ -64,6 +64,12 @@ public class PSChatMessageFragmentTab extends Fragment implements PSHttpTaskRequ
         ArrayList<PSMessage> messageList = PSDataStore.getInstance().getRecentMessages();
         messagesAdapter = new PSMessagesArrayAdapter(view.getContext(), R.layout.ps_message_list_item, messageList);
         listView.setAdapter(messagesAdapter);
+        //hide chat button if there is no group
+        if(PSDataStore.getInstance().isGroupUser()){
+            send.setVisibility(View.VISIBLE);
+        }else{
+            send.setVisibility(View.GONE);
+        }
     }
 
     private void showInputDialog() {

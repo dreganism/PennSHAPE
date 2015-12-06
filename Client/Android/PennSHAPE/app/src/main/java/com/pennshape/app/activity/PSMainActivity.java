@@ -51,9 +51,11 @@ public class PSMainActivity extends FragmentActivity {
         mTabHost.addTab(
                 mTabHost.newTabSpec("tabData").setIndicator(null, ContextCompat.getDrawable(this, R.drawable.tab_data_selector)),
                 PSAnalyticsFragmentTab.class, null);
-        mTabHost.addTab(
-                mTabHost.newTabSpec("tabFriends").setIndicator(null, ContextCompat.getDrawable(this, R.drawable.tab_friends_selector)),
-                PSFriendsFragmentTab.class, null);
+        if(PSDataStore.getInstance().isGroupUser()) {
+            mTabHost.addTab(
+                    mTabHost.newTabSpec("tabFriends").setIndicator(null, ContextCompat.getDrawable(this, R.drawable.tab_friends_selector)),
+                    PSFriendsFragmentTab.class, null);
+        }
         mTabHost.addTab(
                 mTabHost.newTabSpec("tabAdd").setIndicator(null, ContextCompat.getDrawable(this, R.drawable.tab_add_selector)),
                 PSDailyUpdateFragmentTab.class, null);
