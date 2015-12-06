@@ -26,7 +26,7 @@ import org.json.JSONArray;
 
 public class PSMessagesService extends Service implements PSHttpTaskRequest.PSHttpTaskRequestHandler{
     private final IBinder binder = new MessagesBinder();
-    public static int notificationID  = 24066; //SHAPE
+    public static int notificationID  = 82110241; //4e4e721
     public static String NewMessageAction = "com.pennshape.app.intent.action.message";
     public static String IntentExtra = "com.pennshape.app.intent.extra.message";
 

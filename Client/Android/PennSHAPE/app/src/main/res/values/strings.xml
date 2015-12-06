@@ -32,6 +32,9 @@
     <string name="ps_service_messages">com.pennshape.app.service.PSMessagesService</string>
     <string name="ps_service_messages_new">You have new messages!</string>
     <string name="ps_service_message_intent_extra">ps.message.new</string>
+    <string name="ps_service_alert_intent_extra">ps.alert.reminder</string>
+    <string name="ps_service_alert_message_morning">Good morning! Please don\'t forget to wear your Fitbit.</string>
+    <string name="ps_service_alert_message_evening">Good evening! Please don\'t forget to fill out today\'s activities.</string>
 
     <!--MOD-->
     <string name="ps_sport_jumping_ropes">Jumping ropes</string>

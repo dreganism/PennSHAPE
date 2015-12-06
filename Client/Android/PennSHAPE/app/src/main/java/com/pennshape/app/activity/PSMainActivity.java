@@ -24,6 +24,7 @@ import com.pennshape.app.fragment.PSFriendsFragmentTab;
 import com.pennshape.app.fragment.PSSettingFragmentTab;
 import com.pennshape.app.location.PSLocationManager;
 import com.pennshape.app.model.PSDataStore;
+import com.pennshape.app.service.PSAlertService;
 import com.pennshape.app.service.PSMessagesService;
 
 import java.util.Calendar;
@@ -70,6 +71,8 @@ public class PSMainActivity extends FragmentActivity {
         PSDataStore.getInstance().initDatabase(PSMainActivity.this);
         //Init Messages Service
         startMessagesService(REPEAT_TIME);
+        //Init Alert Service
+        startAlertService();
         //Get intent extra
         triggeredFromNotification(getIntent());
     }
@@ -127,10 +130,30 @@ public class PSMainActivity extends FragmentActivity {
         manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), interval, pending);
     }
 
+    private void startAlertService(){
+        Context context = PSMainActivity.this;
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent i = new Intent(context, PSAlertService.class);
+        PendingIntent pending = PendingIntent.getService(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
+        Calendar cal = Calendar.getInstance();
+        if(cal.get(Calendar.HOUR_OF_DAY)>=8 && cal.get(Calendar.HOUR_OF_DAY)<20) {
+            cal.set(Calendar.HOUR_OF_DAY, 20);
+        }else{
+            cal.set(Calendar.HOUR_OF_DAY, 8);
+        }
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), REPEAT_TIME, pending);
+    }
+
     private void triggeredFromNotification(Intent i){
         String extra = i.getStringExtra(Intent.EXTRA_TEXT);
-        if(extra != null && extra.equals(getString(R.string.ps_service_message_intent_extra))){
-            mTabHost.setCurrentTabByTag("tabChat");
+        if(extra != null){
+            if(extra.equals(getString(R.string.ps_service_message_intent_extra))) {
+                mTabHost.setCurrentTabByTag("tabChat");
+            }else if(extra.equals(getString(R.string.ps_service_alert_intent_extra))) {
+                mTabHost.setCurrentTabByTag("tabAdd");
+            }
         }
     }
 
