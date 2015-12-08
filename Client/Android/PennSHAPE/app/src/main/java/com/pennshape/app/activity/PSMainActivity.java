@@ -143,7 +143,7 @@ public class PSMainActivity extends FragmentActivity {
         }
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
-        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), REPEAT_TIME, pending);
+        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_HALF_DAY, pending);
     }
 
     private void triggeredFromNotification(Intent i){
