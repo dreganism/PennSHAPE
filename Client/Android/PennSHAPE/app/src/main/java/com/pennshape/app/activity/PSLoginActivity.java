@@ -69,7 +69,17 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
     }
 
     public void onClick(View view) {
-        if(userName.getText().toString().equals("4Test")){
+        if(adminApp()){
+            if(userName.getText().toString().equals("admin@penn")){
+                showAdminActivity();
+            }else{
+                displayError("Incorrect administrator name");
+            }
+            return;
+        }
+        if(userName.getText().toString().length()==0){
+            displayError("Please enter your email");
+        }else if(userName.getText().toString().equals("4Test")){
             showSampleData();
         }else{
             login();
@@ -112,6 +122,16 @@ public class PSLoginActivity extends Activity implements PSHttpTaskRequest.PSHtt
             e.printStackTrace();
         }
         intentMainActivity();
+    }
+
+    private boolean adminApp() {
+        return getString(R.string.app_name).equals("Penn Fit Admin");
+    }
+
+    private void showAdminActivity(){
+        Intent intent = new Intent(this, PSAdminActivity.class);
+        startActivity(intent);
+        this.finish();
     }
 
     private void displayError(String message) {

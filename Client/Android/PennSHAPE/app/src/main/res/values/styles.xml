@@ -109,4 +109,12 @@
         <item name="android:typeface">serif</item>
     </style>
 
+    <style name="AdminTitleFont">
+        <item name="android:textSize">32sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/ps_blue_dark</item>
+        <item name="android:typeface">serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

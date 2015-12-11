@@ -33,6 +33,8 @@
     <string name="ps_service_alert_intent_extra">ps.alert.reminder</string>
     <string name="ps_service_alert_message_morning">Good morning! Please don\'t forget to wear your Fitbit.</string>
     <string name="ps_service_alert_message_evening">Good evening! Please don\'t forget to fill out today\'s activities.</string>
+    <string name="ps_admin_send">Send</string>
+    <string name="ps_admin_clear">Clear</string>
 
     <!--MOD-->
     <string name="ps_sport_jumping_ropes">Jumping ropes</string>
