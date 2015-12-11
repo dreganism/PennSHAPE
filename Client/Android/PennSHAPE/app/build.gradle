@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 22
     buildToolsVersion "23.0.0 rc3"
-
     defaultConfig {
         applicationId "com.pennshape.app"
         minSdkVersion 15
@@ -15,6 +14,17 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+        AdminFlavor {
+            applicationId 'com.pennshape.adminapp'
+            resValue "string", "app_name", "Penn Fit Admin"
+            resValue "string", "ps_title_activity_login", "Penn Fit Admin"
+        }
+        NormalFlavor {
+            resValue "string", "app_name", "Penn Fit"
+            resValue "string", "ps_title_activity_login", "Penn Fit"
         }
     }
 }
