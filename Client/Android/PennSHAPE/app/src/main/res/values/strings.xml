@@ -64,4 +64,5 @@
     <string name="ps_pref_name">com.pennshape.app.pref.default</string>
     <string name="ps_pref_key_id">com.pennshape.app.pref.key.id</string>
     <string name="ps_pref_key_group">com.pennshape.app.pref.key.group</string>
+    <string name="ps_pref_key_last_commit">com.pennshape.app.pref.key.lastcommit</string>
 </resources>

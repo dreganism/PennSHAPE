@@ -4,6 +4,8 @@ package com.pennshape.app.fragment;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
@@ -162,7 +164,7 @@ public class PSDailyUpdateFragmentTab extends Fragment implements PSHttpTaskRequ
         if(dailyData!=null){
             count = dailyData.getSteps();
         }
-        steps.setText("Steps: "+count);
+        steps.setText("Steps: " + count);
     }
 
     private String invalidate() {
@@ -244,6 +246,15 @@ public class PSDailyUpdateFragmentTab extends Fragment implements PSHttpTaskRequ
         request.run();
     }
 
+    private void saveCommitInfo() {
+        Calendar today = Calendar.getInstance();
+        String dateString = dateFormat.format(today.getTime());
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(getString(R.string.ps_pref_name), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(getString(R.string.ps_pref_key_last_commit), dateString);
+        editor.apply();
+    }
+
     @Override
     public void onSuccess(PSHttpTaskRequest request, Object result) {
         if(request instanceof PSDataUploadTaskRequest){
@@ -259,6 +270,8 @@ public class PSDailyUpdateFragmentTab extends Fragment implements PSHttpTaskRequ
             }
             //upload location
             PSLocationManager.sharedManager().fireLocation();
+            //update last commit
+            saveCommitInfo();
         }
     }
 
