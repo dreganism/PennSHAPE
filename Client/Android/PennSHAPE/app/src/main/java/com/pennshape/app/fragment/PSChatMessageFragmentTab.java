@@ -5,16 +5,21 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.pennshape.app.R;
 import com.pennshape.app.adapter.PSMessagesArrayAdapter;
@@ -30,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.regex.Matcher;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,6 +76,16 @@ public class PSChatMessageFragmentTab extends Fragment implements PSHttpTaskRequ
         }else{
             send.setVisibility(View.GONE);
         }
+        //set listener
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView textView = (TextView) view.findViewById(R.id.message);
+                String text = textView.getText().toString();
+                handleText(text);
+            }
+        });
+
     }
 
     private void showInputDialog() {
@@ -111,6 +127,17 @@ public class PSChatMessageFragmentTab extends Fragment implements PSHttpTaskRequ
         request.run();
         if(progress!= null) progress.dismiss();
         progress = ProgressDialog.show(getView().getContext(), "Loading...", "Please wait", true);
+    }
+
+    private void handleText(String text) {
+        Matcher m = Patterns.WEB_URL.matcher(text);
+        if (m.find()) {
+            String url = m.group();
+            if(url.startsWith("http://")||url.startsWith("https://")) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(browserIntent);
+            }
+        }
     }
 
     public void onResume(){
