@@ -124,7 +124,7 @@ public class PSFriendsFragmentTab extends Fragment
         leftAxis.setDrawGridLines(false);
         rightAxis.setDrawGridLines(false);
         //Config limit line
-        LimitLine ll = new LimitLine(60f);
+        LimitLine ll = new LimitLine(100f);
         ll.setLineColor(Color.CYAN);
         ll.setLineWidth(1f);
         leftAxis.removeAllLimitLines();
