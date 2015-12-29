@@ -120,7 +120,7 @@ public abstract class PSHttpTaskRequest extends AsyncTask<Void, Void, Object> {
     }
 
     protected String getBaseURL() {
-        return "http://54.85.95.11:9000/";
+        return "http://api.pennfit.us:9000/";
     }
 
     protected void setupConnection(HttpURLConnection urlConnection) throws IOException{ }
